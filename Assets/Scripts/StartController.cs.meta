@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 16c28ea4d0d67544792cd8ad0bf5fd07
+timeCreated: 1475442950
+licenseType: Free
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - warrior: {fileID: 1000013983769356, guid: 90b123bdaa2fc9148bc4abc76a502a3e, type: 2}
+  - mage: {fileID: 1000011101570660, guid: c81904f3e28f1e047a040744bfdf3a51, type: 2}
+  - ranger: {fileID: 1000011047428984, guid: fdea72d679f4dd947aaa54d83b052c56, type: 2}
+  - rogue: {fileID: 1000011767339544, guid: a7233e310abfffc498684cae9708c27d, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

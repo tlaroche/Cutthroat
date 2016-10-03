@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 1ed1c2a87f10a84449de2a4cf20a2358
+timeCreated: 1475445159
+licenseType: Free
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - npcWarrior: {fileID: 1000011296789146, guid: 6bd570a4dc01b7341bc2feafa7fea971,
+      type: 2}
+  - npcMage: {fileID: 1000010850319230, guid: df2caa45130a98943aaae2f23126557f, type: 2}
+  - npcRanger: {fileID: 1000011203054356, guid: a8f96e2ab98f66943b76d16208a40188,
+      type: 2}
+  - npcRogue: {fileID: 1000010531106464, guid: f97c324a8ac7cd9489b272f7e312b343, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
