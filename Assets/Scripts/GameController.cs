@@ -15,8 +15,8 @@ public class GameController : MonoBehaviour {
     int rangerCount;
     int mageCount;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start() {
         warriorCount = 0;
         rogueCount = 0;
         rangerCount = 0;
@@ -24,56 +24,52 @@ public class GameController : MonoBehaviour {
 
         startController = GameObject.Find("Controller").GetComponent<StartController>();
 
-        if (startController.player1 == "Warrior")
+        InstantiatePlayer(startController.player1);
+        //InstantiatePlayer(startController.player2);
+        //InstantiatePlayer(startController.player3);
+        //InstantiatePlayer(startController.player4);
+
+        InstantiateNPCs(npcWarrior, warriorCount);
+        InstantiateNPCs(npcMage, mageCount);
+        InstantiateNPCs(npcRanger, rangerCount);
+        InstantiateNPCs(npcRogue, rogueCount);
+    }
+
+    // Update is called once per frame
+    void Update() {
+
+    }
+
+    void InstantiatePlayer(string player)
+    {
+        if (player == "Warrior")
         {
             GameObject.Instantiate(startController.warrior, new Vector2(Random.Range(-29f, 29f), Random.Range(-29f, 29f)), Quaternion.identity);
             warriorCount++;
         }
-        else if (startController.player1 == "Mage")
+        else if (player == "Mage")
         {
             GameObject.Instantiate(startController.mage, new Vector2(Random.Range(-29f, 29f), Random.Range(-29f, 29f)), Quaternion.identity);
             mageCount++;
         }
-        else if (startController.player1 == "Rogue")
+        else if (player == "Rogue")
         {
             GameObject.Instantiate(startController.rogue, new Vector2(Random.Range(-29f, 29f), Random.Range(-29f, 29f)), Quaternion.identity);
             rogueCount++;
         }
-        else if (startController.player1 == "Ranger")
+        else if (player == "Ranger")
         {
             GameObject.Instantiate(startController.ranger, new Vector2(Random.Range(-29f, 29f), Random.Range(-29f, 29f)), Quaternion.identity);
             rangerCount++;
         }
-
-        
-        int num = Random.Range(6, 10) - warriorCount;
-        for (int i = 0; i < num; i++)
-        {
-            Instantiate(npcWarrior, new Vector2(Random.Range(-29f, 29f), Random.Range(-29f, 29f)), Quaternion.identity);
-        }
-
-        num = Random.Range(6, 10) - mageCount;
-        for (int i = 0; i < num; i++)
-        {
-            Instantiate(npcMage, new Vector2(Random.Range(-29f, 29f), Random.Range(-29f, 29f)), Quaternion.identity);
-        }
-
-        num = Random.Range(6, 10) - rogueCount;
-        for (int i = 0; i < num; i++)
-        {
-            Instantiate(npcRogue, new Vector2(Random.Range(-29f, 29f), Random.Range(-29f, 29f)), Quaternion.identity);
-        }
-
-        num = Random.Range(6, 10) - rangerCount;
-        for (int i = 0; i < num; i++)
-        {
-            Instantiate(npcRanger, new Vector2(Random.Range(-29f, 29f), Random.Range(-29f, 29f)), Quaternion.identity);
-        }
-
     }
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+
+    void InstantiateNPCs(GameObject npcType, int classCount)
+    {
+        int numNPC = Random.Range(6, 10) - classCount;
+        for (int i = 0; i < numNPC; i++)
+        {
+            Instantiate(npcType, new Vector2(Random.Range(-29f, 29f), Random.Range(-29f, 29f)), Quaternion.identity);
+        }
+    }
 }

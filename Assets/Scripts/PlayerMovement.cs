@@ -20,11 +20,14 @@ public class PlayerMovement : MonoBehaviour {
 
     void Update()
     {
-        //float horizontal = Input.GetAxis("Xbox360_Horizontal");
-        //float vertical = Input.GetAxis("Xbox360_Vertical");
-        float horizontal = Input.GetAxis("Horizontal");
-        float vertical = Input.GetAxis("Vertical");
+        float horizontal = Input.GetAxis("Controller1_Horizontal");
+        float vertical = Input.GetAxis("Controller1_Vertical");
+        //float horizontal = Input.GetAxis("Horizontal");
+        //float vertical = Input.GetAxis("Vertical");
 
+        Debug.Log("Horizontal float: " + horizontal);
+        Debug.Log("Vertical floatL" + vertical);
+                       
         if (horizontal > 0)
         {
             if (transform.position.x + (speed * Time.deltaTime) > X_Boundary)
@@ -72,7 +75,7 @@ public class PlayerMovement : MonoBehaviour {
 
         if (basicAttackCooldown <= 0)
         {
-            if (Input.GetKeyDown("space"))
+            if (Input.GetKeyDown("space") || Input.GetButtonDown("Controller1_A"))
             {
                 GameObject temp = (GameObject)Instantiate(attack, transform.position, transform.rotation);
                 temp.transform.parent = gameObject.transform;
