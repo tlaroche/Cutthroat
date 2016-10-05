@@ -283,6 +283,10 @@ MonoBehaviour:
   npcMage: {fileID: 1000010850319230, guid: df2caa45130a98943aaae2f23126557f, type: 2}
   npcRanger: {fileID: 1000011203054356, guid: a8f96e2ab98f66943b76d16208a40188, type: 2}
   npcRogue: {fileID: 1000010531106464, guid: f97c324a8ac7cd9489b272f7e312b343, type: 2}
+  attack: {fileID: 1000011089783286, guid: 5a9a0851767619947a9d746dd51f5078, type: 2}
+  speed: 7
+  X_Boundary: 29
+  Y_Boundary: 29
 --- !u!1 &1751841473
 GameObject:
   m_ObjectHideFlags: 0

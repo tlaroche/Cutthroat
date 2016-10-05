@@ -24,9 +24,6 @@ public class PlayerMovement : MonoBehaviour {
         float vertical = Input.GetAxis("Controller1_Vertical");
         //float horizontal = Input.GetAxis("Horizontal");
         //float vertical = Input.GetAxis("Vertical");
-
-        Debug.Log("Horizontal float: " + horizontal);
-        Debug.Log("Vertical floatL" + vertical);
                        
         if (horizontal > 0)
         {

@@ -24,7 +24,7 @@ GameObject:
   - 58: {fileID: 58000012459425578}
   m_Layer: 0
   m_Name: NPCMage
-  m_TagString: Untagged
+  m_TagString: NPC
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -67,7 +67,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea5ad5a640f77254687655ad394f99f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dead: {fileID: 0}
+  dead: {fileID: 21300000, guid: bdefeb10c3aa5c94c9664ed20be9f164, type: 3}
   speed: 7
   X_Boundary: 29
   Y_Boundary: 29
