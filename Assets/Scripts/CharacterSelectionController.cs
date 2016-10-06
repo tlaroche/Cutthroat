@@ -4,11 +4,6 @@ using System.Collections;
 
 public class CharacterSelectionController : MonoBehaviour {
 
-    private readonly int PLAYER1_INDEX = 1;
-    private readonly int PLAYER2_INDEX = 2;
-    private readonly int PLAYER3_INDEX = 3;
-    private readonly int PLAYER4_INDEX = 4;
-
     StartController startController;
 
 	// Use this for initialization
@@ -23,14 +18,15 @@ public class CharacterSelectionController : MonoBehaviour {
 	// Update is called once per frame
     void Update()
     {
-        CheckPlayerLockIn(ref startController.player1, PLAYER1_INDEX);
-        CheckPlayerLockIn(ref startController.player2, PLAYER2_INDEX);
-        //CheckPlayerLockIn(ref startController.player3, PLAYER3_INDEX);
-        //CheckPlayerLockIn(ref startController.player4, PLAYER4_INDEX);
+        CheckPlayerLockIn(ref startController.player1, startController.PLAYER1_INDEX);
+        CheckPlayerLockIn(ref startController.player2, startController.PLAYER2_INDEX);
+        //CheckPlayerLockIn(ref startController.player3, startController.PLAYER3_INDEX);
+        //CheckPlayerLockIn(ref startController.player4, startController.PLAYER4_INDEX);
 
         CheckAllPlayersReadyToStartGame();
     }
 
+    // Make sure the player has chosen a class to play
     void CheckPlayerLockIn(ref string player, int playerIndex)
     {
         string controller = GetControllerPrefix(playerIndex);
@@ -89,6 +85,7 @@ public class CharacterSelectionController : MonoBehaviour {
         }
     }
 
+    // When someone presses start, make sure all players have chosen a class to play
     void CheckAllPlayersReadyToStartGame()
     {
         if (Input.GetButtonDown("Controller1_Start") || Input.GetButtonDown("Controller2_Start") || Input.GetKeyDown("7"))

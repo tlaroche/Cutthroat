@@ -17,6 +17,7 @@ public class GameController : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
+        // Count the class numbers to instantiate an even number of NPCs
         warriorCount = 0;
         rogueCount = 0;
         rangerCount = 0;
@@ -24,15 +25,22 @@ public class GameController : MonoBehaviour {
 
         startController = GameObject.Find("Controller").GetComponent<StartController>();
 
-        InstantiatePlayer(startController.player1);
-        //InstantiatePlayer(startController.player2);
-        //InstantiatePlayer(startController.player3);
-        //InstantiatePlayer(startController.player4);
+        InstantiatePlayer(startController.player1);/*, startController.PLAYER1_INDEX*/
+        //InstantiatePlayer(startController.player2, startController.PLAYER2_INDEX);
+        //InstantiatePlayer(startController.player3, startController.PLAYER3_INDEX);
+        //InstantiatePlayer(startController.player4, startController.PLAYER4_INDEX);
 
         InstantiateNPCs(npcWarrior, warriorCount);
         InstantiateNPCs(npcMage, mageCount);
         InstantiateNPCs(npcRanger, rangerCount);
         InstantiateNPCs(npcRogue, rogueCount);
+
+
+        for (int i = 0; i < StartController.npcGameObjectNames.Count; i++)
+        {
+            Debug.Log(StartController.npcGameObjectNames[i]);
+        }
+        
     }
 
     // Update is called once per frame
@@ -40,12 +48,14 @@ public class GameController : MonoBehaviour {
 
     }
 
-    void InstantiatePlayer(string player)
+
+    void InstantiatePlayer(string player)//, int playerIndex*/)
     {
         if (player == "Warrior")
         {
-            GameObject.Instantiate(startController.warrior, new Vector2(Random.Range(-29f, 29f), Random.Range(-29f, 29f)), Quaternion.identity);
+            GameObject playerObject = (GameObject) GameObject.Instantiate(startController.warrior, new Vector2(Random.Range(-29f, 29f), Random.Range(-29f, 29f)), Quaternion.identity);
             warriorCount++;
+            
         }
         else if (player == "Mage")
         {
@@ -66,10 +76,14 @@ public class GameController : MonoBehaviour {
 
     void InstantiateNPCs(GameObject npcType, int classCount)
     {
+        // Number of NPCs to be generated with the number of players taken into account
         int numNPC = Random.Range(6, 10) - classCount;
         for (int i = 0; i < numNPC; i++)
         {
-            Instantiate(npcType, new Vector2(Random.Range(-29f, 29f), Random.Range(-29f, 29f)), Quaternion.identity);
+            GameObject npcObject = (GameObject) Instantiate(npcType, new Vector2(Random.Range(-29f, 29f), Random.Range(-29f, 29f)), Quaternion.identity);
+            npcObject.name = npcObject.GetInstanceID().ToString();
+
+            StartController.npcGameObjectNames.Add(npcObject.name);
         }
     }
 }

@@ -11,6 +11,7 @@ public class PlayerMovement : MonoBehaviour {
     public int X_Boundary;
     public int Y_Boundary;
 
+    // How often a player can use basic attack
     private float basicAttackCooldown;
 
     // Use this for initialization
@@ -70,10 +71,12 @@ public class PlayerMovement : MonoBehaviour {
             }
         }
 
+        // Check to see if player presses attack
         if (basicAttackCooldown <= 0)
         {
             if (Input.GetKeyDown("space") || Input.GetButtonDown("Controller1_A"))
             {
+                // Temporarily create a sprite for the attack animation
                 GameObject temp = (GameObject)Instantiate(attack, transform.position, transform.rotation);
                 temp.transform.parent = gameObject.transform;
                 Destroy(temp, .25f);

@@ -23,7 +23,7 @@ GameObject:
   - 58: {fileID: 58000010065036304}
   - 50: {fileID: 50000010438685858}
   m_Layer: 0
-  m_Name: Attack
+  m_Name: attack
   m_TagString: Basic Attack
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
