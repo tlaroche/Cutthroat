@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class NPCMovement : MonoBehaviour
 {
-    public  Sprite dead;
+    public Sprite dead;
     Sprite original;
     public int speed;
     public int X_Boundary;
@@ -189,7 +189,7 @@ public class NPCMovement : MonoBehaviour
     // Kill npc, set sprite to the dead sprite, and set isDead true
     public void KillNPC()
     {
-        Debug.Log("Killing NPC");
+        //Debug.Log("Killing NPC");
         GameObject npc = GameObject.Find(name);
         npc.GetComponent<SpriteRenderer>().sprite = dead;
         isDead = true;

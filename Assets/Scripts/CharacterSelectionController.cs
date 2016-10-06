@@ -29,10 +29,8 @@ public class CharacterSelectionController : MonoBehaviour {
     // Make sure the player has chosen a class to play
     void CheckPlayerLockIn(ref string player, int playerIndex)
     {
-        string controller = GetControllerPrefix(playerIndex);
-        
         // Press A to select Warrior
-        if (/*Input.GetButtonDown("0") || */Input.GetButtonDown(controller + "A"))
+        if (/*Input.GetButtonDown("0") || */Input.GetButtonDown("A" + playerIndex))
         {
             if (player == "")
             {
@@ -42,10 +40,10 @@ public class CharacterSelectionController : MonoBehaviour {
             {
                 player = "";
             }
-            Debug.Log(controller + " " + player);
+            Debug.Log(player);
         }
         // Press B to select Ranger
-        else if (/*Input.GetButtonDown("1") ||*/ Input.GetButtonDown(controller + "B"))
+        else if (/*Input.GetButtonDown("1") ||*/ Input.GetButtonDown("B" + playerIndex))
         {
             if (player == "")
             {
@@ -55,10 +53,10 @@ public class CharacterSelectionController : MonoBehaviour {
             {
                 player = "";
             }
-            Debug.Log(controller + " " + player);
+            Debug.Log(player);
         }
         // Press X to select Mage
-        else if (/*Input.GetButtonDown("2") ||*/ Input.GetButtonDown(controller + "X"))
+        else if (/*Input.GetButtonDown("2") ||*/ Input.GetButtonDown("X" + playerIndex))
         {
             if (player == "")
             {
@@ -68,10 +66,10 @@ public class CharacterSelectionController : MonoBehaviour {
             {
                 player = "";
             }
-            Debug.Log(controller + " " + player);
+            Debug.Log(player);
         }
         // Press Y to select Rogue
-        else if (/*Input.GetButtonDown("3") ||*/ Input.GetButtonDown(controller + "Y"))
+        else if (/*Input.GetButtonDown("3") ||*/ Input.GetButtonDown("Y" + playerIndex))
         {
             if (player == "")
             {
@@ -81,16 +79,16 @@ public class CharacterSelectionController : MonoBehaviour {
             {
                 player = "";
             }
-            Debug.Log(controller + " " + player);
+            Debug.Log(player);
         }
     }
 
     // When someone presses start, make sure all players have chosen a class to play
     void CheckAllPlayersReadyToStartGame()
     {
-        if (Input.GetButtonDown("Controller1_Start") || Input.GetButtonDown("Controller2_Start") || Input.GetKeyDown("7"))
+        if (Input.GetButtonDown("Start1") || Input.GetButtonDown("Start2") || Input.GetKeyDown("7"))
         {
-            if ((startController.player1 != "") /*&& (startController.player2 != "") 
+            if ((startController.player1 != "") && (startController.player2 != "") 
                 /*&& (startController.player3 != "") && (startController.player4 != "")*/)
             {
                 // Start game if all players have selected a class

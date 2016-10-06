@@ -25,8 +25,8 @@ public class GameController : MonoBehaviour {
 
         startController = GameObject.Find("Controller").GetComponent<StartController>();
 
-        InstantiatePlayer(startController.player1);/*, startController.PLAYER1_INDEX*/
-        //InstantiatePlayer(startController.player2, startController.PLAYER2_INDEX);
+        InstantiatePlayer(startController.player1, startController.PLAYER1_INDEX);
+        InstantiatePlayer(startController.player2, startController.PLAYER2_INDEX);
         //InstantiatePlayer(startController.player3, startController.PLAYER3_INDEX);
         //InstantiatePlayer(startController.player4, startController.PLAYER4_INDEX);
 
@@ -38,7 +38,7 @@ public class GameController : MonoBehaviour {
 
         for (int i = 0; i < StartController.npcGameObjectNames.Count; i++)
         {
-            Debug.Log(StartController.npcGameObjectNames[i]);
+            //Debug.Log(StartController.npcGameObjectNames[i]);
         }
         
     }
@@ -49,29 +49,50 @@ public class GameController : MonoBehaviour {
     }
 
 
-    void InstantiatePlayer(string player)//, int playerIndex*/)
+    GameObject InstantiatePlayer(string player, int playerIndex)//, int playerIndex*/)
     {
         if (player == "Warrior")
         {
-            GameObject playerObject = (GameObject) GameObject.Instantiate(startController.warrior, new Vector2(Random.Range(-29f, 29f), Random.Range(-29f, 29f)), Quaternion.identity);
+            GameObject playerObject = (GameObject) GameObject.Instantiate(startController.warrior, 
+                new Vector2(Random.Range(-29f, 29f), Random.Range(-29f, 29f)), Quaternion.identity);
+
             warriorCount++;
-            
+            Debug.Log("Ins player, index:" + playerIndex);
+            playerObject.GetComponent<PlayerMovement>().SetPlayer(player, playerIndex);
+            return playerObject;
         }
         else if (player == "Mage")
         {
-            GameObject.Instantiate(startController.mage, new Vector2(Random.Range(-29f, 29f), Random.Range(-29f, 29f)), Quaternion.identity);
+            GameObject playerObject = (GameObject) GameObject.Instantiate(startController.mage,
+                new Vector2(Random.Range(-29f, 29f), Random.Range(-29f, 29f)), Quaternion.identity);
+
             mageCount++;
+
+            playerObject.GetComponent<PlayerMovement>().SetPlayer(player, playerIndex);
+            return playerObject;
         }
         else if (player == "Rogue")
         {
-            GameObject.Instantiate(startController.rogue, new Vector2(Random.Range(-29f, 29f), Random.Range(-29f, 29f)), Quaternion.identity);
+            GameObject playerObject = (GameObject) GameObject.Instantiate(startController.rogue, 
+                new Vector2(Random.Range(-29f, 29f), Random.Range(-29f, 29f)), Quaternion.identity);
+
             rogueCount++;
+
+            playerObject.GetComponent<PlayerMovement>().SetPlayer(player, playerIndex);
+            return playerObject;
         }
         else if (player == "Ranger")
         {
-            GameObject.Instantiate(startController.ranger, new Vector2(Random.Range(-29f, 29f), Random.Range(-29f, 29f)), Quaternion.identity);
+            GameObject playerObject = (GameObject) GameObject.Instantiate(startController.ranger, 
+                new Vector2(Random.Range(-29f, 29f), Random.Range(-29f, 29f)), Quaternion.identity);
+
             rangerCount++;
+
+            playerObject.GetComponent<PlayerMovement>().SetPlayer(player, playerIndex);
+            return playerObject;
         }
+        else
+            return null;
     }
 
     void InstantiateNPCs(GameObject npcType, int classCount)

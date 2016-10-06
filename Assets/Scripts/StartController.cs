@@ -37,7 +37,7 @@ public class StartController : MonoBehaviour {
         gameTimer = 0f;
 
         // npcs will die off every X seconds when sudden death starts
-        npcDeathCooldown = 1f;
+        npcDeathCooldown = 5f;
 	}
 
     void Awake()
@@ -56,13 +56,13 @@ public class StartController : MonoBehaviour {
         if (SceneManager.GetActiveScene().buildIndex == 0)
         {
             // You can combine these two if statements, but separated them for debugging purposes
-            if (Input.GetButtonDown("Controller1_Start"))
+            if (Input.GetButtonDown("Start" + PLAYER1_INDEX))
             {
                 Debug.Log("loading scene 1 controller1 pressed start");
                 SceneManager.LoadScene(1);
             }
 
-            if (Input.GetButtonDown("Controller2_Start"))
+            if (Input.GetButtonDown("Start" + PLAYER2_INDEX))
             {
                 Debug.Log("loading scene 1 controller2 pressed start");
                 SceneManager.LoadScene(1);
@@ -84,7 +84,7 @@ public class StartController : MonoBehaviour {
                 gameTimer += Time.deltaTime;
                 //Debug.Log(gameTimer);
 
-                if (gameTimer >= 3f) // Sudden death starts
+                if (gameTimer >= 10f) // Sudden death starts
                 {
                     npcDeathCooldown -= Time.deltaTime;
                     if (npcDeathCooldown <= 0f)
