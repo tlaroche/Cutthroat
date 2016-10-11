@@ -21,7 +21,7 @@ GameObject:
   - 4: {fileID: 4000011966218492}
   - 212: {fileID: 212000012651347574}
   m_Layer: 0
-  m_Name: death
+  m_Name: dead
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -69,7 +69,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 408099997
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: bdefeb10c3aa5c94c9664ed20be9f164, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 448dd2e1bd6e8b2429e5bba64df31992, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

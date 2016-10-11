@@ -67,8 +67,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65201031eaffe83418eefccaf572f993, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ability1: {fileID: 1000011181939054, guid: c9a5c36de8cdf744f8f9f36459ad436b, type: 2}
+  ability2: {fileID: 1000013816991846, guid: 75ce6e53f152dde4ea561dfbfeb36c33, type: 2}
   attack: {fileID: 1000011089783286, guid: 5a9a0851767619947a9d746dd51f5078, type: 2}
-  dead: {fileID: 21300000, guid: bdefeb10c3aa5c94c9664ed20be9f164, type: 3}
+  dead: {fileID: 21300000, guid: 448dd2e1bd6e8b2429e5bba64df31992, type: 3}
   speed: 7
   X_Boundary: 29
   Y_Boundary: 29
@@ -101,7 +103,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 408099997
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 865072492b2f40246abf1d8041a58057, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b3f28b29619af9740949eeb7723554d2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

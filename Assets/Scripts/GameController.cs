@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
+using UnityEngine.UI;
 
 public class GameController : MonoBehaviour {
 
@@ -8,6 +9,7 @@ public class GameController : MonoBehaviour {
     public GameObject npcMage;
     public GameObject npcRanger;
     public GameObject npcRogue;
+    
 
     StartController startController;
     int warriorCount;
@@ -17,6 +19,7 @@ public class GameController : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
+
         // Count the class numbers to instantiate an even number of NPCs
         warriorCount = 0;
         rogueCount = 0;
@@ -98,13 +101,13 @@ public class GameController : MonoBehaviour {
     void InstantiateNPCs(GameObject npcType, int classCount)
     {
         // Number of NPCs to be generated with the number of players taken into account
-        int numNPC = Random.Range(6, 10) - classCount;
+        int numNPC = Random.Range(8, 12) - classCount;
         for (int i = 0; i < numNPC; i++)
         {
             GameObject npcObject = (GameObject) Instantiate(npcType, new Vector2(Random.Range(-29f, 29f), Random.Range(-29f, 29f)), Quaternion.identity);
-            npcObject.name = npcObject.GetInstanceID().ToString();
-
-            StartController.npcGameObjectNames.Add(npcObject.name);
+            //npcObject.name = npcObject.GetInstanceID().ToString();
+            Debug.Log(npcObject);
+            StartController.npcGameObjectNames.Add(npcObject);
         }
     }
 }

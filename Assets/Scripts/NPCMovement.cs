@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 public class NPCMovement : MonoBehaviour
 {
+    public Sprite mage;
+
     public Sprite dead;
     Sprite original;
     public int speed;
@@ -21,6 +23,10 @@ public class NPCMovement : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        X_Boundary = 29;
+        Y_Boundary = 28;
+        speed = 7;
+
         beforeSuddenDeath = true;
         original = GetComponent<SpriteRenderer>().sprite;
         timer = 0;
@@ -159,31 +165,47 @@ public class NPCMovement : MonoBehaviour
                     transform.Translate(0, -1 * speed * Time.deltaTime, 0);
                 }
             }
-        }
-        
+        }    
     }
     
     // Checks attack collision
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (!isDead)
+        if (!isDead && !isAttacked)
         {
             Debug.Log("trigger");
             if (other.gameObject.tag == "Basic Attack")
             {
                 isAttacked = true;
                 Debug.Log("attacking");
-                GetComponent<SpriteRenderer>().sprite = dead;
-                Invoke("ResetSprite", 1);
+                Die();
+            }
+            else if (other.gameObject.tag == "Delayed Kill")
+            {
+                Invoke("Die", 3);
+            }
+            else if (other.gameObject.tag == "Polymorph")
+            {
+                Debug.Log("poly");
+                GetComponent<SpriteRenderer>().sprite = mage;
             }
         }
+    }
+
+    void Die()
+    {
+        GetComponent<SpriteRenderer>().sprite = dead;
+        Invoke("ResetSprite", 2);
     }
 
     // After an NPC is attacked, reset the sprite to the original
     void ResetSprite()
     {
-        GetComponent<SpriteRenderer>().sprite = original;
-        isDead = false;
+        if (!isDead)
+        {
+            GetComponent<SpriteRenderer>().sprite = original;
+            isAttacked = false;
+        }
     }
     
     // Kill npc, set sprite to the dead sprite, and set isDead true
@@ -193,6 +215,5 @@ public class NPCMovement : MonoBehaviour
         GameObject npc = GameObject.Find(name);
         npc.GetComponent<SpriteRenderer>().sprite = dead;
         isDead = true;
-        
     }
 }

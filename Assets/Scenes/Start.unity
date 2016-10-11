@@ -90,6 +90,68 @@ NavMeshSettings:
     cellSize: 0.16666667
     manualCellSize: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &519467828
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 519467831}
+  - 114: {fileID: 519467830}
+  - 114: {fileID: 519467829}
+  m_Layer: 0
+  m_Name: EventSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &519467829
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 519467828}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1077351063, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalAxis: Horizontal
+  m_VerticalAxis: Vertical
+  m_SubmitButton: Submit
+  m_CancelButton: Cancel
+  m_InputActionsPerSecond: 10
+  m_RepeatDelay: 0.5
+  m_ForceModuleActive: 0
+--- !u!114 &519467830
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 519467828}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -619905303, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_FirstSelected: {fileID: 0}
+  m_sendNavigationEvents: 1
+  m_DragThreshold: 5
+--- !u!4 &519467831
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 519467828}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 2
 --- !u!1 &1697462597
 GameObject:
   m_ObjectHideFlags: 0
@@ -204,6 +266,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16c28ea4d0d67544792cd8ad0bf5fd07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startScreen: {fileID: 2800000, guid: ff0c0184f78e970408e87dbe3013f959, type: 3}
+  p1win: {fileID: 2800000, guid: 38e55d3e11c480b4d8fdf901d002fd59, type: 3}
+  p2win: {fileID: 2800000, guid: e2cb6b487750abb43b0ad14c2a5eb134, type: 3}
   warrior: {fileID: 1000013983769356, guid: 90b123bdaa2fc9148bc4abc76a502a3e, type: 2}
   mage: {fileID: 1000011101570660, guid: c81904f3e28f1e047a040744bfdf3a51, type: 2}
   ranger: {fileID: 1000011047428984, guid: fdea72d679f4dd947aaa54d83b052c56, type: 2}
@@ -212,6 +277,8 @@ MonoBehaviour:
   player2: 
   player3: 
   player4: 
+  winner: 0
+  done: 0
 --- !u!4 &1957810992
 Transform:
   m_ObjectHideFlags: 0

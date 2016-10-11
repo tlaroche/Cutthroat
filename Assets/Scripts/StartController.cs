@@ -1,10 +1,14 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
-using System.Collections;
+using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class StartController : MonoBehaviour {
 
-    public static ArrayList npcGameObjectNames;
+    public static List<GameObject> npcGameObjectNames;
+    public Texture startScreen;
+    public Texture p1win;
+    public Texture p2win;
 
     public readonly int PLAYER1_INDEX = 1;
     public readonly int PLAYER2_INDEX = 2;
@@ -22,36 +26,52 @@ public class StartController : MonoBehaviour {
     public string player4;
 
     float gameTimer;
+    float countDown;
     bool isGameStarted;
     float npcDeathCooldown;
+
+    public int winner;
+    public bool done;
+
 
     // Iterator for the npc object names
     int index;
 
 	// Use this for initialization
 	void Start () {
+        GameObject temp = GameObject.Find("Controller");
+        if (temp.GetComponent<StartController>().done)
+        {
+            Destroy(temp);
+        }
+        done = true;
+        if (SceneManager.GetActiveScene().buildIndex != 3)
+        {
+            done = false;
+        }
+
+
         index = 0;
         // List of all the unique npc gameobject names used for killing them off in sudden death
-        npcGameObjectNames = new ArrayList();
+        //npcGameObjectNames = new ArrayList();
+        npcGameObjectNames = new List<GameObject>();
         isGameStarted = false;
-        gameTimer = 0f;
+        gameTimer = 90f;
 
         // npcs will die off every X seconds when sudden death starts
         npcDeathCooldown = 5f;
-	}
+
+    }
 
     void Awake()
     {
         DontDestroyOnLoad(gameObject);
 
-        /*if (SceneManager.GetActiveScene().buildIndex != 0)
-        {
-            DontDestroyOnLoad(gameObject);
-        }*/
     }
 	
 	// Update is called once per frame
 	void Update () {
+
         // Start screen
         if (SceneManager.GetActiveScene().buildIndex == 0)
         {
@@ -80,22 +100,20 @@ public class StartController : MonoBehaviour {
             }
             else if (isGameStarted)
             {
+                gameTimer -= Time.deltaTime;
 
-                gameTimer += Time.deltaTime;
-                //Debug.Log(gameTimer);
-
-                if (gameTimer >= 10f) // Sudden death starts
+                if (gameTimer <= 0) // Sudden death starts
                 {
                     npcDeathCooldown -= Time.deltaTime;
                     if (npcDeathCooldown <= 0f)
                     {
                         // Reset death cooldown
-                        npcDeathCooldown = 1f;
+                        npcDeathCooldown = 3f;
                         
                         // Going through the npc game object name arraylist and killing off all of the npcs 
                         if (index < npcGameObjectNames.Count)
                         {
-                            GameObject npcToKill = GameObject.Find((string)npcGameObjectNames[index]);
+                            GameObject npcToKill = npcGameObjectNames[index];
                             npcToKill.GetComponent<NPCMovement>().KillNPC();
                             index++;
                         }
@@ -103,19 +121,47 @@ public class StartController : MonoBehaviour {
                 }
             }
         }
+
+        if (SceneManager.GetActiveScene().buildIndex == 3 && (Input.GetButtonDown("Start1") || Input.GetButtonDown("Start2")))
+        {
+            done = true;
+            SceneManager.LoadScene(0);
+        }
+
 	}
 
     
     void OnGUI()
     {
-        if (isGameStarted)
+        if (!isGameStarted && SceneManager.GetActiveScene().buildIndex == 0)
+        {
+            GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), startScreen, ScaleMode.ScaleToFit);
+        }
+        else if (isGameStarted && SceneManager.GetActiveScene().buildIndex == 2)
         {
             // Display timer
             int minutes = Mathf.FloorToInt(gameTimer / 60f);
             int seconds = Mathf.FloorToInt(gameTimer - minutes * 60);
-            string niceTime = string.Format("{0:0}:{1:00}", minutes, seconds);
+            string time = string.Format("{0:0}:{1:00}", minutes, seconds);
 
-            GUI.Label(new Rect(10, 10, 250, 100), niceTime);
+            if (gameTimer <= 0)
+            {
+                time = string.Format("{0:0}:{1:00}", 0, 0);
+            }
+            GUI.Label(new Rect(10, 10, 250, 100), time);
+        }
+
+        if (SceneManager.GetActiveScene().buildIndex == 3)
+        {
+            switch(winner)
+            {
+                case 1:
+                    GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), p1win, ScaleMode.ScaleToFit);
+                    break;
+                case 2:
+                    GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), p2win, ScaleMode.ScaleToFit);
+                    break;
+            }
         }
     }
 }

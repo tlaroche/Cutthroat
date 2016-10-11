@@ -130,6 +130,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dad24e3048f34f3409554b3634b38999, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  charSelectScreen:
+  - {fileID: 2800000, guid: bd9901a324c5cbc4d835cd94f58ae33c, type: 3}
+  - {fileID: 2800000, guid: 77dfa12c42053144fbadc620bcfecd27, type: 3}
+  - {fileID: 2800000, guid: 9a5cf042737422c478fe637972c4dddd, type: 3}
+  - {fileID: 2800000, guid: f9e304d5a7ab9784f96bda278aa0e403, type: 3}
 --- !u!1 &977503182
 GameObject:
   m_ObjectHideFlags: 0

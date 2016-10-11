@@ -1,10 +1,19 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
-using System.Collections;
+using System.Collections.Generic;
 
 public class CharacterSelectionController : MonoBehaviour {
 
     StartController startController;
+    //public Texture[] checkmarks = new Texture[3];
+    public Texture[] charSelectScreen = new Texture[4];
+
+    bool player1selected;
+    bool player2selected;
+    bool player3selected;
+    bool player4selected;
+
+    GameObject[] checks = new GameObject[4];
 
 	// Use this for initialization
 	void Start () {
@@ -13,6 +22,11 @@ public class CharacterSelectionController : MonoBehaviour {
         startController.player2 = "";
         startController.player3 = "";
         startController.player4 = "";
+
+        player1selected = false;
+        player2selected = false;
+        player3selected = false;
+        player4selected = false;
     }
 	
 	// Update is called once per frame
@@ -81,6 +95,25 @@ public class CharacterSelectionController : MonoBehaviour {
             }
             Debug.Log(player);
         }
+
+        /*if (player != "")
+        {
+            switch(playerIndex)
+            {
+                case 1:
+                    player1selected = true;
+                    break;
+                case 2:
+                    player2selected = true;
+                    break;
+                case 3:
+                    player3selected = true;
+                    break;
+                case 4:
+                    player4selected = true;
+                    break;
+            }
+        }*/
     }
 
     // When someone presses start, make sure all players have chosen a class to play
@@ -88,6 +121,7 @@ public class CharacterSelectionController : MonoBehaviour {
     {
         if (Input.GetButtonDown("Start1") || Input.GetButtonDown("Start2") || Input.GetKeyDown("7"))
         {
+            //startController.player2 = "Rogue";
             if ((startController.player1 != "") && (startController.player2 != "") 
                 /*&& (startController.player3 != "") && (startController.player4 != "")*/)
             {
@@ -105,6 +139,48 @@ public class CharacterSelectionController : MonoBehaviour {
     string GetControllerPrefix(int playerIndex)
     {
         return "Controller" + playerIndex + "_";
+    }
+
+    void OnGUI()
+    {
+        if (SceneManager.GetActiveScene().buildIndex == 1)
+        {
+            if (startController.player1 != "" && startController.player2 != "")
+            {
+                GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), charSelectScreen[3], ScaleMode.ScaleToFit);
+            }
+            else if (startController.player1 != "")
+            {
+                GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), charSelectScreen[1], ScaleMode.ScaleToFit);
+            }
+            else if (startController.player2 != "")
+            {
+                GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), charSelectScreen[2], ScaleMode.ScaleToFit);
+            }
+            else
+            {
+                GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), charSelectScreen[0], ScaleMode.ScaleToFit);
+            }
+
+
+            /*int screenEdgeLength = (Screen.width > Screen.height) ? Screen.height : Screen.width;
+            bool heightLimited = (Screen.width > Screen.height) ? true : false;
+
+            if (heightLimited)
+            {
+                if (player1selected)
+                {
+                    GUI.DrawTexture(new Rect((Screen.width - Screen.height) / 2, 0, Screen.width / 10, Screen.height / 10), checkmark, ScaleMode.ScaleToFit);
+                }
+            }
+            else
+            {
+                if (player1selected)
+                {
+                    GUI.DrawTexture(new Rect(0, (Screen.height - Screen.width) / 2, Screen.width / 10, Screen.height / 10), checkmark, ScaleMode.ScaleToFit);
+                }
+            }*/
+        }
     }
 
 }
