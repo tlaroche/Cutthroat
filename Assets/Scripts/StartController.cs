@@ -29,6 +29,7 @@ public class StartController : MonoBehaviour {
     float countDown;
     bool isGameStarted;
     float npcDeathCooldown;
+    float npcDeathTimer;
 
     public int winner;
     public bool done;
@@ -60,7 +61,7 @@ public class StartController : MonoBehaviour {
 
         // npcs will die off every X seconds when sudden death starts
         npcDeathCooldown = 5f;
-
+        npcDeathTimer = npcDeathCooldown;
     }
 
     void Awake()
@@ -104,18 +105,16 @@ public class StartController : MonoBehaviour {
 
                 if (gameTimer <= 0) // Sudden death starts
                 {
-                    npcDeathCooldown -= Time.deltaTime;
-                    if (npcDeathCooldown <= 0f)
+                    npcDeathTimer -= Time.deltaTime;
+                    if (npcDeathTimer <= 0f)
                     {
                         // Reset death cooldown
-                        npcDeathCooldown = 3f;
+                        npcDeathTimer = npcDeathCooldown;
                         
-                        // Going through the npc game object name arraylist and killing off all of the npcs 
-                        if (index < npcList.Count)
+                        if(npcList.Count > 0)
                         {
-                            GameObject npcToKill = npcList[index];
+                            GameObject npcToKill = npcList[Random.Range(0, npcList.Count)];
                             npcToKill.GetComponent<NPCMovement>().KillNPC();
-                            index++;
                         }
                     }
                 }

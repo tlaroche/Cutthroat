@@ -36,11 +36,11 @@ public class NPCMovement : MonoBehaviour
 
     void Update()
     {
-        if (isDead)
+        /*if (isDead)
         {
             // npc is dead, don't allow movement
         }
-        else if (!isAttacked)
+        else */if (!isAttacked && !isDead)
         {
             if (timer > 0)
             {
@@ -216,8 +216,9 @@ public class NPCMovement : MonoBehaviour
     public void KillNPC()
     {
         //Debug.Log("Killing NPC");
-        GameObject npc = GameObject.Find(name);
-        npc.GetComponent<SpriteRenderer>().sprite = dead;
+        //GameObject npc = GameObject.Find(name);
+        //npc.GetComponent<SpriteRenderer>().sprite = dead;
         isDead = true;
+        GetComponent<SpriteRenderer>().sprite = dead;
     }
 }
