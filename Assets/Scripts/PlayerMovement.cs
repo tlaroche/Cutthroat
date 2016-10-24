@@ -5,11 +5,13 @@ using System.Collections.Generic;
 
 public class PlayerMovement : MonoBehaviour {
 
+    public GameObject attack;
     public GameObject ability1;
     public GameObject ability2;
+    public GameObject mark;
+
     int ability1Uses;
     int ability2Uses;
-    public GameObject attack;
     public Sprite dead;
     public int speed;
     public int X_Boundary;
@@ -19,7 +21,9 @@ public class PlayerMovement : MonoBehaviour {
 
     public int playerIndex;
     private string className;
-    private string attackName; // The name of the current player's attack; used to make sure you can't hit yourself with an attack
+
+    //private string attackName; // The name of the current player's attack; used to make sure you can't hit yourself with an attack
+
     private bool isDead;
 
     // How often a player can use basic attack
@@ -30,8 +34,8 @@ public class PlayerMovement : MonoBehaviour {
     {
         className = name;
         playerIndex = index;
-        attackName = "Attack" + index;
-        //attack.name = attackName;
+
+    //    attackName = "Attack" + index;
     }
 
 
@@ -161,8 +165,7 @@ public class PlayerMovement : MonoBehaviour {
             if (basicAttackPressed && !isDead)
             {
                 // Temporarily create a sprite for the attack animation
-                GameObject temp = (GameObject)Instantiate(attack, transform.position, transform.rotation);
-                temp.name = attackName;
+                GameObject temp = (GameObject) Instantiate(attack, transform.position, transform.rotation);
                 temp.transform.parent = gameObject.transform;
                 Destroy(temp, .25f);
                 basicAttackCooldown = 1f;
@@ -180,8 +183,14 @@ public class PlayerMovement : MonoBehaviour {
         {
             ability1Uses--;
             GameObject temp = (GameObject) Instantiate(ability1, transform.position, transform.rotation);
-            temp.name = attackName;
-            temp.transform.parent = gameObject.transform;
+            temp.name += playerIndex;
+
+            // If the Hunter uses Trap, don't make the ability follow the player, instantiate 
+            // and stay at the position the player was at
+            if (ability1.tag != "Trap")
+            {
+                temp.transform.parent = gameObject.transform; // Make the ability move with the player
+            }
         }
     }
 
@@ -191,7 +200,6 @@ public class PlayerMovement : MonoBehaviour {
         {
             ability2Uses--;
             GameObject temp = (GameObject) Instantiate(ability2, transform.position, transform.rotation);
-            temp.name = attackName;
             temp.transform.parent = gameObject.transform;
         }
     }
@@ -203,13 +211,12 @@ public class PlayerMovement : MonoBehaviour {
             // When the player attacks, an attack animation with a collider spawns for a short duration. The attack collider is 
             // on top of the player and will trigger this method, so to prevent the player from killing itself, we need to 
             // add a check to make sure we are not killing ourselves.
-            if (other.gameObject.tag == "Basic Attack" && other.name != attackName)
+            if (other.gameObject.tag == "Basic Attack" && !other.transform.IsChildOf(transform))
             {
                 winner = other.gameObject.transform.parent.gameObject.GetComponent<PlayerMovement>().playerIndex;
-
                 Die();
             }
-            else if (other.gameObject.tag == "Delayed Kill" && other.name != attackName)
+            else if (other.gameObject.tag == "Delayed Kill" && !other.transform.IsChildOf(transform))
             {
                 if (! other.gameObject.transform.parent.gameObject.GetComponent<PlayerMovement>().isDead)
                 {
@@ -218,10 +225,23 @@ public class PlayerMovement : MonoBehaviour {
 
                 Invoke("Die", 3);
             }
+            else if (other.gameObject.tag == "Trap" && other.name.Contains("Trap") && !other.name.Contains(playerIndex.ToString()))
+            {
+                Debug.Log("Someone stepped on " + other.gameObject.tag + ": " + gameObject.name);
+            }
         }
     }
 
-    void Die()
+    // Instantiates a mark above the player's head if a player steps on a Ranger's Trap.
+    public void Mark()
+    {
+        Vector3 pos = new Vector3(0, 3f, 0);
+        GameObject tempMark = (GameObject) Instantiate(mark, transform.position + pos, transform.rotation);
+        tempMark.transform.parent = gameObject.transform;
+        Destroy(tempMark, 5);
+    }
+
+    public void Die()
     {
         GetComponent<SpriteRenderer>().sprite = dead;
         isDead = true;

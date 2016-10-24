@@ -1,5 +1,6 @@
 Library/*
 Temp/*
+Cutthroat_Data/*
 *.csproj
 *.sln
 *.pidb

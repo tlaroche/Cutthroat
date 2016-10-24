@@ -33,7 +33,7 @@ public class CharacterSelectionController : MonoBehaviour {
     void Update()
     {
         CheckPlayerLockIn(ref startController.player1, startController.PLAYER1_INDEX);
-        CheckPlayerLockIn(ref startController.player2, startController.PLAYER2_INDEX);
+        //CheckPlayerLockIn(ref startController.player2, startController.PLAYER2_INDEX);
         //CheckPlayerLockIn(ref startController.player3, startController.PLAYER3_INDEX);
         //CheckPlayerLockIn(ref startController.player4, startController.PLAYER4_INDEX);
 
@@ -54,7 +54,7 @@ public class CharacterSelectionController : MonoBehaviour {
             {
                 player = "";
             }
-            Debug.Log(player);
+            //Debug.Log(player);
         }
         // Press B to select Ranger
         else if (/*Input.GetButtonDown("1") ||*/ Input.GetButtonDown("B" + playerIndex))
@@ -67,7 +67,7 @@ public class CharacterSelectionController : MonoBehaviour {
             {
                 player = "";
             }
-            Debug.Log(player);
+            //Debug.Log(player);
         }
         // Press X to select Mage
         else if (/*Input.GetButtonDown("2") ||*/ Input.GetButtonDown("X" + playerIndex))
@@ -80,7 +80,7 @@ public class CharacterSelectionController : MonoBehaviour {
             {
                 player = "";
             }
-            Debug.Log(player);
+            //Debug.Log(player);
         }
         // Press Y to select Rogue
         else if (/*Input.GetButtonDown("3") ||*/ Input.GetButtonDown("Y" + playerIndex))
@@ -93,7 +93,7 @@ public class CharacterSelectionController : MonoBehaviour {
             {
                 player = "";
             }
-            Debug.Log(player);
+            //Debug.Log(player);
         }
 
         /*if (player != "")
@@ -122,7 +122,7 @@ public class CharacterSelectionController : MonoBehaviour {
         if (Input.GetButtonDown("Start1") || Input.GetButtonDown("Start2") || Input.GetKeyDown("7"))
         {
             //startController.player2 = "Rogue";
-            if ((startController.player1 != "") && (startController.player2 != "") 
+            if ((startController.player1 != "") /*&& (startController.player2 != "") 
                 /*&& (startController.player3 != "") && (startController.player4 != "")*/)
             {
                 // Start game if all players have selected a class

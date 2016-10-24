@@ -22,7 +22,7 @@ public class SoulSwap : MonoBehaviour {
         GameObject closest = null;
         float distance = Mathf.Infinity;
         Vector3 pos = transform.position;
-        foreach (GameObject npc in StartController.npcGameObjectNames)
+        foreach (GameObject npc in StartController.npcList)
         {
             if (npc.GetComponent<SpriteRenderer>().sprite == mage)
             {

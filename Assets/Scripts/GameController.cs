@@ -29,20 +29,16 @@ public class GameController : MonoBehaviour {
         startController = GameObject.Find("Controller").GetComponent<StartController>();
 
         InstantiatePlayer(startController.player1, startController.PLAYER1_INDEX);
-        InstantiatePlayer(startController.player2, startController.PLAYER2_INDEX);
+        //InstantiatePlayer(startController.player2, startController.PLAYER2_INDEX);
+        //InstantiatePlayer(startController.player2, startController.PLAYER2_INDEX);
         //InstantiatePlayer(startController.player3, startController.PLAYER3_INDEX);
         //InstantiatePlayer(startController.player4, startController.PLAYER4_INDEX);
 
-        InstantiateNPCs(npcWarrior, warriorCount);
-        InstantiateNPCs(npcMage, mageCount);
-        InstantiateNPCs(npcRanger, rangerCount);
-        InstantiateNPCs(npcRogue, rogueCount);
-
-
-        for (int i = 0; i < StartController.npcGameObjectNames.Count; i++)
-        {
-            //Debug.Log(StartController.npcGameObjectNames[i]);
-        }
+        //InstantiateNPCs(npcWarrior, warriorCount);
+        //InstantiateNPCs(npcMage, mageCount);
+        //InstantiateNPCs(npcRanger, rangerCount);
+        //InstantiateNPCs(npcRogue, rogueCount);
+        
         
     }
 
@@ -106,8 +102,8 @@ public class GameController : MonoBehaviour {
         {
             GameObject npcObject = (GameObject) Instantiate(npcType, new Vector2(Random.Range(-29f, 29f), Random.Range(-29f, 29f)), Quaternion.identity);
             //npcObject.name = npcObject.GetInstanceID().ToString();
-            Debug.Log(npcObject);
-            StartController.npcGameObjectNames.Add(npcObject);
+            //Debug.Log(npcObject);
+            StartController.npcList.Add(npcObject);
         }
     }
 }

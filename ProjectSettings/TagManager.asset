@@ -9,6 +9,8 @@ TagManager:
   - Delayed Kill
   - Polymorph
   - NPCMage
+  - Trap
+  - Shield
   layers:
   - Default
   - TransparentFX
@@ -49,7 +51,7 @@ TagManager:
   - name: Background
     uniqueID: 3647364709
     locked: 0
-  - name: New Layer
+  - name: Secondary
     uniqueID: 2075186307
     locked: 0
   - name: Players

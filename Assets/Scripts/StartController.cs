@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class StartController : MonoBehaviour {
 
-    public static List<GameObject> npcGameObjectNames;
+    public static List<GameObject> npcList;
     public Texture startScreen;
     public Texture p1win;
     public Texture p2win;
@@ -53,8 +53,8 @@ public class StartController : MonoBehaviour {
 
         index = 0;
         // List of all the unique npc gameobject names used for killing them off in sudden death
-        //npcGameObjectNames = new ArrayList();
-        npcGameObjectNames = new List<GameObject>();
+        //npcList = new ArrayList();
+        npcList = new List<GameObject>();
         isGameStarted = false;
         gameTimer = 90f;
 
@@ -111,9 +111,9 @@ public class StartController : MonoBehaviour {
                         npcDeathCooldown = 3f;
                         
                         // Going through the npc game object name arraylist and killing off all of the npcs 
-                        if (index < npcGameObjectNames.Count)
+                        if (index < npcList.Count)
                         {
-                            GameObject npcToKill = npcGameObjectNames[index];
+                            GameObject npcToKill = npcList[index];
                             npcToKill.GetComponent<NPCMovement>().KillNPC();
                             index++;
                         }

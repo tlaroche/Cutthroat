@@ -173,11 +173,10 @@ public class NPCMovement : MonoBehaviour
     {
         if (!isDead && !isAttacked)
         {
-            Debug.Log("trigger");
+            //Debug.Log(other.gameObject.tag);
             if (other.gameObject.tag == "Basic Attack")
             {
                 isAttacked = true;
-                Debug.Log("attacking");
                 Die();
             }
             else if (other.gameObject.tag == "Delayed Kill")
@@ -189,11 +188,16 @@ public class NPCMovement : MonoBehaviour
                 Debug.Log("poly");
                 GetComponent<SpriteRenderer>().sprite = mage;
             }
+            else if (other.gameObject.tag == "Trap")
+            {
+                Debug.Log("Someone stepped on " + other.gameObject.tag + ": " + gameObject.name);
+            }
         }
     }
 
-    void Die()
+    public void Die()
     {
+        isAttacked = true;
         GetComponent<SpriteRenderer>().sprite = dead;
         Invoke("ResetSprite", 2);
     }
