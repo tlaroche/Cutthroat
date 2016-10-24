@@ -3,6 +3,8 @@ using System.Collections;
 
 public class Trap : MonoBehaviour {
 
+    public GameObject mark;
+
 	// Use this for initialization
 	void Start () {
 	}
@@ -16,12 +18,14 @@ public class Trap : MonoBehaviour {
     {
         if (other.tag == "Player" && !gameObject.name.Contains(other.GetComponent<PlayerMovement>().playerIndex.ToString()))
         {
-            Debug.Log("Initializing a mark above the char's sprite");
+            Transform player = other.transform;
 
-
-            other.gameObject.GetComponent<PlayerMovement>().Mark();
+            Vector3 pos = new Vector3(0, 3f, 0);
+            GameObject tempMark = (GameObject)Instantiate(mark, player.position + pos, player.rotation);
+            tempMark.transform.parent = player;
             
-            Destroy(gameObject, 0.2f);
+            Destroy(gameObject);
+            Destroy(tempMark, 5f);
         }
     }
 }

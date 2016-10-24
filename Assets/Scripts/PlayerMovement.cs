@@ -200,6 +200,7 @@ public class PlayerMovement : MonoBehaviour {
         {
             ability2Uses--;
             GameObject temp = (GameObject) Instantiate(ability2, transform.position, transform.rotation);
+            temp.name += playerIndex;
             temp.transform.parent = gameObject.transform;
         }
     }
@@ -225,20 +226,7 @@ public class PlayerMovement : MonoBehaviour {
 
                 Invoke("Die", 3);
             }
-            else if (other.gameObject.tag == "Trap" && other.name.Contains("Trap") && !other.name.Contains(playerIndex.ToString()))
-            {
-                Debug.Log("Someone stepped on " + other.gameObject.tag + ": " + gameObject.name);
-            }
         }
-    }
-
-    // Instantiates a mark above the player's head if a player steps on a Ranger's Trap.
-    public void Mark()
-    {
-        Vector3 pos = new Vector3(0, 3f, 0);
-        GameObject tempMark = (GameObject) Instantiate(mark, transform.position + pos, transform.rotation);
-        tempMark.transform.parent = gameObject.transform;
-        Destroy(tempMark, 5);
     }
 
     public void Die()
