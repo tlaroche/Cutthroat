@@ -28,6 +28,7 @@ public class StartController : MonoBehaviour {
     float gameTimer;
     float countDown;
     bool isGameStarted;
+    bool suddenDeathStarted;
     float npcDeathCooldown;
     float npcDeathTimer;
 
@@ -57,6 +58,7 @@ public class StartController : MonoBehaviour {
         //npcList = new ArrayList();
         npcList = new List<GameObject>();
         isGameStarted = false;
+        suddenDeathStarted = false;
         gameTimer = 90f;
 
         // npcs will die off every X seconds when sudden death starts
@@ -101,17 +103,28 @@ public class StartController : MonoBehaviour {
             }
             else if (isGameStarted)
             {
-                gameTimer -= Time.deltaTime;
-
-                if (gameTimer <= 0) // Sudden death starts
+                if (!suddenDeathStarted)
                 {
+                    gameTimer -= Time.deltaTime;
+
+                    if (gameTimer <= 0) // Sudden death starts
+                    {
+                        suddenDeathStarted = true;
+                        gameTimer = 0f;
+                    }
+                }
+
+                if (suddenDeathStarted)
+                {
+                    gameTimer += Time.deltaTime;
+
                     npcDeathTimer -= Time.deltaTime;
                     if (npcDeathTimer <= 0f)
                     {
                         // Reset death cooldown
                         npcDeathTimer = npcDeathCooldown;
-                        
-                        if(npcList.Count > 0)
+
+                        if (npcList.Count > 0)
                         {
                             GameObject npcToKill = npcList[Random.Range(0, npcList.Count)];
                             npcToKill.GetComponent<NPCMovement>().KillNPC();
@@ -132,22 +145,28 @@ public class StartController : MonoBehaviour {
     
     void OnGUI()
     {
+        GUIStyle timerStyle = new GUIStyle();
+        timerStyle.fontSize = 50;
+
         if (!isGameStarted && SceneManager.GetActiveScene().buildIndex == 0)
         {
             GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), startScreen, ScaleMode.ScaleToFit);
         }
         else if (isGameStarted && SceneManager.GetActiveScene().buildIndex == 2)
         {
-            // Display timer
-            int minutes = Mathf.FloorToInt(gameTimer / 60f);
-            int seconds = Mathf.FloorToInt(gameTimer - minutes * 60);
-            string time = string.Format("{0:0}:{1:00}", minutes, seconds);
-
-            if (gameTimer <= 0)
+            string time = "";
+            //GUIStyle localStyle = new GUIStyle(GUI.skin.label);
+            if (suddenDeathStarted)
             {
-                time = string.Format("{0:0}:{1:00}", 0, 0);
+                timerStyle.normal.textColor = Color.red;
+                time = GetTimerString();
             }
-            GUI.Label(new Rect(10, 10, 250, 100), time);
+            else
+            {
+                timerStyle.normal.textColor = Color.white;
+                time = GetTimerString();
+            }
+            GUI.Label(new Rect(10, 10, 250, 100), time, timerStyle);
         }
 
         if (SceneManager.GetActiveScene().buildIndex == 3)
@@ -162,5 +181,12 @@ public class StartController : MonoBehaviour {
                     break;
             }
         }
+    }
+
+    string GetTimerString()
+    {
+        int minutes = Mathf.FloorToInt(gameTimer / 60f);
+        int seconds = Mathf.FloorToInt(gameTimer - minutes * 60);
+        return (string.Format("{0:0}:{1:00}", minutes, seconds));
     }
 }
