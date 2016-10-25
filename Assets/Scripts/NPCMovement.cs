@@ -4,10 +4,12 @@ using System.Collections.Generic;
 
 public class NPCMovement : MonoBehaviour
 {
-    public Sprite mage;
+    public GameObject basicAttack;
 
+    public Sprite mage;
     public Sprite dead;
     Sprite original;
+    
     public int speed;
     public int X_Boundary;
     public int Y_Boundary;
@@ -173,8 +175,7 @@ public class NPCMovement : MonoBehaviour
     {
         if (!isDead && !isAttacked)
         {
-            //Debug.Log(other.gameObject.tag);
-            if (other.gameObject.tag == "Basic Attack")
+            if (other.gameObject.tag == "Basic Attack" && !other.transform.IsChildOf(transform))
             {
                 isAttacked = true;
                 Die();
@@ -187,10 +188,6 @@ public class NPCMovement : MonoBehaviour
             {
                 Debug.Log("poly");
                 GetComponent<SpriteRenderer>().sprite = mage;
-            }
-            else if (other.gameObject.tag == "Trap")
-            {
-                Debug.Log("Someone stepped on " + other.gameObject.tag + ": " + gameObject.name);
             }
         }
     }
@@ -220,5 +217,15 @@ public class NPCMovement : MonoBehaviour
         //npc.GetComponent<SpriteRenderer>().sprite = dead;
         isDead = true;
         GetComponent<SpriteRenderer>().sprite = dead;
+    }
+
+    public void BasicAttack()
+    {
+        if (!isDead && !isAttacked)
+        {
+            GameObject attack = (GameObject) Instantiate(basicAttack, transform.position, transform.rotation);
+            attack.transform.parent = gameObject.transform;
+            Destroy(attack, 0.25f);
+        }
     }
 }

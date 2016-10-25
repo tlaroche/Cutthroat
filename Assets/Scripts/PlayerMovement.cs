@@ -148,21 +148,11 @@ public class PlayerMovement : MonoBehaviour {
     // Checks if the player wants to basic attack, and commences the attack if the basic attack is not on cooldown
     void CheckForBasicAttack()
     {
-        bool basicAttackPressed = false;
-
-        try
-        {
-            basicAttackPressed = Input.GetButtonDown("X" + playerIndex);
-        }
-        catch(System.ArgumentException ae)
-        {
-            basicAttackPressed = false;
-        }
-
         // Check to see if player presses attack
         if (basicAttackCooldown <= 0)
         {   
-            if (basicAttackPressed && !isDead)
+            //if (basicAttackPressed && !isDead)
+            if (Input.GetButtonDown("X" + playerIndex) && !isDead)
             {
                 // Temporarily create a sprite for the attack animation
                 GameObject temp = (GameObject) Instantiate(attack, transform.position, transform.rotation);

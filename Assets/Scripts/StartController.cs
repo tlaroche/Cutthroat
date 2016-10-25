@@ -116,7 +116,7 @@ public class StartController : MonoBehaviour {
 
                 if (suddenDeathStarted)
                 {
-                    gameTimer += Time.deltaTime;
+                    //gameTimer += Time.deltaTime;
 
                     npcDeathTimer -= Time.deltaTime;
                     if (npcDeathTimer <= 0f)
@@ -154,19 +154,17 @@ public class StartController : MonoBehaviour {
         }
         else if (isGameStarted && SceneManager.GetActiveScene().buildIndex == 2)
         {
-            string time = "";
-            //GUIStyle localStyle = new GUIStyle(GUI.skin.label);
-            if (suddenDeathStarted)
+            // Display the game timer
+            if (gameTimer <= 15f)
             {
                 timerStyle.normal.textColor = Color.red;
-                time = GetTimerString();
             }
             else
             {
                 timerStyle.normal.textColor = Color.white;
-                time = GetTimerString();
             }
-            GUI.Label(new Rect(10, 10, 250, 100), time, timerStyle);
+
+            GUI.Label(new Rect(10, 10, 250, 100), GetTimerString(), timerStyle);
         }
 
         if (SceneManager.GetActiveScene().buildIndex == 3)

@@ -67,6 +67,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea5ad5a640f77254687655ad394f99f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  basicAttack: {fileID: 1000011089783286, guid: 5a9a0851767619947a9d746dd51f5078,
+    type: 2}
   mage: {fileID: 21300000, guid: 9043f04c460a4d74f8e9edf669adcd5f, type: 3}
   dead: {fileID: 21300000, guid: 448dd2e1bd6e8b2429e5bba64df31992, type: 3}
   speed: 0
