@@ -5,8 +5,7 @@ using System.Collections.Generic;
 public class NPCMovement : MonoBehaviour
 {
     public GameObject basicAttack;
-
-    public Sprite mage;
+    
     public Sprite dead;
     Sprite original;
     
@@ -38,11 +37,7 @@ public class NPCMovement : MonoBehaviour
 
     void Update()
     {
-        /*if (isDead)
-        {
-            // npc is dead, don't allow movement
-        }
-        else */if (!isAttacked && !isDead)
+        if (!isAttacked && !isDead)
         {
             if (timer > 0)
             {
@@ -179,15 +174,6 @@ public class NPCMovement : MonoBehaviour
             {
                 isAttacked = true;
                 Die();
-            }
-            else if (other.gameObject.tag == "Delayed Kill")
-            {
-                Invoke("Die", 3);
-            }
-            else if (other.gameObject.tag == "Polymorph")
-            {
-                Debug.Log("poly");
-                GetComponent<SpriteRenderer>().sprite = mage;
             }
         }
     }

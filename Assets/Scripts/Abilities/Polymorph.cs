@@ -3,9 +3,10 @@ using System.Collections;
 
 public class Polymorph : MonoBehaviour {
 
+    public Sprite mage;
+
 	// Use this for initialization
 	void Start () {
-        //gameObject.GetComponent<CircleCollider2D>().enabled = true;
         Destroy(gameObject, 0.1f);
 	}
 	
@@ -13,4 +14,12 @@ public class Polymorph : MonoBehaviour {
 	void Update () {
 	
 	}
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.tag.Contains("NPC"))
+        {
+            other.GetComponent<SpriteRenderer>().sprite = mage;
+        }
+    }
 }

@@ -207,15 +207,6 @@ public class PlayerMovement : MonoBehaviour {
                 winner = other.gameObject.transform.parent.gameObject.GetComponent<PlayerMovement>().playerIndex;
                 Die();
             }
-            else if (other.gameObject.tag == "Delayed Kill" && !other.transform.IsChildOf(transform))
-            {
-                if (! other.gameObject.transform.parent.gameObject.GetComponent<PlayerMovement>().isDead)
-                {
-                    winner = other.gameObject.transform.parent.gameObject.GetComponent<PlayerMovement>().playerIndex;
-                }
-
-                Invoke("Die", 3);
-            }
         }
     }
 
