@@ -10,6 +10,8 @@ public class PlayerMovement : MonoBehaviour {
     public GameObject ability2;
     public GameObject mark;
 
+    Sprite original;
+
     int ability1Uses;
     int ability2Uses;
     public Sprite dead;
@@ -25,6 +27,8 @@ public class PlayerMovement : MonoBehaviour {
     //private string attackName; // The name of the current player's attack; used to make sure you can't hit yourself with an attack
 
     private bool isDead;
+    public bool feignDeathActive;
+    public bool shielded;
 
     // How often a player can use basic attack
     private float basicAttackCooldown;
@@ -41,6 +45,8 @@ public class PlayerMovement : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        original = GetComponent<SpriteRenderer>().sprite;
+
         X_Boundary = 29;
         Y_Boundary = 28;
         speed = 7;
@@ -51,6 +57,8 @@ public class PlayerMovement : MonoBehaviour {
         ability2Uses = 1;
 
         winner = 0;
+        feignDeathActive = false;
+        shielded = false;
     }
 
     void Update()
@@ -152,7 +160,7 @@ public class PlayerMovement : MonoBehaviour {
         if (basicAttackCooldown <= 0)
         {   
             //if (basicAttackPressed && !isDead)
-            if (Input.GetButtonDown("X" + playerIndex) && !isDead)
+            if (Input.GetButtonDown("X" + playerIndex) && !isDead && !feignDeathActive)
             {
                 // Temporarily create a sprite for the attack animation
                 GameObject temp = (GameObject) Instantiate(attack, transform.position, transform.rotation);
@@ -171,15 +179,15 @@ public class PlayerMovement : MonoBehaviour {
     {
         if (Input.GetButtonDown("A" + playerIndex) && ability1Uses != 0)
         {
-            ability1Uses--;
-            GameObject temp = (GameObject) Instantiate(ability1, transform.position, transform.rotation);
-            temp.name += playerIndex;
+            //ability1Uses--;
+            GameObject tempAbility = (GameObject) Instantiate(ability1, transform.position, transform.rotation);
+            tempAbility.name += playerIndex;
 
             // If the Hunter uses Trap, don't make the ability follow the player, instantiate 
             // and stay at the position the player was at
             if (ability1.tag != "Trap")
             {
-                temp.transform.parent = gameObject.transform; // Make the ability move with the player
+                tempAbility.transform.parent = gameObject.transform; // Make the ability move with the player
             }
         }
     }
@@ -197,15 +205,23 @@ public class PlayerMovement : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (!isDead)
+        //Debug.Log(shielded);
+        if (!isDead && !shielded)
         {
             // When the player attacks, an attack animation with a collider spawns for a short duration. The attack collider is 
             // on top of the player and will trigger this method, so to prevent the player from killing itself, we need to 
             // add a check to make sure we are not killing ourselves.
             if (other.gameObject.tag == "Basic Attack" && !other.transform.IsChildOf(transform))
             {
-                winner = other.gameObject.transform.parent.gameObject.GetComponent<PlayerMovement>().playerIndex;
-                Die();
+                if (feignDeathActive)
+                {
+                    FakeDeath();
+                }
+                else
+                {
+                    winner = other.gameObject.transform.parent.gameObject.GetComponent<PlayerMovement>().playerIndex;
+                    Die();
+                }
             }
         }
     }
@@ -220,6 +236,27 @@ public class PlayerMovement : MonoBehaviour {
         }
 
         Invoke("Victory", 5);
+    }
+
+    public void FakeDeath()
+    {
+        feignDeathActive = false;
+        GetComponent<SpriteRenderer>().sprite = dead;
+        isDead = true;
+        Invoke("ResetSprite", 2);
+    }
+
+    void ResetSprite()
+    {
+        isDead = false;
+        GetComponent<SpriteRenderer>().sprite = original;
+        shielded = true;
+        Invoke("Unshield", 0.5f);
+    }
+
+    void Unshield()
+    {
+        shielded = false;
     }
 
     void Victory()

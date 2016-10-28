@@ -69,13 +69,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attack: {fileID: 1000011089783286, guid: 5a9a0851767619947a9d746dd51f5078, type: 2}
   ability1: {fileID: 1000010263547622, guid: 0bdefa1f3ff3d9c4fad0a2a611c1d030, type: 2}
-  ability2: {fileID: 0}
+  ability2: {fileID: 1000013080889784, guid: 9ba29c04cfabde64c8eb724236c727cd, type: 2}
   mark: {fileID: 1000012838157022, guid: 55a92c3388d102d4d95f4a02b91154bc, type: 2}
   dead: {fileID: 21300000, guid: 448dd2e1bd6e8b2429e5bba64df31992, type: 3}
   speed: 7
   X_Boundary: 29
   Y_Boundary: 29
   playerIndex: 0
+  feignDeathActive: 0
+  shielded: 0
 --- !u!212 &212000011505871924
 SpriteRenderer:
   m_ObjectHideFlags: 1

@@ -5,7 +5,8 @@ public class Riot : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        Destroy(gameObject, 0.25f);
+        BasicAttack();
+        Destroy(gameObject, 0.1f);
 	}
 	
 	// Update is called once per frame
@@ -19,5 +20,13 @@ public class Riot : MonoBehaviour {
         {
             other.GetComponent<NPCMovement>().BasicAttack();
         }
+    }
+
+    void BasicAttack()
+    {
+        GameObject attack = transform.parent.GetComponent<PlayerMovement>().attack;
+        GameObject tempAttack = (GameObject) Instantiate(attack, transform.position, transform.rotation);
+        tempAttack.transform.parent = gameObject.transform;
+        Destroy(tempAttack, .25f);
     }
 }

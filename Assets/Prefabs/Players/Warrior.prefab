@@ -76,6 +76,8 @@ MonoBehaviour:
   X_Boundary: 29
   Y_Boundary: 29
   playerIndex: 0
+  feignDeathActive: 0
+  shielded: 0
 --- !u!212 &212000012878744054
 SpriteRenderer:
   m_ObjectHideFlags: 1

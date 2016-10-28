@@ -33,7 +33,7 @@ public class CharacterSelectionController : MonoBehaviour {
     void Update()
     {
         CheckPlayerLockIn(ref startController.player1, startController.PLAYER1_INDEX);
-        //CheckPlayerLockIn(ref startController.player2, startController.PLAYER2_INDEX);
+        CheckPlayerLockIn(ref startController.player2, startController.PLAYER2_INDEX);
         //CheckPlayerLockIn(ref startController.player3, startController.PLAYER3_INDEX);
         //CheckPlayerLockIn(ref startController.player4, startController.PLAYER4_INDEX);
 
@@ -95,25 +95,6 @@ public class CharacterSelectionController : MonoBehaviour {
             }
             //Debug.Log(player);
         }
-
-        /*if (player != "")
-        {
-            switch(playerIndex)
-            {
-                case 1:
-                    player1selected = true;
-                    break;
-                case 2:
-                    player2selected = true;
-                    break;
-                case 3:
-                    player3selected = true;
-                    break;
-                case 4:
-                    player4selected = true;
-                    break;
-            }
-        }*/
     }
 
     // When someone presses start, make sure all players have chosen a class to play
@@ -133,12 +114,6 @@ public class CharacterSelectionController : MonoBehaviour {
                 Debug.Log("All players not ready yet");
             }
         }
-    }
-
-    // Creates a prefix for the controller's input (found in the Unity input manager)
-    string GetControllerPrefix(int playerIndex)
-    {
-        return "Controller" + playerIndex + "_";
     }
 
     void OnGUI()
