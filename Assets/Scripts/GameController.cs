@@ -1,15 +1,19 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
-using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.UI;
 
 public class GameController : MonoBehaviour {
-
+    
     public GameObject npcWarrior;
     public GameObject npcMage;
     public GameObject npcRanger;
     public GameObject npcRogue;
-    
+
+    List<PlayerMovement> playerList = new List<PlayerMovement>(4);
+    List<PlayerMovement> playersAlive = new List<PlayerMovement>();
+    public List<int> standings = new List<int>();
+    int numPlayers;
 
     StartController startController;
     int warriorCount;
@@ -26,14 +30,30 @@ public class GameController : MonoBehaviour {
         rangerCount = 0;
         mageCount = 0;
 
-        startController = GameObject.Find("Controller").GetComponent<StartController>();
+        startController = GameObject.Find("StartController").GetComponent<StartController>();
+        
+        for (int i = 0; i < playerList.Capacity; i++)
+        {
+            // Instantiate the player to the character they have chosen, and set their player index to i+1
+            GameObject playerObject = InstantiatePlayer(startController.players[i], i + 1);
+            //playerList.Add(playerObject.GetComponent<PlayerMovement>());
+            if (playerObject == null)
+            {
+                playerList.Add(null);
+            }
+            else
+            {
+                playerList.Add(playerObject.GetComponent<PlayerMovement>());
+            }
 
-        InstantiatePlayer(startController.player1, startController.PLAYER1_INDEX);
-        //InstantiatePlayer(startController.player2, startController.PLAYER2_INDEX);
-        //InstantiatePlayer(startController.player2, startController.PLAYER2_INDEX);
-        //InstantiatePlayer(startController.player3, startController.PLAYER3_INDEX);
-        //InstantiatePlayer(startController.player4, startController.PLAYER4_INDEX);
+            if (playerList[i] != null)
+            {
+                playersAlive.Add(playerList[i]);
+            }
+        }
 
+        numPlayers = playersAlive.Count;
+        
         //InstantiateNPCs(npcWarrior, warriorCount);
         //InstantiateNPCs(npcMage, mageCount);
         //InstantiateNPCs(npcRanger, rangerCount);
@@ -44,54 +64,56 @@ public class GameController : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-
+        CheckForWinner();
     }
 
 
-    GameObject InstantiatePlayer(string player, int playerIndex)//, int playerIndex*/)
+    GameObject InstantiatePlayer(string player, int playerIndex)
     {
+        GameObject playerObject = null;
+        Debug.Log(playerIndex + player);
+
         if (player == "Warrior")
         {
-            GameObject playerObject = (GameObject) GameObject.Instantiate(startController.warrior, 
+            playerObject = (GameObject) GameObject.Instantiate(startController.warrior.gameObject, 
                 new Vector2(Random.Range(-29f, 29f), Random.Range(-29f, 29f)), Quaternion.identity);
 
             warriorCount++;
-            Debug.Log("Ins player, index:" + playerIndex);
             playerObject.GetComponent<PlayerMovement>().SetPlayer(player, playerIndex);
-            return playerObject;
+            //return playerObject;
         }
         else if (player == "Mage")
         {
-            GameObject playerObject = (GameObject) GameObject.Instantiate(startController.mage,
+            playerObject = (GameObject) GameObject.Instantiate(startController.mage.gameObject,
                 new Vector2(Random.Range(-29f, 29f), Random.Range(-29f, 29f)), Quaternion.identity);
 
             mageCount++;
 
             playerObject.GetComponent<PlayerMovement>().SetPlayer(player, playerIndex);
-            return playerObject;
+            //return playerObject;
         }
         else if (player == "Rogue")
         {
-            GameObject playerObject = (GameObject) GameObject.Instantiate(startController.rogue, 
+            playerObject = (GameObject) GameObject.Instantiate(startController.rogue.gameObject, 
                 new Vector2(Random.Range(-29f, 29f), Random.Range(-29f, 29f)), Quaternion.identity);
 
             rogueCount++;
 
             playerObject.GetComponent<PlayerMovement>().SetPlayer(player, playerIndex);
-            return playerObject;
+            //return playerObject;
         }
         else if (player == "Ranger")
         {
-            GameObject playerObject = (GameObject) GameObject.Instantiate(startController.ranger, 
+            playerObject = (GameObject) GameObject.Instantiate(startController.ranger.gameObject, 
                 new Vector2(Random.Range(-29f, 29f), Random.Range(-29f, 29f)), Quaternion.identity);
 
             rangerCount++;
 
             playerObject.GetComponent<PlayerMovement>().SetPlayer(player, playerIndex);
-            return playerObject;
+            //return playerObject;
         }
-        else
-            return null;
+
+        return playerObject;
     }
 
     void InstantiateNPCs(GameObject npcType, int classCount)
@@ -101,9 +123,37 @@ public class GameController : MonoBehaviour {
         for (int i = 0; i < numNPC; i++)
         {
             GameObject npcObject = (GameObject) Instantiate(npcType, new Vector2(Random.Range(-29f, 29f), Random.Range(-29f, 29f)), Quaternion.identity);
-            //npcObject.name = npcObject.GetInstanceID().ToString();
-            //Debug.Log(npcObject);
             StartController.npcList.Add(npcObject);
         }
+    }
+
+    void CheckForWinner()
+    {
+        for (int i = 0; i < playersAlive.Count; i++)
+        {
+            if (playersAlive[i].isDead)
+            {
+                playersAlive.Remove(playersAlive[i]);
+            }
+        }
+        
+        if (playersAlive.Count == 1)
+        {
+            startController.winner = playersAlive[0].playerIndex;
+            Invoke("Victory", 3);
+        }
+    }
+
+    void PrintPlayersAlive()
+    {
+        for (int i = 0; i < playersAlive.Count; i++)
+        {
+            Debug.Log("Player " + playersAlive[i].playerIndex);
+        }
+    }
+
+    void Victory()
+    {
+        SceneManager.LoadScene(3);
     }
 }

@@ -15,13 +15,16 @@ public class CharacterSelectionController : MonoBehaviour {
 
     GameObject[] checks = new GameObject[4];
 
+    int numPlayers = 2;
+
 	// Use this for initialization
 	void Start () {
-        startController = GameObject.Find("Controller").GetComponent<StartController>();
-        startController.player1 = "";
+        startController = GameObject.Find("StartController").GetComponent<StartController>();
+        /*startController.player1 = "";
         startController.player2 = "";
         startController.player3 = "";
-        startController.player4 = "";
+        startController.player4 = "";*/
+        
 
         player1selected = false;
         player2selected = false;
@@ -32,8 +35,16 @@ public class CharacterSelectionController : MonoBehaviour {
 	// Update is called once per frame
     void Update()
     {
-        CheckPlayerLockIn(ref startController.player1, startController.PLAYER1_INDEX);
-        CheckPlayerLockIn(ref startController.player2, startController.PLAYER2_INDEX);
+        if (startController.players.Count >= numPlayers)
+        {
+            for (int i = 0; i < numPlayers; i++)
+            {
+                CheckPlayerLockIn(startController.players, i);
+            }
+        }
+
+        //CheckPlayerLockIn(ref startController.player1, startController.PLAYER1_INDEX);
+        //CheckPlayerLockIn(ref startController.player2, startController.PLAYER2_INDEX);
         //CheckPlayerLockIn(ref startController.player3, startController.PLAYER3_INDEX);
         //CheckPlayerLockIn(ref startController.player4, startController.PLAYER4_INDEX);
 
@@ -41,72 +52,82 @@ public class CharacterSelectionController : MonoBehaviour {
     }
 
     // Make sure the player has chosen a class to play
-    void CheckPlayerLockIn(ref string player, int playerIndex)
+    void CheckPlayerLockIn(List<string> players, int index)
     {
         // Press A to select Warrior
-        if (/*Input.GetButtonDown("0") || */Input.GetButtonDown("A" + playerIndex))
+        if (/*Input.GetButtonDown("0") || */Input.GetButtonDown("A" + (index + 1)))
         {
-            if (player == "")
+            if (players[index] == "")
             {
-                player = "Warrior";
+                players[index] = "Warrior";
             }
             else
             {
-                player = "";
+                players[index] = "";
             }
-            //Debug.Log(player);
+            //Debug.Log(players[index]);
         }
         // Press B to select Ranger
-        else if (/*Input.GetButtonDown("1") ||*/ Input.GetButtonDown("B" + playerIndex))
+        else if (/*Input.GetButtonDown("1") ||*/ Input.GetButtonDown("B" + (index + 1)))
         {
-            if (player == "")
+            if (players[index] == "")
             {
-                player = "Ranger";
+                players[index] = "Ranger";
             }
             else
             {
-                player = "";
+                players[index] = "";
             }
-            //Debug.Log(player);
+            //Debug.Log(players[index]);
         }
         // Press X to select Mage
-        else if (/*Input.GetButtonDown("2") ||*/ Input.GetButtonDown("X" + playerIndex))
+        else if (/*Input.GetButtonDown("2") ||*/ Input.GetButtonDown("X" + (index + 1)))
         {
-            if (player == "")
+            if (players[index] == "")
             {
-                player = "Mage";
+                players[index] = "Mage";
             }
             else
             {
-                player = "";
+                players[index] = "";
             }
-            //Debug.Log(player);
+            //Debug.Log(players[index]);
         }
         // Press Y to select Rogue
-        else if (/*Input.GetButtonDown("3") ||*/ Input.GetButtonDown("Y" + playerIndex))
+        else if (/*Input.GetButtonDown("3") ||*/ Input.GetButtonDown("Y" + (index + 1)))
         {
-            if (player == "")
+            if (players[index] == "")
             {
-                player = "Rogue";
+                players[index] = "Rogue";
             }
             else
             {
-                player = "";
+                players[index] = "";
             }
-            //Debug.Log(player);
+            //Debug.Log(players[index]);
         }
+        //Debug.Log(playerIndex + "player:" + player);
     }
 
     // When someone presses start, make sure all players have chosen a class to play
     void CheckAllPlayersReadyToStartGame()
     {
+
         if (Input.GetButtonDown("Start1") || Input.GetButtonDown("Start2") || Input.GetKeyDown("7"))
         {
-            //startController.player2 = "Rogue";
-            if ((startController.player1 != "") /*&& (startController.player2 != "") 
-                /*&& (startController.player3 != "") && (startController.player4 != "")*/)
+
+            bool allPlayersReady = true;
+
+            for (int i = 0; i < numPlayers; i++)
             {
-                // Start game if all players have selected a class
+                if (startController.players[i] == "")
+                {
+                    allPlayersReady = false;
+                }
+            }
+
+            if (allPlayersReady)
+            {
                 SceneManager.LoadScene(2);
             }
             else
@@ -118,17 +139,18 @@ public class CharacterSelectionController : MonoBehaviour {
 
     void OnGUI()
     {
+        //Debug.Log(startController.players.Count);
         if (SceneManager.GetActiveScene().buildIndex == 1)
         {
-            if (startController.player1 != "" && startController.player2 != "")
+            if (startController.players[0] != "" && startController.players[1] != "")
             {
                 GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), charSelectScreen[3], ScaleMode.ScaleToFit);
             }
-            else if (startController.player1 != "")
+            else if (startController.players[0] != "")
             {
                 GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), charSelectScreen[1], ScaleMode.ScaleToFit);
             }
-            else if (startController.player2 != "")
+            else if (startController.players[1] != "")
             {
                 GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), charSelectScreen[2], ScaleMode.ScaleToFit);
             }

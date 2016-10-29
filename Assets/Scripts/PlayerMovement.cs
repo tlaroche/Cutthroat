@@ -19,6 +19,8 @@ public class PlayerMovement : MonoBehaviour {
     public int X_Boundary;
     public int Y_Boundary;
 
+    StartController startController;
+    GameController gameController;
     int winner;
 
     public int playerIndex;
@@ -26,7 +28,7 @@ public class PlayerMovement : MonoBehaviour {
 
     //private string attackName; // The name of the current player's attack; used to make sure you can't hit yourself with an attack
 
-    private bool isDead;
+    public bool isDead;
     public bool feignDeathActive;
     public bool shielded;
 
@@ -45,6 +47,8 @@ public class PlayerMovement : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        startController = GameObject.Find("StartController").GetComponent<StartController>();
+        gameController = GameObject.Find("GameController").GetComponent<GameController>();
         original = GetComponent<SpriteRenderer>().sprite;
 
         X_Boundary = 29;
@@ -230,9 +234,12 @@ public class PlayerMovement : MonoBehaviour {
     {
         GetComponent<SpriteRenderer>().sprite = dead;
         isDead = true;
+        gameController.standings.Add(playerIndex);
+
         if (winner != 0)
         {
-            GameObject.Find("Controller").GetComponent<StartController>().winner = winner;
+
+            startController.winner = winner;
         }
 
         Invoke("Victory", 5);
@@ -261,7 +268,7 @@ public class PlayerMovement : MonoBehaviour {
 
     void Victory()
     {
-        SceneManager.LoadScene(3);
+        //SceneManager.LoadScene(3);
     }
 
 

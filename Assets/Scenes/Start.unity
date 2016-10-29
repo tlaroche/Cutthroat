@@ -248,8 +248,9 @@ GameObject:
   m_Component:
   - 4: {fileID: 1957810992}
   - 114: {fileID: 1957810991}
+  - 114: {fileID: 1957810993}
   m_Layer: 0
-  m_Name: Controller
+  m_Name: StartController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -273,6 +274,7 @@ MonoBehaviour:
   mage: {fileID: 1000011101570660, guid: c81904f3e28f1e047a040744bfdf3a51, type: 2}
   ranger: {fileID: 1000011047428984, guid: fdea72d679f4dd947aaa54d83b052c56, type: 2}
   rogue: {fileID: 1000011767339544, guid: a7233e310abfffc498684cae9708c27d, type: 2}
+  playerList: []
   player1: 
   player2: 
   player3: 
@@ -292,3 +294,14 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
+--- !u!114 &1957810993
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1957810990}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25f174e7bc0277945bcf74a4f13e03b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

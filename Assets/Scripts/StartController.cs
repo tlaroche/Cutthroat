@@ -20,10 +20,14 @@ public class StartController : MonoBehaviour {
     public GameObject ranger;
     public GameObject rogue;
 
+    //public List<string> playerList = new List<string>(4);
+
     public string player1;
     public string player2;
     public string player3;
     public string player4;
+
+    public List<string> players;
 
     float gameTimer;
     float countDown;
@@ -35,13 +39,11 @@ public class StartController : MonoBehaviour {
     public int winner;
     public bool done;
 
-
-    // Iterator for the npc object names
-    int index;
+    
 
 	// Use this for initialization
 	void Start () {
-        GameObject temp = GameObject.Find("Controller");
+        GameObject temp = GameObject.Find("StartController");
         if (temp.GetComponent<StartController>().done)
         {
             Destroy(temp);
@@ -51,9 +53,7 @@ public class StartController : MonoBehaviour {
         {
             done = false;
         }
-
-
-        index = 0;
+        
         // List of all the unique npc gameobject names used for killing them off in sudden death
         //npcList = new ArrayList();
         npcList = new List<GameObject>();
@@ -64,6 +64,17 @@ public class StartController : MonoBehaviour {
         // npcs will die off every X seconds when sudden death starts
         npcDeathCooldown = 5f;
         npcDeathTimer = npcDeathCooldown;
+
+        players = new List<string>(4);
+        for (int i = 0; i < 4; i++)
+        {
+            players.Add("");
+        }
+
+        for (int i = 0; i < players.Count; i++)
+        {
+            Debug.Log(i + "@" + players[i] + "@");
+        }
     }
 
     void Awake()
