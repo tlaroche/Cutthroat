@@ -31,7 +31,10 @@ public class GameController : MonoBehaviour {
         mageCount = 0;
 
         startController = GameObject.Find("StartController").GetComponent<StartController>();
+        startController.ResetEverything();
         
+
+
         for (int i = 0; i < playerList.Capacity; i++)
         {
             // Instantiate the player to the character they have chosen, and set their player index to i+1
@@ -54,10 +57,10 @@ public class GameController : MonoBehaviour {
 
         numPlayers = playersAlive.Count;
         
-        //InstantiateNPCs(npcWarrior, warriorCount);
-        //InstantiateNPCs(npcMage, mageCount);
-        //InstantiateNPCs(npcRanger, rangerCount);
-        //InstantiateNPCs(npcRogue, rogueCount);
+        InstantiateNPCs(npcWarrior, warriorCount);
+        InstantiateNPCs(npcMage, mageCount);
+        InstantiateNPCs(npcRanger, rangerCount);
+        InstantiateNPCs(npcRogue, rogueCount);
         
         
     }
@@ -123,7 +126,7 @@ public class GameController : MonoBehaviour {
         for (int i = 0; i < numNPC; i++)
         {
             GameObject npcObject = (GameObject) Instantiate(npcType, new Vector2(Random.Range(-29f, 29f), Random.Range(-29f, 29f)), Quaternion.identity);
-            StartController.npcList.Add(npcObject);
+            startController.npcList.Add(npcObject);
         }
     }
 

@@ -170,7 +170,7 @@ public class NPCMovement : MonoBehaviour
     {
         if (!isDead && !isAttacked)
         {
-            if (other.gameObject.tag == "Basic Attack" && !other.transform.IsChildOf(transform))
+            if (other.gameObject.tag == "Basic Attack")   /*&& !other.transform.IsChildOf(transform))*/
             {
                 isAttacked = true;
                 Die();

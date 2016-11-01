@@ -29,6 +29,7 @@ public class PlayerMovement : MonoBehaviour {
     //private string attackName; // The name of the current player's attack; used to make sure you can't hit yourself with an attack
 
     public bool isDead;
+    public bool isFakeDead;
     public bool feignDeathActive;
     public bool shielded;
 
@@ -57,6 +58,7 @@ public class PlayerMovement : MonoBehaviour {
 
         basicAttackCooldown = 0;
         isDead = false;
+        isFakeDead = false;
         ability1Uses = 3;
         ability2Uses = 1;
 
@@ -67,6 +69,7 @@ public class PlayerMovement : MonoBehaviour {
 
     void Update()
     {
+
         Move();
 
         CheckForBasicAttack();
@@ -92,7 +95,7 @@ public class PlayerMovement : MonoBehaviour {
         try
         {
             // If player is dead, don't move
-            if (isDead)
+            if (isDead || isFakeDead)
             {
                 horizontal = 0;
                 vertical = 0;
@@ -164,7 +167,7 @@ public class PlayerMovement : MonoBehaviour {
         if (basicAttackCooldown <= 0)
         {   
             //if (basicAttackPressed && !isDead)
-            if (Input.GetButtonDown("X" + playerIndex) && !isDead && !feignDeathActive)
+            if (Input.GetButtonDown("X" + playerIndex) && !isDead && !feignDeathActive && !isFakeDead)
             {
                 // Temporarily create a sprite for the attack animation
                 GameObject temp = (GameObject) Instantiate(attack, transform.position, transform.rotation);
@@ -181,9 +184,9 @@ public class PlayerMovement : MonoBehaviour {
 
     void UseAbility1()
     {
-        if (Input.GetButtonDown("A" + playerIndex) && ability1Uses != 0)
+        if (Input.GetButtonDown("A" + playerIndex) && !isDead && !isFakeDead && ability1Uses != 0)
         {
-            //ability1Uses--;
+            ability1Uses--;
             GameObject tempAbility = (GameObject) Instantiate(ability1, transform.position, transform.rotation);
             tempAbility.name += playerIndex;
 
@@ -198,7 +201,7 @@ public class PlayerMovement : MonoBehaviour {
 
     void UseAbility2()
     {
-        if (Input.GetButtonDown("B" + playerIndex) && ability2Uses != 0)
+        if (Input.GetButtonDown("B" + playerIndex) && !isDead && !isFakeDead && ability2Uses != 0)
         {
             ability2Uses--;
             GameObject temp = (GameObject) Instantiate(ability2, transform.position, transform.rotation);
@@ -223,7 +226,21 @@ public class PlayerMovement : MonoBehaviour {
                 }
                 else
                 {
-                    winner = other.gameObject.transform.parent.gameObject.GetComponent<PlayerMovement>().playerIndex;
+                    switch (other.gameObject.transform.parent.gameObject.GetComponent<PlayerMovement>().playerIndex)
+                    {
+                        case 1:
+                            startController.p1score++;
+                            break;
+                        case 2:
+                            startController.p2score++;
+                            break;
+                        case 3:
+                            startController.p3score++;
+                            break;
+                        case 4:
+                            startController.p4score++;
+                            break;
+                    }
                     Die();
                 }
             }
@@ -249,13 +266,13 @@ public class PlayerMovement : MonoBehaviour {
     {
         feignDeathActive = false;
         GetComponent<SpriteRenderer>().sprite = dead;
-        isDead = true;
+        isFakeDead = true;
         Invoke("ResetSprite", 2);
     }
 
     void ResetSprite()
     {
-        isDead = false;
+        isFakeDead = false;
         GetComponent<SpriteRenderer>().sprite = original;
         shielded = true;
         Invoke("Unshield", 0.5f);

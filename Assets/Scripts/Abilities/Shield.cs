@@ -6,7 +6,7 @@ public class Shield : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         CreateShield();
-        Invoke("StopShield", 3);
+        Invoke("StopShield", 1.5f);
 	}
 	
 	// Update is called once per frame

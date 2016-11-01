@@ -5,10 +5,14 @@ using UnityEngine.UI;
 
 public class StartController : MonoBehaviour {
 
-    public static List<GameObject> npcList;
+    public List<GameObject> npcList;
     public Texture startScreen;
+    public Texture gameOptionsScreen;
     public Texture p1win;
     public Texture p2win;
+
+    public bool displayGameOptions;
+    public int numOfRounds;
 
     public readonly int PLAYER1_INDEX = 1;
     public readonly int PLAYER2_INDEX = 2;
@@ -27,10 +31,15 @@ public class StartController : MonoBehaviour {
     public string player3;
     public string player4;
 
+    public int p1score;
+    public int p2score;
+    public int p3score;
+    public int p4score;
+
+
     public List<string> players;
 
     float gameTimer;
-    float countDown;
     bool isGameStarted;
     bool suddenDeathStarted;
     float npcDeathCooldown;
@@ -39,10 +48,24 @@ public class StartController : MonoBehaviour {
     public int winner;
     public bool done;
 
-    
+
+    bool inputReset;
+
+    public void ResetEverything()
+    {
+        npcList.Clear();
+        isGameStarted = false;
+        suddenDeathStarted = false;
+        gameTimer = 90f;
+    }
 
 	// Use this for initialization
 	void Start () {
+        p1score = 0;
+        p2score = 0;
+        p3score = 0;
+        p4score = 0;
+
         GameObject temp = GameObject.Find("StartController");
         if (temp.GetComponent<StartController>().done)
         {
@@ -60,6 +83,11 @@ public class StartController : MonoBehaviour {
         isGameStarted = false;
         suddenDeathStarted = false;
         gameTimer = 90f;
+
+        displayGameOptions = false;
+        numOfRounds = 3;
+
+        inputReset = false;
 
         // npcs will die off every X seconds when sudden death starts
         npcDeathCooldown = 5f;
@@ -89,17 +117,39 @@ public class StartController : MonoBehaviour {
         // Start screen
         if (SceneManager.GetActiveScene().buildIndex == 0)
         {
-            // You can combine these two if statements, but separated them for debugging purposes
-            if (Input.GetButtonDown("Start" + PLAYER1_INDEX))
+            if (displayGameOptions)
             {
-                Debug.Log("loading scene 1 controller1 pressed start");
-                SceneManager.LoadScene(1);
+                float input = Input.GetAxis("Horizontal1");
+                if (!inputReset && input  <-0.5f)
+                {
+                    numOfRounds--;
+                    numOfRounds = Mathf.Clamp(numOfRounds, 1, 5);
+                    inputReset = true;
+                }
+                else if (!inputReset && input > 0.5f)
+                {
+                    numOfRounds++;
+                    numOfRounds = Mathf.Clamp(numOfRounds, 1, 5);
+                    inputReset = true;
+                }
+                else if (inputReset && input < 0.5f && input > -0.5f)
+                {
+                    inputReset = false;
+                }
+                Debug.Log(numOfRounds);
+
+                if (Input.GetButtonDown("Start" + PLAYER1_INDEX))
+                {
+                    SceneManager.LoadScene(1);
+                }
+
             }
 
-            if (Input.GetButtonDown("Start" + PLAYER2_INDEX))
+            // You can combine these two if statements, but separated them for debugging purposes
+            if (Input.GetButtonDown("Start" + PLAYER1_INDEX) || Input.GetButtonDown("Start" + PLAYER2_INDEX))
             {
-                Debug.Log("loading scene 1 controller2 pressed start");
-                SceneManager.LoadScene(1);
+                //SceneManager.LoadScene(1);
+                displayGameOptions = true;
             }
 
         }
@@ -147,8 +197,16 @@ public class StartController : MonoBehaviour {
 
         if (SceneManager.GetActiveScene().buildIndex == 3 && (Input.GetButtonDown("Start1") || Input.GetButtonDown("Start2")))
         {
-            done = true;
-            SceneManager.LoadScene(0);
+            if (numOfRounds > 1)
+            {
+                numOfRounds--;
+                SceneManager.LoadScene(1);
+            }
+            else
+            {
+                done = true;
+                SceneManager.LoadScene(0);
+            }
         }
 
 	}
@@ -161,7 +219,14 @@ public class StartController : MonoBehaviour {
 
         if (!isGameStarted && SceneManager.GetActiveScene().buildIndex == 0)
         {
-            GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), startScreen, ScaleMode.ScaleToFit);
+            if (displayGameOptions)
+            {
+                GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), gameOptionsScreen, ScaleMode.ScaleToFit);
+            }
+            else
+            {
+                GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), startScreen, ScaleMode.ScaleToFit);
+            }
         }
         else if (isGameStarted && SceneManager.GetActiveScene().buildIndex == 2)
         {

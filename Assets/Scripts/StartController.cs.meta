@@ -1,11 +1,14 @@
 fileFormatVersion: 2
 guid: 16c28ea4d0d67544792cd8ad0bf5fd07
-timeCreated: 1476129086
+timeCreated: 1477862191
 licenseType: Free
 MonoImporter:
   serializedVersion: 2
   defaultReferences:
   - startScreen: {fileID: 2800000, guid: ff0c0184f78e970408e87dbe3013f959, type: 3}
+  - gameOptionsScreen: {fileID: 2800000, guid: ff0c0184f78e970408e87dbe3013f959, type: 3}
+  - p1win: {fileID: 2800000, guid: 38e55d3e11c480b4d8fdf901d002fd59, type: 3}
+  - p2win: {instanceID: 0}
   - warrior: {fileID: 1000013983769356, guid: 90b123bdaa2fc9148bc4abc76a502a3e, type: 2}
   - mage: {fileID: 1000011101570660, guid: c81904f3e28f1e047a040744bfdf3a51, type: 2}
   - ranger: {fileID: 1000011047428984, guid: fdea72d679f4dd947aaa54d83b052c56, type: 2}
