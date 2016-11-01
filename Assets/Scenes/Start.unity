@@ -266,10 +266,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16c28ea4d0d67544792cd8ad0bf5fd07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  npcList: []
   startScreen: {fileID: 2800000, guid: ff0c0184f78e970408e87dbe3013f959, type: 3}
-  gameOptionsScreen: {fileID: 2800000, guid: f9e304d5a7ab9784f96bda278aa0e403, type: 3}
   p1win: {fileID: 2800000, guid: 38e55d3e11c480b4d8fdf901d002fd59, type: 3}
   p2win: {fileID: 2800000, guid: e2cb6b487750abb43b0ad14c2a5eb134, type: 3}
+  gameOptionsScreens:
+  - {fileID: 2800000, guid: 27b372bee057bd04fa3c34889312edb2, type: 3}
+  - {fileID: 2800000, guid: 259a5a48c610b84479bad99240c4aaab, type: 3}
+  - {fileID: 2800000, guid: f3bfb65112619ae40b775b79435d9c63, type: 3}
+  - {fileID: 2800000, guid: a6061e499da6bac4baca10d613ad2107, type: 3}
+  - {fileID: 2800000, guid: 1e6fbee7eeaa81a4682f4ecd7d110d59, type: 3}
   displayGameOptions: 0
   numOfRounds: 0
   warrior: {fileID: 1000013983769356, guid: 90b123bdaa2fc9148bc4abc76a502a3e, type: 2}
@@ -280,6 +286,10 @@ MonoBehaviour:
   player2: 
   player3: 
   player4: 
+  p1score: 0
+  p2score: 0
+  p3score: 0
+  p4score: 0
   players: []
   winner: 0
   done: 0

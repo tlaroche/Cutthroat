@@ -7,9 +7,13 @@ public class StartController : MonoBehaviour {
 
     public List<GameObject> npcList;
     public Texture startScreen;
-    public Texture gameOptionsScreen;
+    //public Texture gameOptionsScreen;
     public Texture p1win;
     public Texture p2win;
+
+    public Texture[] gameOptionsScreens = new Texture[5];
+
+
 
     public bool displayGameOptions;
     public int numOfRounds;
@@ -221,7 +225,24 @@ public class StartController : MonoBehaviour {
         {
             if (displayGameOptions)
             {
-                GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), gameOptionsScreen, ScaleMode.ScaleToFit);
+                switch(numOfRounds)
+                {
+                    case 1:
+                        GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), gameOptionsScreens[0], ScaleMode.ScaleToFit);
+                        break;
+                    case 2:
+                        GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), gameOptionsScreens[1], ScaleMode.ScaleToFit);
+                        break;
+                    case 3:
+                        GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), gameOptionsScreens[2], ScaleMode.ScaleToFit);
+                        break;
+                    case 4:
+                        GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), gameOptionsScreens[3], ScaleMode.ScaleToFit);
+                        break;
+                    case 5:
+                        GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), gameOptionsScreens[4], ScaleMode.ScaleToFit);
+                        break;
+                }
             }
             else
             {

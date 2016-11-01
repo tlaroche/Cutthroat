@@ -1,17 +1,20 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
+using System;
 
 public class CharacterSelectionController : MonoBehaviour {
 
     StartController startController;
     //public Texture[] checkmarks = new Texture[3];
-    public Texture[] charSelectScreen = new Texture[4];
+    public Texture[] charSelectScreen = new Texture[16];
 
-    bool player1selected;
-    bool player2selected;
-    bool player3selected;
-    bool player4selected;
+    bool p1ready;
+    bool p2ready;
+    bool p3ready;
+    bool p4ready;
+
+    bool[] playerReadyCheck = new bool[4];
 
     GameObject[] checks = new GameObject[4];
 
@@ -24,12 +27,16 @@ public class CharacterSelectionController : MonoBehaviour {
         startController.player2 = "";
         startController.player3 = "";
         startController.player4 = "";*/
-        
 
-        player1selected = false;
-        player2selected = false;
-        player3selected = false;
-        player4selected = false;
+
+        for (int i = 0; i < 4; i++)
+        {
+            playerReadyCheck[i] = false;
+        }
+        p1ready = false;
+        p2ready = false;
+        p3ready = false;
+        p4ready = false;
     }
 	
 	// Update is called once per frame
@@ -139,27 +146,23 @@ public class CharacterSelectionController : MonoBehaviour {
 
     void OnGUI()
     {
-        //Debug.Log(startController.players.Count);
+        string playersReadyBinary = "";
+        for (int i = 0; i < 4; i++)
+        {
+            // Checks to see if the players have selected a char to play. Loops through the playersReadyCheck and 
+            // creates a string that represents a binary number. If player is ready (character selected) 
+            // then concat "1" to binary string, "0" otherwise.
+            playerReadyCheck[i] = (startController.players[i] != "");
+            playersReadyBinary += playerReadyCheck[i] ? "1" : "0";
+        }
+
+        // Converts the binary number to an integer, and chooses the screen based on the integer ()
+        int screen = Convert.ToInt32(playersReadyBinary, 2);
+
         if (SceneManager.GetActiveScene().buildIndex == 1)
         {
-            if (startController.players[0] != "" && startController.players[1] != "")
-            {
-                GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), charSelectScreen[3], ScaleMode.ScaleToFit);
-            }
-            else if (startController.players[0] != "")
-            {
-                GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), charSelectScreen[1], ScaleMode.ScaleToFit);
-            }
-            else if (startController.players[1] != "")
-            {
-                GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), charSelectScreen[2], ScaleMode.ScaleToFit);
-            }
-            else
-            {
-                GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), charSelectScreen[0], ScaleMode.ScaleToFit);
-            }
-
-
+            DrawCharSelectScreen(charSelectScreen[screen]);
+            
             /*int screenEdgeLength = (Screen.width > Screen.height) ? Screen.height : Screen.width;
             bool heightLimited = (Screen.width > Screen.height) ? true : false;
 
@@ -178,6 +181,11 @@ public class CharacterSelectionController : MonoBehaviour {
                 }
             }*/
         }
+    }
+
+    void DrawCharSelectScreen(Texture screen)
+    {
+        GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), screen, ScaleMode.ScaleToFit);
     }
 
 }
