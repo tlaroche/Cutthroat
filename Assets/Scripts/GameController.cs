@@ -34,7 +34,7 @@ public class GameController : MonoBehaviour {
         mageCount = 0;
 
         startController = GameObject.Find("StartController").GetComponent<StartController>();
-        startController.ResetEverything();
+        startController.ResetBeforeRound();
         
 
 
@@ -164,9 +164,11 @@ public class GameController : MonoBehaviour {
     void Victory()
     {
         SceneManager.LoadScene(3);
-        Debug.Log("p1score" + startController.p1score);
-        Debug.Log("p2score" + startController.p2score);
-
+        
+        for (int i = 0; i < 4; i++)
+        {
+            Debug.Log("player" + (i + 1) + "score " + startController.playerScores[i]);
+        }
 
         //startController.InitCharacterSelection();
     }

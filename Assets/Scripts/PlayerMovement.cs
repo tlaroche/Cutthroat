@@ -224,21 +224,8 @@ public class PlayerMovement : MonoBehaviour {
                 }
                 else
                 {
-                    switch (other.gameObject.transform.parent.gameObject.GetComponent<PlayerMovement>().playerIndex)
-                    {
-                        case 1:
-                            startController.p1score++;
-                            break;
-                        case 2:
-                            startController.p2score++;
-                            break;
-                        case 3:
-                            startController.p3score++;
-                            break;
-                        case 4:
-                            startController.p4score++;
-                            break;
-                    }
+                    int otherPlayerIndex = other.gameObject.transform.parent.gameObject.GetComponent<PlayerMovement>().playerIndex;
+                    startController.playerScores[otherPlayerIndex - 1]++;
                     Die();
                 }
             }

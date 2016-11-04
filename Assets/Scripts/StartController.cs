@@ -10,10 +10,13 @@ public class StartController : MonoBehaviour {
     //public Texture gameOptionsScreen;
     public Texture p1win;
     public Texture p2win;
+    public Texture one;
+    public GameObject[] numbers;
 
     public Texture[] gameOptionsScreens = new Texture[5];
 
-
+    public readonly float GAME_TIME = 90f;
+    public readonly float NPC_DEATH_COOLDOWN = 5f;
 
     public bool displayGameOptions;
     public int numOfRounds;
@@ -28,19 +31,13 @@ public class StartController : MonoBehaviour {
     public GameObject mage;
     public GameObject ranger;
     public GameObject rogue;
-
-    //public List<string> playerList = new List<string>(4);
-
-    public string player1;
-    public string player2;
-    public string player3;
-    public string player4;
-
+    
     public int p1score;
     public int p2score;
     public int p3score;
     public int p4score;
 
+    public int[] playerScores = new int[4];
 
     public List<string> players;
 
@@ -59,22 +56,7 @@ public class StartController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        string[] joystickNames = Input.GetJoystickNames();
-        for (int i = 0; i < joystickNames.Length; i++)
-        {
-            if (joystickNames[i].Contains("XBOX"))
-            {
-                numControllersConnected++;
-            }
-            Debug.Log("@" + joystickNames[i]);
-        }
-        Debug.Log("controllers connected: " + numControllersConnected);
-
-        p1score = 0;
-        p2score = 0;
-        p3score = 0;
-        p4score = 0;
-
+        // Check to see if the set of rounds is over, destroy current game if over.
         GameObject temp = GameObject.Find("StartController");
         if (temp.GetComponent<StartController>().done)
         {
@@ -85,13 +67,35 @@ public class StartController : MonoBehaviour {
         {
             done = false;
         }
+
+
+        // Initialize the players' character selections to empty
+        players = new List<string>(4);
+        InitCharacterSelectionTest();
+
+        // Get the number of controllers that are connected
+        string[] joystickNames = Input.GetJoystickNames();
+        for (int i = 0; i < joystickNames.Length; i++)
+        {
+            if (joystickNames[i].Contains("XBOX"))
+            {
+                numControllersConnected++;
+            }
+        }
+        Debug.Log("controllers connected: " + numControllersConnected);
+
+        // Initialize scores of players to zero;
+        for (int i = 0; i < playerScores.Length; i++)
+        {
+            playerScores[i] = 0;
+        }
         
         // List of all the unique npc gameobject names used for killing them off in sudden death
         //npcList = new ArrayList();
         npcList = new List<GameObject>();
         isGameStarted = false;
         suddenDeathStarted = false;
-        gameTimer = 90f;
+        gameTimer = GAME_TIME;
 
         displayGameOptions = false;
         numOfRounds = 3;
@@ -99,19 +103,10 @@ public class StartController : MonoBehaviour {
         inputReset = false;
 
         // npcs will die off every X seconds when sudden death starts
-        npcDeathCooldown = 5f;
-        npcDeathTimer = npcDeathCooldown;
-
-        players = new List<string>(4);
-        InitCharacterSelectionTest();
-
-        for (int i = 0; i < players.Count; i++)
-        {
-            //Debug.Log(i + "@" + players[i] + "@");
-        }
+        npcDeathTimer = NPC_DEATH_COOLDOWN;
     }
 
-    public void ResetEverything()
+    public void ResetBeforeRound()
     {
         npcList.Clear();
         isGameStarted = false;
@@ -197,7 +192,7 @@ public class StartController : MonoBehaviour {
                     if (npcDeathTimer <= 0f)
                     {
                         // Reset death cooldown
-                        npcDeathTimer = npcDeathCooldown;
+                        npcDeathTimer = NPC_DEATH_COOLDOWN;
 
                         if (npcList.Count > 0)
                         {
@@ -235,24 +230,7 @@ public class StartController : MonoBehaviour {
         {
             if (displayGameOptions)
             {
-                switch(numOfRounds)
-                {
-                    case 1:
-                        GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), gameOptionsScreens[0], ScaleMode.ScaleToFit);
-                        break;
-                    case 2:
-                        GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), gameOptionsScreens[1], ScaleMode.ScaleToFit);
-                        break;
-                    case 3:
-                        GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), gameOptionsScreens[2], ScaleMode.ScaleToFit);
-                        break;
-                    case 4:
-                        GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), gameOptionsScreens[3], ScaleMode.ScaleToFit);
-                        break;
-                    case 5:
-                        GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), gameOptionsScreens[4], ScaleMode.ScaleToFit);
-                        break;
-                }
+                GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), gameOptionsScreens[numOfRounds - 1], ScaleMode.ScaleToFit);
             }
             else
             {
@@ -276,6 +254,7 @@ public class StartController : MonoBehaviour {
 
         if (SceneManager.GetActiveScene().buildIndex == 3)
         {
+            Debug.Log("width: " + Screen.width + " height: " + Screen.height);
             switch(winner)
             {
                 case 1:
@@ -285,6 +264,8 @@ public class StartController : MonoBehaviour {
                     GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), p2win, ScaleMode.ScaleToFit);
                     break;
             }
+
+            GUI.DrawTexture(new Rect(Screen.width / 2 - 25, Screen.height / 2, 50, 100), one);
         }
     }
 
