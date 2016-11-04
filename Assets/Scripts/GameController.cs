@@ -21,8 +21,11 @@ public class GameController : MonoBehaviour {
     int rangerCount;
     int mageCount;
 
+    bool isRoundOver;
+
     // Use this for initialization
     void Start() {
+        isRoundOver = false;
 
         // Count the class numbers to instantiate an even number of NPCs
         warriorCount = 0;
@@ -57,24 +60,26 @@ public class GameController : MonoBehaviour {
 
         numPlayers = playersAlive.Count;
         
-        InstantiateNPCs(npcWarrior, warriorCount);
-        InstantiateNPCs(npcMage, mageCount);
-        InstantiateNPCs(npcRanger, rangerCount);
-        InstantiateNPCs(npcRogue, rogueCount);
+        //InstantiateNPCs(npcWarrior, warriorCount);
+        //InstantiateNPCs(npcMage, mageCount);
+        //InstantiateNPCs(npcRanger, rangerCount);
+        //InstantiateNPCs(npcRogue, rogueCount);
         
         
     }
 
     // Update is called once per frame
     void Update() {
-        CheckForWinner();
+        if (!isRoundOver)
+        {
+            CheckForRoundWinner();
+        }
     }
 
 
     GameObject InstantiatePlayer(string player, int playerIndex)
     {
         GameObject playerObject = null;
-        Debug.Log(playerIndex + player);
 
         if (player == "Warrior")
         {
@@ -130,7 +135,7 @@ public class GameController : MonoBehaviour {
         }
     }
 
-    void CheckForWinner()
+    void CheckForRoundWinner()
     {
         for (int i = 0; i < playersAlive.Count; i++)
         {
@@ -142,6 +147,7 @@ public class GameController : MonoBehaviour {
         
         if (playersAlive.Count == 1)
         {
+            isRoundOver = true;
             startController.winner = playersAlive[0].playerIndex;
             Invoke("Victory", 3);
         }
@@ -158,5 +164,10 @@ public class GameController : MonoBehaviour {
     void Victory()
     {
         SceneManager.LoadScene(3);
+        Debug.Log("p1score" + startController.p1score);
+        Debug.Log("p2score" + startController.p2score);
+
+
+        //startController.InitCharacterSelection();
     }
 }

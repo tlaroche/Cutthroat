@@ -80,9 +80,7 @@ public class PlayerMovement : MonoBehaviour {
 
     void OnGUI()
     {
-        //GUI.Label(new Rect(0, 0, 200, 100), stack[stack.Count - 1] + "");
-        //GUI.Label(new Rect(0, 0, 200, 100), "hor:" + horizontal + " vert:" + vertical);
-        //GUI.Label(new Rect(0, 0, 200, 100), "Direction: " + direction + "Pos:" + transform.position);
+
     }
 
     // Moves the player based on the input from the controller joystick

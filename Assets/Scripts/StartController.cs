@@ -17,6 +17,7 @@ public class StartController : MonoBehaviour {
 
     public bool displayGameOptions;
     public int numOfRounds;
+    public int numControllersConnected;
 
     public readonly int PLAYER1_INDEX = 1;
     public readonly int PLAYER2_INDEX = 2;
@@ -54,17 +55,21 @@ public class StartController : MonoBehaviour {
 
 
     bool inputReset;
-
-    public void ResetEverything()
-    {
-        npcList.Clear();
-        isGameStarted = false;
-        suddenDeathStarted = false;
-        gameTimer = 90f;
-    }
+    
 
 	// Use this for initialization
 	void Start () {
+        string[] joystickNames = Input.GetJoystickNames();
+        for (int i = 0; i < joystickNames.Length; i++)
+        {
+            if (joystickNames[i].Contains("XBOX"))
+            {
+                numControllersConnected++;
+            }
+            Debug.Log("@" + joystickNames[i]);
+        }
+        Debug.Log("controllers connected: " + numControllersConnected);
+
         p1score = 0;
         p2score = 0;
         p3score = 0;
@@ -98,15 +103,20 @@ public class StartController : MonoBehaviour {
         npcDeathTimer = npcDeathCooldown;
 
         players = new List<string>(4);
-        for (int i = 0; i < 4; i++)
-        {
-            players.Add("");
-        }
+        InitCharacterSelectionTest();
 
         for (int i = 0; i < players.Count; i++)
         {
-            Debug.Log(i + "@" + players[i] + "@");
+            //Debug.Log(i + "@" + players[i] + "@");
         }
+    }
+
+    public void ResetEverything()
+    {
+        npcList.Clear();
+        isGameStarted = false;
+        suddenDeathStarted = false;
+        gameTimer = 90f;
     }
 
     void Awake()
@@ -140,7 +150,7 @@ public class StartController : MonoBehaviour {
                 {
                     inputReset = false;
                 }
-                Debug.Log(numOfRounds);
+                //Debug.Log(numOfRounds);
 
                 if (Input.GetButtonDown("Start" + PLAYER1_INDEX))
                 {
@@ -283,5 +293,30 @@ public class StartController : MonoBehaviour {
         int minutes = Mathf.FloorToInt(gameTimer / 60f);
         int seconds = Mathf.FloorToInt(gameTimer - minutes * 60);
         return (string.Format("{0:0}:{1:00}", minutes, seconds));
+    }
+
+    public void InitCharacterSelectionTest()
+    {
+        players.Clear();
+        for (int i = 0; i < players.Capacity; i++)
+        {
+            if (i == 1)
+            {
+                players.Add("Warrior");
+            }
+            else
+            {
+                players.Add("");
+            }
+        }
+    }
+
+    public void InitCharacterSelection()
+    {
+        players.Clear();
+        for (int i = 0; i < 4; i++)
+        {
+            players.Add("");
+        }
     }
 }

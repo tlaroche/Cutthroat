@@ -8,48 +8,37 @@ public class CharacterSelectionController : MonoBehaviour {
     StartController startController;
     //public Texture[] checkmarks = new Texture[3];
     public Texture[] charSelectScreen = new Texture[16];
-
-    bool p1ready;
-    bool p2ready;
-    bool p3ready;
-    bool p4ready;
-
+    
     bool[] playerReadyCheck = new bool[4];
 
     GameObject[] checks = new GameObject[4];
 
-    int numPlayers = 2;
+    //int numPlayers = 2;
 
 	// Use this for initialization
 	void Start () {
         startController = GameObject.Find("StartController").GetComponent<StartController>();
-        /*startController.player1 = "";
-        startController.player2 = "";
-        startController.player3 = "";
-        startController.player4 = "";*/
-
+        startController.InitCharacterSelection();
 
         for (int i = 0; i < 4; i++)
         {
             playerReadyCheck[i] = false;
         }
-        p1ready = false;
-        p2ready = false;
-        p3ready = false;
-        p4ready = false;
     }
 	
 	// Update is called once per frame
     void Update()
     {
-        if (startController.players.Count >= numPlayers)
+        if (startController.players.Count >= startController.numControllersConnected)
         {
-            for (int i = 0; i < numPlayers; i++)
+            // Loop through the players and check if they have a character selected
+            for (int i = 0; i < startController.numControllersConnected; i++)
             {
                 CheckPlayerLockIn(startController.players, i);
             }
         }
 
+        // Old way of checking player lock in
         //CheckPlayerLockIn(ref startController.player1, startController.PLAYER1_INDEX);
         //CheckPlayerLockIn(ref startController.player2, startController.PLAYER2_INDEX);
         //CheckPlayerLockIn(ref startController.player3, startController.PLAYER3_INDEX);
@@ -62,7 +51,7 @@ public class CharacterSelectionController : MonoBehaviour {
     void CheckPlayerLockIn(List<string> players, int index)
     {
         // Press A to select Warrior
-        if (/*Input.GetButtonDown("0") || */Input.GetButtonDown("A" + (index + 1)))
+        if (Input.GetButtonDown("A" + (index + 1)))
         {
             if (players[index] == "")
             {
@@ -75,7 +64,7 @@ public class CharacterSelectionController : MonoBehaviour {
             //Debug.Log(players[index]);
         }
         // Press B to select Ranger
-        else if (/*Input.GetButtonDown("1") ||*/ Input.GetButtonDown("B" + (index + 1)))
+        else if (Input.GetButtonDown("B" + (index + 1)))
         {
             if (players[index] == "")
             {
@@ -88,7 +77,7 @@ public class CharacterSelectionController : MonoBehaviour {
             //Debug.Log(players[index]);
         }
         // Press X to select Mage
-        else if (/*Input.GetButtonDown("2") ||*/ Input.GetButtonDown("X" + (index + 1)))
+        else if (Input.GetButtonDown("X" + (index + 1)))
         {
             if (players[index] == "")
             {
@@ -101,7 +90,7 @@ public class CharacterSelectionController : MonoBehaviour {
             //Debug.Log(players[index]);
         }
         // Press Y to select Rogue
-        else if (/*Input.GetButtonDown("3") ||*/ Input.GetButtonDown("Y" + (index + 1)))
+        else if (Input.GetButtonDown("Y" + (index + 1)))
         {
             if (players[index] == "")
             {
@@ -113,19 +102,17 @@ public class CharacterSelectionController : MonoBehaviour {
             }
             //Debug.Log(players[index]);
         }
-        //Debug.Log(playerIndex + "player:" + player);
     }
 
     // When someone presses start, make sure all players have chosen a class to play
     void CheckAllPlayersReadyToStartGame()
     {
 
-        if (Input.GetButtonDown("Start1") || Input.GetButtonDown("Start2") || Input.GetKeyDown("7"))
+        if (Input.GetButtonDown("Start1") || Input.GetButtonDown("Start2") || Input.GetButtonDown("Start3") || Input.GetButtonDown("Start4"))
         {
-
             bool allPlayersReady = true;
 
-            for (int i = 0; i < numPlayers; i++)
+            for (int i = 0; i < startController.numControllersConnected; i++)
             {
                 if (startController.players[i] == "")
                 {
@@ -162,24 +149,6 @@ public class CharacterSelectionController : MonoBehaviour {
         if (SceneManager.GetActiveScene().buildIndex == 1)
         {
             DrawCharSelectScreen(charSelectScreen[screen]);
-            
-            /*int screenEdgeLength = (Screen.width > Screen.height) ? Screen.height : Screen.width;
-            bool heightLimited = (Screen.width > Screen.height) ? true : false;
-
-            if (heightLimited)
-            {
-                if (player1selected)
-                {
-                    GUI.DrawTexture(new Rect((Screen.width - Screen.height) / 2, 0, Screen.width / 10, Screen.height / 10), checkmark, ScaleMode.ScaleToFit);
-                }
-            }
-            else
-            {
-                if (player1selected)
-                {
-                    GUI.DrawTexture(new Rect(0, (Screen.height - Screen.width) / 2, Screen.width / 10, Screen.height / 10), checkmark, ScaleMode.ScaleToFit);
-                }
-            }*/
         }
     }
 
@@ -187,5 +156,4 @@ public class CharacterSelectionController : MonoBehaviour {
     {
         GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), screen, ScaleMode.ScaleToFit);
     }
-
 }
