@@ -288,7 +288,7 @@ MonoBehaviour:
   - {fileID: 2800000, guid: f3bfb65112619ae40b775b79435d9c63, type: 3}
   - {fileID: 2800000, guid: a6061e499da6bac4baca10d613ad2107, type: 3}
   - {fileID: 2800000, guid: 1e6fbee7eeaa81a4682f4ecd7d110d59, type: 3}
-  gameModeSelection: {fileID: 2800000, guid: e2cb6b487750abb43b0ad14c2a5eb134, type: 3}
+  gameModeSelection: {fileID: 2800000, guid: f2ba5011056a9eb48b68cbc7f07b03b0, type: 3}
   displayGameOptions: 0
   displayGameModeSelect: 0
   numOfRounds: 0

@@ -16,6 +16,8 @@ public class StartController : MonoBehaviour {
     public Texture[] gameOptionsScreens = new Texture[5];
     public Texture gameModeSelection;
 
+    public bool isFreeForAllMode;
+
     public readonly float GAME_TIME = 90f;
     public readonly float NPC_DEATH_COOLDOWN = 5f;
 
