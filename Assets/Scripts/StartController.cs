@@ -14,11 +14,13 @@ public class StartController : MonoBehaviour {
     public GameObject[] numbers;
 
     public Texture[] gameOptionsScreens = new Texture[5];
+    public Texture gameModeSelection;
 
     public readonly float GAME_TIME = 90f;
     public readonly float NPC_DEATH_COOLDOWN = 5f;
 
     public bool displayGameOptions;
+    public bool displayGameModeSelect;
     public int numOfRounds;
     public int numControllersConnected;
 
@@ -98,6 +100,7 @@ public class StartController : MonoBehaviour {
         gameTimer = GAME_TIME;
 
         displayGameOptions = false;
+        displayGameModeSelect = false;
         numOfRounds = 3;
 
         inputReset = false;
@@ -147,20 +150,31 @@ public class StartController : MonoBehaviour {
                 }
                 //Debug.Log(numOfRounds);
 
-                if (Input.GetButtonDown("Start" + PLAYER1_INDEX))
+                if (Input.GetButtonDown("Start1"))
                 {
                     SceneManager.LoadScene(1);
                 }
 
             }
-
-            // You can combine these two if statements, but separated them for debugging purposes
-            if (Input.GetButtonDown("Start" + PLAYER1_INDEX) || Input.GetButtonDown("Start" + PLAYER2_INDEX))
+            else if (displayGameModeSelect)
             {
-                //SceneManager.LoadScene(1);
-                displayGameOptions = true;
+                if (Input.GetButtonDown("A1") || Input.GetButtonDown("A2") || Input.GetButtonDown("A3") || Input.GetButtonDown("A4"))
+                {
+                    displayGameOptions = true;
+                }
+                else if (Input.GetButtonDown("B1") || Input.GetButtonDown("B2") || Input.GetButtonDown("B3") || Input.GetButtonDown("B4"))
+                {
+                    SceneManager.LoadScene(4);
+                }
             }
-
+            else
+            {
+                if (Input.GetButtonDown("Start1") || Input.GetButtonDown("Start2") || Input.GetButtonDown("Start3") || Input.GetButtonDown("Start4"))
+                {
+                    //SceneManager.LoadScene(1);
+                    displayGameModeSelect = true;
+                }
+            }
         }
         // Game arena screen
         else if (SceneManager.GetActiveScene().buildIndex == 2)
@@ -231,6 +245,10 @@ public class StartController : MonoBehaviour {
             if (displayGameOptions)
             {
                 GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), gameOptionsScreens[numOfRounds - 1], ScaleMode.ScaleToFit);
+            }
+            else if (displayGameModeSelect)
+            {
+                GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), gameModeSelection, ScaleMode.ScaleToFit);
             }
             else
             {

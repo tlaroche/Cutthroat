@@ -11,6 +11,8 @@ TagManager:
   - NPCMage
   - Trap
   - Shield
+  - Team1
+  - Team2
   layers:
   - Default
   - TransparentFX
