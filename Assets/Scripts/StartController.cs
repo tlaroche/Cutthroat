@@ -10,8 +10,7 @@ public class StartController : MonoBehaviour {
     //public Texture gameOptionsScreen;
     public Texture p1win;
     public Texture p2win;
-    public Texture one;
-    public GameObject[] numbers;
+    public Texture[] numbers;
 
     public Texture[] gameOptionsScreens = new Texture[5];
     public Texture gameModeSelection;
@@ -81,13 +80,12 @@ public class StartController : MonoBehaviour {
         teams = new List<string>(2);
         teams.Add("");
         teams.Add("");
-        InitCharacterSelectionTest();
 
         // Get the number of controllers that are connected
         string[] joystickNames = Input.GetJoystickNames();
         for (int i = 0; i < joystickNames.Length; i++)
         {
-            if (joystickNames[i].Contains("XBOX"))
+            if (joystickNames[i].Contains("XBOX") || joystickNames[i].Contains("Xbox"))
             {
                 numControllersConnected++;
             }
@@ -158,9 +156,13 @@ public class StartController : MonoBehaviour {
                 }
                 //Debug.Log(numOfRounds);
 
-                if (Input.GetButtonDown("Start1"))
+                if (Input.GetButtonDown("Start1") || Input.GetButtonDown("Start2") || Input.GetButtonDown("Start3") || Input.GetButtonDown("Start4"))
                 {
                     SceneManager.LoadScene(1);
+                }
+                else if (Input.GetButtonDown("Back1") || Input.GetButtonDown("Back2") || Input.GetButtonDown("Back3") || Input.GetButtonDown("Back4"))
+                {
+                    displayGameOptions = false;
                 }
 
             }
@@ -176,12 +178,15 @@ public class StartController : MonoBehaviour {
                     isFreeForAllMode = false;
                     SceneManager.LoadScene(4);
                 }
+                else if (Input.GetButtonDown("Back1") || Input.GetButtonDown("Back2") || Input.GetButtonDown("Back3") || Input.GetButtonDown("Back4"))
+                {
+                    displayGameModeSelect = false;
+                }
             }
             else
             {
                 if (Input.GetButtonDown("Start1") || Input.GetButtonDown("Start2") || Input.GetButtonDown("Start3") || Input.GetButtonDown("Start4"))
                 {
-                    //SceneManager.LoadScene(1);
                     displayGameModeSelect = true;
                 }
             }
@@ -228,7 +233,7 @@ public class StartController : MonoBehaviour {
             }
         }
 
-        if (SceneManager.GetActiveScene().buildIndex == 3 && (Input.GetButtonDown("Start1") || Input.GetButtonDown("Start2")))
+        if (SceneManager.GetActiveScene().buildIndex == 3 && (Input.GetButtonDown("Start1") || Input.GetButtonDown("Start2") || Input.GetButtonDown("Start3") || Input.GetButtonDown("Start4")))
         {
             if (isFreeForAllMode)
             {
@@ -299,11 +304,16 @@ public class StartController : MonoBehaviour {
                         GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), p1win, ScaleMode.ScaleToFit);
                         break;
                     case 2:
-                        GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), p2win, ScaleMode.ScaleToFit);
+                        GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), p1win, ScaleMode.ScaleToFit);
+                        break;
+                    case 3:
+                        GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), p1win, ScaleMode.ScaleToFit);
+                        break;
+                    case 4:
+                        GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), p1win, ScaleMode.ScaleToFit);
                         break;
                 }
-
-                GUI.DrawTexture(new Rect(Screen.width / 2 - 25, Screen.height / 2, 50, 100), one);
+                GUI.DrawTexture(new Rect(Screen.width / 2 - 25, Screen.height / 2, 50, 100), numbers[winner]);
             }
             else
             {
@@ -316,8 +326,6 @@ public class StartController : MonoBehaviour {
                         GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), p2win, ScaleMode.ScaleToFit);
                         break;
                 }
-
-                GUI.DrawTexture(new Rect(Screen.width / 2 - 25, Screen.height / 2, 50, 100), one);
             }
         }
     }

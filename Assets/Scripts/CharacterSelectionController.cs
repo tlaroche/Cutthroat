@@ -18,8 +18,8 @@ public class CharacterSelectionController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         startController = GameObject.Find("StartController").GetComponent<StartController>();
-        //startController.InitCharacterSelection();
-        startController.InitCharacterSelectionTest();
+        startController.InitCharacterSelection();
+        //startController.InitCharacterSelectionTest();
 
         for (int i = 0; i < 4; i++)
         {

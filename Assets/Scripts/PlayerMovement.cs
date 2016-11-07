@@ -217,7 +217,8 @@ public class PlayerMovement : MonoBehaviour {
             // When the player attacks, an attack animation with a collider spawns for a short duration. The attack collider is 
             // on top of the player and will trigger this method, so to prevent the player from killing itself, we need to 
             // add a check to make sure we are not killing ourselves.
-            if (other.gameObject.tag == "Basic Attack" && !other.transform.IsChildOf(transform) && other.transform.parent.tag != tag)
+            bool sameTeam = other.transform.parent.tag == tag && tag.Contains("Team");
+            if (other.gameObject.tag == "Basic Attack" && !other.transform.IsChildOf(transform) && !sameTeam)
             {
                 if (feignDeathActive)
                 {
@@ -228,6 +229,19 @@ public class PlayerMovement : MonoBehaviour {
                     int otherPlayerIndex = other.gameObject.transform.parent.gameObject.GetComponent<PlayerMovement>().playerIndex;
                     startController.playerScores[otherPlayerIndex - 1]++;
                     Die();
+                }
+            }
+            else if (other.gameObject.tag == "Delayed Kill" && !other.transform.IsChildOf(transform) && !sameTeam)
+            {
+                if (feignDeathActive)
+                {
+                    FakeDeath();
+                }
+                else
+                {
+                    int otherPlayerIndex = other.gameObject.transform.parent.gameObject.GetComponent<PlayerMovement>().playerIndex;
+                    startController.playerScores[otherPlayerIndex - 1]++;
+                    Invoke("Die", 3);
                 }
             }
         }

@@ -270,18 +270,17 @@ MonoBehaviour:
   startScreen: {fileID: 2800000, guid: ff0c0184f78e970408e87dbe3013f959, type: 3}
   p1win: {fileID: 2800000, guid: 38e55d3e11c480b4d8fdf901d002fd59, type: 3}
   p2win: {fileID: 2800000, guid: e2cb6b487750abb43b0ad14c2a5eb134, type: 3}
-  one: {fileID: 2800000, guid: 4b3b4ff824c63dc46b7f700d6f46fb50, type: 3}
   numbers:
-  - {fileID: 1000012539901062, guid: 6e183155f45def944b9b44bca7b2cac0, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 2800000, guid: 29c1a84b0ebcdc74391976cefa44e145, type: 3}
+  - {fileID: 2800000, guid: 5e2c4a0343b83f642b221b500ef3c28f, type: 3}
+  - {fileID: 2800000, guid: 4fe7f916b1a92094ea90d6b73908fcbd, type: 3}
+  - {fileID: 2800000, guid: 9caea5b567d762b40b2d8085ce2bffe7, type: 3}
+  - {fileID: 2800000, guid: df09a266037232446b396a85676dfdc2, type: 3}
+  - {fileID: 2800000, guid: 3cfa13631acb66c44a3e47cdf22d065d, type: 3}
+  - {fileID: 2800000, guid: 89e604fb954a97f47adc2eac8d702112, type: 3}
+  - {fileID: 2800000, guid: f34057f3575aa71418c58ef75ad54d38, type: 3}
+  - {fileID: 2800000, guid: 2208066c909630343aea1ac67724ce72, type: 3}
+  - {fileID: 2800000, guid: cd3926f7fb3f12c43a0ae1d59341852a, type: 3}
   gameOptionsScreens:
   - {fileID: 2800000, guid: 27b372bee057bd04fa3c34889312edb2, type: 3}
   - {fileID: 2800000, guid: 259a5a48c610b84479bad99240c4aaab, type: 3}
@@ -289,6 +288,7 @@ MonoBehaviour:
   - {fileID: 2800000, guid: a6061e499da6bac4baca10d613ad2107, type: 3}
   - {fileID: 2800000, guid: 1e6fbee7eeaa81a4682f4ecd7d110d59, type: 3}
   gameModeSelection: {fileID: 2800000, guid: f2ba5011056a9eb48b68cbc7f07b03b0, type: 3}
+  isFreeForAllMode: 0
   displayGameOptions: 0
   displayGameModeSelect: 0
   numOfRounds: 0
@@ -303,6 +303,9 @@ MonoBehaviour:
   p4score: 0
   playerScores: 00000000000000000000000000000000
   players: []
+  teams: []
+  team1: 
+  team2: 
   winner: 0
   done: 0
 --- !u!4 &1957810992

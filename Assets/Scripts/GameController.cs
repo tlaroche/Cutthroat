@@ -269,7 +269,5 @@ public class GameController : MonoBehaviour {
         {
             Debug.Log("player" + (i + 1) + "score " + startController.playerScores[i]);
         }
-
-        //startController.InitCharacterSelection();
     }
 }
