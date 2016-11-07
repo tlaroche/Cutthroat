@@ -44,6 +44,9 @@ public class StartController : MonoBehaviour {
     public int[] playerScores = new int[4];
 
     public List<string> players;
+    public List<string> teams;
+    public List<int> team1;
+    public List<int> team2;
 
     float gameTimer;
     bool isGameStarted;
@@ -75,6 +78,9 @@ public class StartController : MonoBehaviour {
 
         // Initialize the players' character selections to empty
         players = new List<string>(4);
+        teams = new List<string>(2);
+        teams.Add("");
+        teams.Add("");
         InitCharacterSelectionTest();
 
         // Get the number of controllers that are connected
@@ -163,9 +169,11 @@ public class StartController : MonoBehaviour {
                 if (Input.GetButtonDown("A1") || Input.GetButtonDown("A2") || Input.GetButtonDown("A3") || Input.GetButtonDown("A4"))
                 {
                     displayGameOptions = true;
+                    isFreeForAllMode = true;
                 }
                 else if (Input.GetButtonDown("B1") || Input.GetButtonDown("B2") || Input.GetButtonDown("B3") || Input.GetButtonDown("B4"))
                 {
+                    isFreeForAllMode = false;
                     SceneManager.LoadScene(4);
                 }
             }
@@ -222,16 +230,25 @@ public class StartController : MonoBehaviour {
 
         if (SceneManager.GetActiveScene().buildIndex == 3 && (Input.GetButtonDown("Start1") || Input.GetButtonDown("Start2")))
         {
-            if (numOfRounds > 1)
+            if (isFreeForAllMode)
             {
-                numOfRounds--;
-                SceneManager.LoadScene(1);
+                if (numOfRounds > 1)
+                {
+                    numOfRounds--;
+                    SceneManager.LoadScene(1);
+                }
+                else
+                {
+                    done = true;
+                    SceneManager.LoadScene(0);
+                }
             }
             else
             {
                 done = true;
                 SceneManager.LoadScene(0);
             }
+            
         }
 
 	}
@@ -274,18 +291,34 @@ public class StartController : MonoBehaviour {
 
         if (SceneManager.GetActiveScene().buildIndex == 3)
         {
-            Debug.Log("width: " + Screen.width + " height: " + Screen.height);
-            switch(winner)
+            if (isFreeForAllMode)
             {
-                case 1:
-                    GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), p1win, ScaleMode.ScaleToFit);
-                    break;
-                case 2:
-                    GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), p2win, ScaleMode.ScaleToFit);
-                    break;
-            }
+                switch (winner)
+                {
+                    case 1:
+                        GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), p1win, ScaleMode.ScaleToFit);
+                        break;
+                    case 2:
+                        GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), p2win, ScaleMode.ScaleToFit);
+                        break;
+                }
 
-            GUI.DrawTexture(new Rect(Screen.width / 2 - 25, Screen.height / 2, 50, 100), one);
+                GUI.DrawTexture(new Rect(Screen.width / 2 - 25, Screen.height / 2, 50, 100), one);
+            }
+            else
+            {
+                switch (winner)
+                {
+                    case 1:
+                        GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), p1win, ScaleMode.ScaleToFit);
+                        break;
+                    case 2:
+                        GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), p2win, ScaleMode.ScaleToFit);
+                        break;
+                }
+
+                GUI.DrawTexture(new Rect(Screen.width / 2 - 25, Screen.height / 2, 50, 100), one);
+            }
         }
     }
 

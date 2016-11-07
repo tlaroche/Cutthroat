@@ -36,43 +36,86 @@ public class GameController : MonoBehaviour {
         startController = GameObject.Find("StartController").GetComponent<StartController>();
         startController.ResetBeforeRound();
         
-
-
-        for (int i = 0; i < playerList.Capacity; i++)
+        numPlayers = playersAlive.Count;
+        if (startController.isFreeForAllMode)
         {
-            // Instantiate the player to the character they have chosen, and set their player index to i+1
-            GameObject playerObject = InstantiatePlayer(startController.players[i], i + 1);
-            //playerList.Add(playerObject.GetComponent<PlayerMovement>());
-            if (playerObject == null)
+            for (int i = 0; i < playerList.Capacity; i++)
             {
-                playerList.Add(null);
-            }
-            else
-            {
-                playerList.Add(playerObject.GetComponent<PlayerMovement>());
+                // Instantiate the player to the character they have chosen, and set their player index to i+1
+                GameObject playerObject = InstantiatePlayer(startController.players[i], i + 1);
+                //playerList.Add(playerObject.GetComponent<PlayerMovement>());
+                if (playerObject == null)
+                {
+                    playerList.Add(null);
+                }
+                else
+                {
+                    playerList.Add(playerObject.GetComponent<PlayerMovement>());
+                }
+
+                if (playerList[i] != null)
+                {
+                    playersAlive.Add(playerList[i]);
+                }
             }
 
-            if (playerList[i] != null)
+            //InstantiateNPCs(npcWarrior, warriorCount, 8, 12);
+            //InstantiateNPCs(npcMage, mageCount, 8, 12);
+            //InstantiateNPCs(npcRanger, rangerCount, 8, 12);
+            //InstantiateNPCs(npcRogue, rogueCount, 8, 12);
+            
+        }
+        else
+        {
+            foreach (int playerIndex in startController.team1)
             {
-                playersAlive.Add(playerList[i]);
+                Debug.Log(startController.players[playerIndex - 1]);
+                GameObject playerObject = InstantiatePlayer(startController.players[playerIndex - 1], playerIndex);
+                playerObject.tag = "Team1";
+
+                PlayerMovement player = playerObject.GetComponent<PlayerMovement>();
+                player.teamNumber = 1;
+
+                playerList.Add(player);
+                playersAlive.Add(player);
+
+                Debug.Log(playerObject.tag);
             }
+            foreach (int playerIndex in startController.team2)
+            {
+                Debug.Log(startController.players[playerIndex - 1]);
+                GameObject playerObject = InstantiatePlayer(startController.players[playerIndex - 1], playerIndex);
+                playerObject.tag = "Team2";
+
+                PlayerMovement player = playerObject.GetComponent<PlayerMovement>();
+                player.teamNumber = 2;
+
+                playerList.Add(player);
+                playersAlive.Add(player);
+
+                Debug.Log(playerObject.tag);
+            }
+            foreach (string s in startController.players)
+            {
+                Debug.Log(s);
+            }
+
+            //InstantiateNPCs(startController.teams[0], 0, 18, 22);
+            //InstantiateNPCs(startController.teams[1], 0, 18, 22);
         }
 
-        numPlayers = playersAlive.Count;
-        
-        //InstantiateNPCs(npcWarrior, warriorCount);
-        //InstantiateNPCs(npcMage, mageCount);
-        //InstantiateNPCs(npcRanger, rangerCount);
-        //InstantiateNPCs(npcRogue, rogueCount);
-        
-        
+
     }
 
     // Update is called once per frame
     void Update() {
-        if (!isRoundOver)
+        if (!isRoundOver && startController.isFreeForAllMode)
         {
-            CheckForRoundWinner();
+            CheckForFFAWinner();
+        }
+        else if (!isRoundOver)
+        {
+            CheckForTeamModeWinner();
         }
     }
 
@@ -124,10 +167,30 @@ public class GameController : MonoBehaviour {
         return playerObject;
     }
 
-    void InstantiateNPCs(GameObject npcType, int classCount)
+    void InstantiateNPCs(string npc, int classCount, int minNPC, int maxNPC)
+    {
+        if (npc == "Warrior")
+        {
+            InstantiateNPCs(npcWarrior, warriorCount, minNPC, maxNPC);
+        }
+        else if (npc == "Ranger")
+        {
+            InstantiateNPCs(npcRanger, rangerCount, minNPC, maxNPC);
+        }
+        else if (npc == "Mage")
+        {
+            InstantiateNPCs(npcMage, mageCount, minNPC, maxNPC);
+        }
+        else if (npc == "Rogue")
+        {
+            InstantiateNPCs(npcRogue, rogueCount, minNPC, maxNPC);
+        }
+    }
+
+    void InstantiateNPCs(GameObject npcType, int classCount, int minNPC, int maxNPC)
     {
         // Number of NPCs to be generated with the number of players taken into account
-        int numNPC = Random.Range(8, 12) - classCount;
+        int numNPC = Random.Range(minNPC, maxNPC) - classCount;
         for (int i = 0; i < numNPC; i++)
         {
             GameObject npcObject = (GameObject) Instantiate(npcType, new Vector2(Random.Range(-29f, 29f), Random.Range(-29f, 29f)), Quaternion.identity);
@@ -135,7 +198,8 @@ public class GameController : MonoBehaviour {
         }
     }
 
-    void CheckForRoundWinner()
+    // Check for free for all winner
+    void CheckForFFAWinner()
     {
         for (int i = 0; i < playersAlive.Count; i++)
         {
@@ -146,6 +210,42 @@ public class GameController : MonoBehaviour {
         }
         
         if (playersAlive.Count == 1)
+        {
+            isRoundOver = true;
+            startController.winner = playersAlive[0].playerIndex;
+            Invoke("Victory", 3);
+        }
+    }
+
+    void CheckForTeamModeWinner()
+    {
+        Debug.Log(playersAlive.Count);
+        for (int i = 0; i < playersAlive.Count; i++)
+        {
+            if (playersAlive[i].isDead)
+            {
+                playersAlive.Remove(playersAlive[i]);
+            }
+        }
+
+        bool oneTeamAlive = true;
+        if (playersAlive.Count == 0)
+        {
+            oneTeamAlive = true;
+        }
+        else
+        {
+            for (int i = 0; i < playersAlive.Count - 1; i++)
+            {
+                if (playersAlive[i].teamNumber != playersAlive[i + 1].teamNumber)
+                {
+                    oneTeamAlive = false;
+                    break;
+                }
+            }
+        }
+
+        if (oneTeamAlive)
         {
             isRoundOver = true;
             startController.winner = playersAlive[0].playerIndex;

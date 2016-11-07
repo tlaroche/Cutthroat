@@ -1,16 +1,20 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 
 public class TeamSelectionController : MonoBehaviour {
+    StartController startController;
 
     public Texture characterSelectionScreen;
-    public Texture[] teamBubble;
+    public Texture[] teamBubbles;
+    public Texture[] playerBubbles;
 
-    public List<int> team1 = new List<int>();
-    public List<int> team2 = new List<int>();
+    public List<int> team1;
+    public List<int> team2;
 
-    public string[] teamSelection = new string[2];
+    //public string[] teamSelection = new string[2];
 
+    bool teamsFull;
     bool warriorTaken;
     bool rangerTaken;
     bool mageTaken;
@@ -18,8 +22,15 @@ public class TeamSelectionController : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        teamSelection[0] = "";
-        teamSelection[1] = "";
+        startController = GameObject.Find("StartController").GetComponent<StartController>();
+        team1 = startController.team1;
+        team2 = startController.team2;
+
+        //teamSelection[0] = "";
+        //teamSelection[1] = "Warrior";
+        startController.teams[0] = "";
+        startController.teams[1] = "Rogue";
+        teamsFull = true;
         warriorTaken = false;
         rangerTaken = false;
         mageTaken = false;
@@ -34,21 +45,33 @@ public class TeamSelectionController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        CheckTeamCharSelect(team1, 0);
-        CheckTeamCharSelect(team2, 1);
+        //CheckTeamCharSelect(team1, 0);
+        //CheckTeamCharSelect(team2, 1);
+        Team1CharSelect();
+        Team2CharSelect();
+        CheckReadyStartGame();
     }
 
     void OnGUI()
     {
         GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), characterSelectionScreen, ScaleMode.ScaleToFit);
 
-        if (teamSelection[0] != "")
+        if (teamsFull)
         {
 
+            GUI.DrawTexture(new Rect(610, 60, 80, 80), playerBubbles[0]);
+            GUI.DrawTexture(new Rect(710, 60, 80, 80), playerBubbles[1]);
+            GUI.DrawTexture(new Rect(1150, 60, 80, 80), playerBubbles[2]);
+            GUI.DrawTexture(new Rect(1250, 60, 80, 80), playerBubbles[3]);
         }
-        else if (teamSelection[1] != "")
-        {
 
+        if (startController.teams[0] != "")
+        {
+            DrawTeamSelectionBubble(startController.teams[0], teamBubbles[0]);
+        }
+        if (startController.teams[1] != "")
+        {
+            DrawTeamSelectionBubble(startController.teams[1], teamBubbles[1]);
         }
     }
 
@@ -56,42 +79,133 @@ public class TeamSelectionController : MonoBehaviour {
     {
         for (int i = 0; i < team.Count; i++)
         {
-            string selection = GetPlayerCharSelect(team[i]);
-            if (selection != "")
+            string selection = GetPlayerCharSelect(team[i], teamNumber);
+            if (selection != null)
             {
-                teamSelection[teamNumber] = selection;
+                startController.teams[teamNumber] = selection;
             }
         }
     }
 
-    string GetPlayerCharSelect(int playerIndex)
+    void Team1CharSelect()
     {
-        // Press A to select Warrior
-        if (Input.GetButtonDown("A" + (playerIndex + 1)) && !warriorTaken)
+        for (int i = 0; i < team1.Count; i++)
         {
-            return "Warrior";
+            string selection = GetPlayerCharSelect(team1[i], 0);
+            if (selection != null)
+            {
+                startController.teams[0] = selection;
+                startController.players[team1[0] - 1] = selection;
+                startController.players[team1[1] - 1] = selection;
+            }
         }
-        // Press B to select Ranger
-        else if (Input.GetButtonDown("B" + (playerIndex + 1)) && !rangerTaken)
-        {
-            return "Ranger";
-        }
-        // Press X to select Mage
-        else if (Input.GetButtonDown("X" + (playerIndex + 1)) && !mageTaken)
-        {
-            return "Mage";
-        }
-        // Press Y to select Rogue
-        else if (Input.GetButtonDown("Y" + (playerIndex + 1)) && !rogueTaken)
-        {
-            return "Rogue";
-        }
-        else return "";
     }
 
-    void DrawTeamSelectionBubble(string character)
+    void Team2CharSelect()
     {
+        startController.players[team2[0] - 1] = startController.teams[1];
+        startController.players[team2[1] - 1] = startController.teams[1];
 
+        for (int i = 0; i < team2.Count; i++)
+        {
+            string selection = GetPlayerCharSelect(team2[i], 1);
+            if (selection != null)
+            {
+                startController.teams[1] = selection;
+                startController.players[team2[0] - 1] = selection;
+                startController.players[team2[1] - 1] = selection;
+            }
+        }
+    }
+
+    string GetPlayerCharSelect(int playerIndex, int teamNumber)
+    {
+        // Press A to select Warrior
+        if (Input.GetButtonDown("A" + playerIndex) && !warriorTaken)
+        {
+            if (startController.teams[teamNumber] == "")
+            {
+                return "Warrior";
+            }
+            else
+            {
+                return "";
+            }
+        }
+        // Press B to select Ranger
+        else if (Input.GetButtonDown("B" + playerIndex) && !rangerTaken)
+        {
+            if (startController.teams[teamNumber] == "")
+            {
+                return "Ranger";
+            }
+            else
+            {
+                return "";
+            }
+        }
+        // Press X to select Mage
+        else if (Input.GetButtonDown("X" + playerIndex) && !mageTaken)
+        {
+            if (startController.teams[teamNumber] == "")
+            {
+                return "Mage";
+            }
+            else
+            {
+                return "";
+            }
+        }
+        // Press Y to select Rogue
+        else if (Input.GetButtonDown("Y" + playerIndex) && !rogueTaken)
+        {
+            if (startController.teams[teamNumber] == "")
+            {
+                return "Rogue";
+            }
+            else
+            {
+                return "";
+            }
+        }
+        else return null;
+    }
+
+    void DrawTeamSelectionBubble(string character, Texture teamBubble)
+    {
+        if (character == "Warrior")
+        {
+            GUI.DrawTexture(new Rect(480, 490, 80, 80), teamBubble);
+        }
+        else if (character == "Ranger")
+        {
+            GUI.DrawTexture(new Rect(1020, 490, 80, 80), teamBubble);
+        }
+        else if (character == "Mage")
+        {
+            GUI.DrawTexture(new Rect(480, 940, 80, 80), teamBubble);
+        }
+        else if (character == "Rogue")
+        {
+            GUI.DrawTexture(new Rect(1020, 940, 80, 80), teamBubble);
+        }
+    }
+
+    void CheckReadyStartGame()
+    {
+        if (Input.GetButtonDown("Start1") || Input.GetButtonDown("Start2") || Input.GetButtonDown("Start3") || Input.GetButtonDown("Start4"))
+        {
+            Debug.Log("starting");
+            if (startController.teams[0] != "" && startController.teams[1] != "")
+            {
+                SceneManager.LoadScene(2);
+            }
+            else
+            {
+                Debug.Log("t1" + startController.teams[0]);
+                Debug.Log("t2" + startController.teams[1]);
+            }
+        }
     }
 
 

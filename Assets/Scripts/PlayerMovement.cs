@@ -24,6 +24,7 @@ public class PlayerMovement : MonoBehaviour {
     int winner;
 
     public int playerIndex;
+    public int teamNumber;
     private string className;
 
     //private string attackName; // The name of the current player's attack; used to make sure you can't hit yourself with an attack
@@ -216,7 +217,7 @@ public class PlayerMovement : MonoBehaviour {
             // When the player attacks, an attack animation with a collider spawns for a short duration. The attack collider is 
             // on top of the player and will trigger this method, so to prevent the player from killing itself, we need to 
             // add a check to make sure we are not killing ourselves.
-            if (other.gameObject.tag == "Basic Attack" && !other.transform.IsChildOf(transform))
+            if (other.gameObject.tag == "Basic Attack" && !other.transform.IsChildOf(transform) && other.transform.parent.tag != tag)
             {
                 if (feignDeathActive)
                 {
