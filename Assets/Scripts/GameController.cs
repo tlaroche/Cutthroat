@@ -263,11 +263,12 @@ public class GameController : MonoBehaviour {
 
     void Victory()
     {
+        startController.roundsPlayed++;
         SceneManager.LoadScene(3);
         
         for (int i = 0; i < 4; i++)
         {
-            Debug.Log("player" + (i + 1) + "score " + startController.playerScores[i]);
+            //Debug.Log("player" + (i + 1) + "score " + startController.playerScores[i]);
         }
     }
 }

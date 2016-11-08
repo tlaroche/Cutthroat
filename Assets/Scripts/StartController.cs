@@ -8,8 +8,9 @@ public class StartController : MonoBehaviour {
     public List<GameObject> npcList;
     public Texture startScreen;
     //public Texture gameOptionsScreen;
-    public Texture p1win;
-    public Texture p2win;
+    public Texture roundOver;
+    public Texture team1win;
+    public Texture team2win;
     public Texture[] numbers;
 
     public Texture[] gameOptionsScreens = new Texture[5];
@@ -23,6 +24,7 @@ public class StartController : MonoBehaviour {
     public bool displayGameOptions;
     public bool displayGameModeSelect;
     public int numOfRounds;
+    public int roundsPlayed;
     public int numControllersConnected;
 
     public readonly int PLAYER1_INDEX = 1;
@@ -108,6 +110,7 @@ public class StartController : MonoBehaviour {
         displayGameOptions = false;
         displayGameModeSelect = false;
         numOfRounds = 3;
+        roundsPlayed = 0;
 
         inputReset = false;
 
@@ -237,9 +240,10 @@ public class StartController : MonoBehaviour {
         {
             if (isFreeForAllMode)
             {
-                if (numOfRounds > 1)
+                //if (numOfRounds > 1)
+                if (roundsPlayed < numOfRounds)
                 {
-                    numOfRounds--;
+                    //roundsPlayed++;
                     SceneManager.LoadScene(1);
                 }
                 else
@@ -298,10 +302,24 @@ public class StartController : MonoBehaviour {
         {
             if (isFreeForAllMode)
             {
-                switch (winner)
+                Debug.Log(Screen.height + " " + Screen.width);
+
+                GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), roundOver, ScaleMode.ScaleToFit);
+                //GUI.DrawTexture(new Rect(Screen.width / 2, Screen.height/4, 50, 50), numbers[roundsPlayed]);
+                GUI.DrawTexture(new Rect(925, 170, 45, 45), numbers[roundsPlayed]);
+                GUI.DrawTexture(new Rect(1055, 170, 45, 45), numbers[numOfRounds]);
+
+                GUI.DrawTexture(new Rect(695, 320, 45, 45), numbers[winner]);
+
+                DrawPlayerScore(0);
+                DrawPlayerScore(1);
+                DrawPlayerScore(2);
+                DrawPlayerScore(3);
+
+                /*switch (winner)
                 {
                     case 1:
-                        GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), p1win, ScaleMode.ScaleToFit);
+                        GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), roundOver, ScaleMode.ScaleToFit);
                         break;
                     case 2:
                         GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), p1win, ScaleMode.ScaleToFit);
@@ -313,20 +331,52 @@ public class StartController : MonoBehaviour {
                         GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), p1win, ScaleMode.ScaleToFit);
                         break;
                 }
-                GUI.DrawTexture(new Rect(Screen.width / 2 - 25, Screen.height / 2, 50, 100), numbers[winner]);
+                GUI.DrawTexture(new Rect(Screen.width / 2 - 25, Screen.height / 2, 50, 100), numbers[winner]);*/
             }
             else
             {
                 switch (winner)
                 {
                     case 1:
-                        GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), p1win, ScaleMode.ScaleToFit);
+                        GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), team1win, ScaleMode.ScaleToFit);
                         break;
                     case 2:
-                        GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), p2win, ScaleMode.ScaleToFit);
+                        GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), team2win, ScaleMode.ScaleToFit);
                         break;
                 }
             }
+        }
+    }
+
+    void DrawPlayerScore(int playerIndex)
+    {
+        int x;
+        int y = 675;
+        switch(playerIndex)
+        {
+            case 0:
+                x = 550;
+                break;
+            case 1:
+                x = 800;
+                break;
+            case 2:
+                x = 1050;
+                break;
+            case 3:
+                x = 1300;
+                break;
+            default:
+                x = 0;
+                break;
+        }
+        if (players[playerIndex] != "")
+        {
+            GUI.DrawTexture(new Rect(x, y, 90, 90), numbers[playerScores[playerIndex]]);
+        }
+        else
+        {
+            // display x
         }
     }
 

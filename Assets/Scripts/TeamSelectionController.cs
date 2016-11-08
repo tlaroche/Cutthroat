@@ -31,7 +31,7 @@ public class TeamSelectionController : MonoBehaviour {
         //teamSelection[0] = "";
         //teamSelection[1] = "Warrior";
         startController.teams[0] = "";
-        startController.teams[1] = "Rogue";
+        startController.teams[1] = "";
         teamsFull = true;
         warriorTaken = false;
         rangerTaken = false;

@@ -26,7 +26,7 @@ public class Riot : MonoBehaviour {
     {
         GameObject attack = transform.parent.GetComponent<PlayerMovement>().attack;
         GameObject tempAttack = (GameObject) Instantiate(attack, transform.position, transform.rotation);
-        tempAttack.transform.parent = gameObject.transform;
+        tempAttack.transform.parent = transform.parent;
         Destroy(tempAttack, .25f);
     }
 }

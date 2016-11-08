@@ -268,8 +268,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   npcList: []
   startScreen: {fileID: 2800000, guid: ff0c0184f78e970408e87dbe3013f959, type: 3}
-  p1win: {fileID: 2800000, guid: 38e55d3e11c480b4d8fdf901d002fd59, type: 3}
-  p2win: {fileID: 2800000, guid: e2cb6b487750abb43b0ad14c2a5eb134, type: 3}
+  roundOver: {fileID: 2800000, guid: 39d90d9d18edf924ea20de6bb73d4391, type: 3}
+  team1win: {fileID: 2800000, guid: 5d1a98c39a7792140b85be6b7c2abb66, type: 3}
+  team2win: {fileID: 2800000, guid: 9b506777b3b8b03478e1cde88b7c1743, type: 3}
   numbers:
   - {fileID: 2800000, guid: 29c1a84b0ebcdc74391976cefa44e145, type: 3}
   - {fileID: 2800000, guid: 5e2c4a0343b83f642b221b500ef3c28f, type: 3}
@@ -292,6 +293,7 @@ MonoBehaviour:
   displayGameOptions: 0
   displayGameModeSelect: 0
   numOfRounds: 0
+  roundsPlayed: 0
   numControllersConnected: 0
   warrior: {fileID: 1000013983769356, guid: 90b123bdaa2fc9148bc4abc76a502a3e, type: 2}
   mage: {fileID: 1000011101570660, guid: c81904f3e28f1e047a040744bfdf3a51, type: 2}
