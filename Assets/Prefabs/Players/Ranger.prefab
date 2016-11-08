@@ -22,6 +22,7 @@ GameObject:
   - 212: {fileID: 212000011505871924}
   - 114: {fileID: 114000014112904326}
   - 58: {fileID: 58000013515344910}
+  - 82: {fileID: 82000011413072942}
   m_Layer: 0
   m_Name: Ranger
   m_TagString: Player
@@ -56,6 +57,80 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 1
+--- !u!82 &82000011413072942
+AudioSource:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011047428984}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 1b16b7fe7dd49214a82d816795b692b2, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
 --- !u!114 &114000014112904326
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -67,15 +142,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65201031eaffe83418eefccaf572f993, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  basicAttackAudio: {fileID: 8300000, guid: 1b16b7fe7dd49214a82d816795b692b2, type: 3}
+  volume: 0.05
   attack: {fileID: 1000011089783286, guid: 5a9a0851767619947a9d746dd51f5078, type: 2}
   ability1: {fileID: 1000010263547622, guid: 0bdefa1f3ff3d9c4fad0a2a611c1d030, type: 2}
   ability2: {fileID: 1000013080889784, guid: 9ba29c04cfabde64c8eb724236c727cd, type: 2}
   mark: {fileID: 1000012838157022, guid: 55a92c3388d102d4d95f4a02b91154bc, type: 2}
+  original: {fileID: 0}
   dead: {fileID: 21300000, guid: 448dd2e1bd6e8b2429e5bba64df31992, type: 3}
   speed: 7
   X_Boundary: 29
   Y_Boundary: 29
   playerIndex: 0
+  teamNumber: 0
+  isDead: 0
+  isFakeDead: 0
   feignDeathActive: 0
   shielded: 0
 --- !u!212 &212000011505871924

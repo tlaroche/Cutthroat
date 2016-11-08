@@ -5,6 +5,10 @@ using System.Collections.Generic;
 
 public class PlayerMovement : MonoBehaviour {
 
+    public AudioClip basicAttackAudio;
+    public float volume;
+    AudioSource audio;
+
     public GameObject attack;
     public GameObject ability1;
     public GameObject ability2;
@@ -49,6 +53,8 @@ public class PlayerMovement : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        audio = GetComponent<AudioSource>();
+
         startController = GameObject.Find("StartController").GetComponent<StartController>();
         gameController = GameObject.Find("GameController").GetComponent<GameController>();
         original = GetComponent<SpriteRenderer>().sprite;
@@ -168,6 +174,7 @@ public class PlayerMovement : MonoBehaviour {
             //if (basicAttackPressed && !isDead)
             if (Input.GetButtonDown("X" + playerIndex) && !isDead && !feignDeathActive && !isFakeDead)
             {
+                audio.PlayOneShot(basicAttackAudio, volume);
                 // Temporarily create a sprite for the attack animation
                 GameObject temp = (GameObject) Instantiate(attack, transform.position, transform.rotation);
                 temp.transform.parent = gameObject.transform;
@@ -224,10 +231,10 @@ public class PlayerMovement : MonoBehaviour {
             // When the player attacks, an attack animation with a collider spawns for a short duration. The attack collider is 
             // on top of the player and will trigger this method, so to prevent the player from killing itself, we need to 
             // add a check to make sure we are not killing ourselves.
-            bool sameTeam = other.transform.parent.tag == tag && tag.Contains("Team");
+            bool sameTeam = other.transform.parent != null && other.transform.parent.tag == tag && tag.Contains("Team");
             
             bool enragedAttacker = false;
-            if (other.transform.parent.GetComponent<NPCMovement>() != null && other.transform.parent.GetComponent<NPCMovement>().isEnragedBy == playerIndex)
+            if (other.transform.parent != null && other.transform.parent.GetComponent<NPCMovement>() != null && other.transform.parent.GetComponent<NPCMovement>().isEnragedBy == playerIndex)
             {
                 enragedAttacker = true;
             }

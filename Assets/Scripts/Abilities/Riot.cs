@@ -3,11 +3,19 @@ using System.Collections;
 
 public class Riot : MonoBehaviour {
 
+    public AudioClip riotAudio;
+    public float volume;
+    AudioSource audio;
+
 	// Use this for initialization
 	void Start () {
+        audio = GetComponent<AudioSource>();
+        audio.PlayOneShot(riotAudio, volume);
+
         BasicAttack();
-        Destroy(gameObject, 0.1f);
-	}
+        Invoke("TurnOffCollider", .1f);
+        Invoke("DestroyRiot", 2f);
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -28,5 +36,15 @@ public class Riot : MonoBehaviour {
         GameObject tempAttack = (GameObject) Instantiate(attack, transform.position, transform.rotation);
         tempAttack.transform.parent = transform.parent;
         Destroy(tempAttack, .25f);
+    }
+
+    void DestroyRiot()
+    {
+        Destroy(gameObject);
+    }
+
+    void TurnOffCollider()
+    {
+        GetComponent<Collider2D>().enabled = false;
     }
 }

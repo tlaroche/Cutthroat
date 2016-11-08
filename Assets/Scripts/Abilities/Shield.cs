@@ -3,8 +3,13 @@ using System.Collections;
 
 public class Shield : MonoBehaviour {
 
+    public AudioClip shieldAudio;
+    public float volume;
+    AudioSource audio;
+
 	// Use this for initialization
 	void Start () {
+        audio = GetComponent<AudioSource>();
         CreateShield();
         Invoke("StopShield", 1.5f);
 	}
@@ -16,6 +21,7 @@ public class Shield : MonoBehaviour {
 
     void CreateShield()
     {
+        audio.PlayOneShot(shieldAudio, volume);
         //transform.parent.gameObject.GetComponent<CircleCollider2D>().enabled = false;
         transform.parent.gameObject.GetComponent<PlayerMovement>().shielded = true;
         transform.parent.gameObject.GetComponent<PlayerMovement>().speed = 10;

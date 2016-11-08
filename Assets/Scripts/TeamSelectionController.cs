@@ -97,8 +97,15 @@ public class TeamSelectionController : MonoBehaviour {
             if (selection != null)
             {
                 startController.teams[0] = selection;
-                startController.players[team1[0] - 1] = selection;
-                startController.players[team1[1] - 1] = selection;
+                if (startController.teams[0] == startController.teams[1])
+                {
+                    startController.teams[0] = "";
+                }
+                else
+                {
+                    startController.players[team1[0] - 1] = selection;
+                    startController.players[team1[1] - 1] = selection;
+                }
             }
         }
     }
@@ -114,10 +121,15 @@ public class TeamSelectionController : MonoBehaviour {
             if (selection != null)
             {
                 startController.teams[1] = selection;
-                Debug.Log(team2[0] + " " + (team2[0] + 1));
-                Debug.Log("@" + startController.players[2]);
-                startController.players[team2[0] - 1] = selection;
-                startController.players[team2[1] - 1] = selection;
+                if (startController.teams[1] == startController.teams[0])
+                {
+                    startController.teams[1] = "";
+                }
+                else
+                {
+                    startController.players[team2[0] - 1] = selection;
+                    startController.players[team2[1] - 1] = selection;
+                }
             }
         }
     }
