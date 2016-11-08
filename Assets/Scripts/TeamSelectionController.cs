@@ -23,6 +23,8 @@ public class TeamSelectionController : MonoBehaviour {
     // Use this for initialization
     void Start () {
         startController = GameObject.Find("StartController").GetComponent<StartController>();
+        startController.InitCharacterSelection();
+
         team1 = startController.team1;
         team2 = startController.team2;
 
@@ -103,8 +105,8 @@ public class TeamSelectionController : MonoBehaviour {
 
     void Team2CharSelect()
     {
-        startController.players[team2[0] - 1] = startController.teams[1];
-        startController.players[team2[1] - 1] = startController.teams[1];
+        //startController.players[team2[0] - 1] = startController.teams[1];
+        //startController.players[team2[1] - 1] = startController.teams[1];
 
         for (int i = 0; i < team2.Count; i++)
         {
@@ -112,6 +114,8 @@ public class TeamSelectionController : MonoBehaviour {
             if (selection != null)
             {
                 startController.teams[1] = selection;
+                Debug.Log(team2[0] + " " + (team2[0] + 1));
+                Debug.Log("@" + startController.players[2]);
                 startController.players[team2[0] - 1] = selection;
                 startController.players[team2[1] - 1] = selection;
             }

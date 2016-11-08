@@ -115,7 +115,7 @@ public class GameController : MonoBehaviour {
         }
         else if (!isRoundOver)
         {
-            CheckForTeamModeWinner();
+            CheckForTeamDeathmatchWinner();
         }
     }
 
@@ -217,7 +217,7 @@ public class GameController : MonoBehaviour {
         }
     }
 
-    void CheckForTeamModeWinner()
+    void CheckForTeamDeathmatchWinner()
     {
         Debug.Log(playersAlive.Count);
         for (int i = 0; i < playersAlive.Count; i++)
