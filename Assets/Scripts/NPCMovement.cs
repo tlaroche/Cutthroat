@@ -19,6 +19,7 @@ public class NPCMovement : MonoBehaviour
     private bool isDead;
     private bool isAttacked;
     private bool beforeSuddenDeath;
+    public int isEnragedBy;
 
 
     // Use this for initialization
@@ -175,6 +176,10 @@ public class NPCMovement : MonoBehaviour
                 isAttacked = true;
                 Die();
             }
+            if (other.gameObject.tag == "Delayed Kill")
+            {
+                Invoke("Die", 3);
+            }
         }
     }
 
@@ -205,13 +210,15 @@ public class NPCMovement : MonoBehaviour
         GetComponent<SpriteRenderer>().sprite = dead;
     }
 
-    public void BasicAttack()
+    public void BasicAttack(int enragedBy)
     {
         if (!isDead && !isAttacked)
         {
+            isEnragedBy = enragedBy;
             GameObject attack = (GameObject) Instantiate(basicAttack, transform.position, transform.rotation);
             attack.transform.parent = gameObject.transform;
             Destroy(attack, 0.25f);
+
         }
     }
 }

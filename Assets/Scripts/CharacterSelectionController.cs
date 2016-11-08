@@ -146,7 +146,6 @@ public class CharacterSelectionController : MonoBehaviour {
 
         // Converts the binary number to an integer, and chooses the screen based on the integer ()
         int screen = Convert.ToInt32(playersReadyBinary, 2);
-
         if (SceneManager.GetActiveScene().buildIndex == 1)
         {
             DrawCharSelectScreen(charSelectScreen[screen]);

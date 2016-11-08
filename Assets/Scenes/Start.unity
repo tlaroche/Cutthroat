@@ -272,16 +272,17 @@ MonoBehaviour:
   team1win: {fileID: 2800000, guid: 5d1a98c39a7792140b85be6b7c2abb66, type: 3}
   team2win: {fileID: 2800000, guid: 9b506777b3b8b03478e1cde88b7c1743, type: 3}
   numbers:
-  - {fileID: 2800000, guid: 29c1a84b0ebcdc74391976cefa44e145, type: 3}
-  - {fileID: 2800000, guid: 5e2c4a0343b83f642b221b500ef3c28f, type: 3}
-  - {fileID: 2800000, guid: 4fe7f916b1a92094ea90d6b73908fcbd, type: 3}
-  - {fileID: 2800000, guid: 9caea5b567d762b40b2d8085ce2bffe7, type: 3}
-  - {fileID: 2800000, guid: df09a266037232446b396a85676dfdc2, type: 3}
-  - {fileID: 2800000, guid: 3cfa13631acb66c44a3e47cdf22d065d, type: 3}
-  - {fileID: 2800000, guid: 89e604fb954a97f47adc2eac8d702112, type: 3}
-  - {fileID: 2800000, guid: f34057f3575aa71418c58ef75ad54d38, type: 3}
-  - {fileID: 2800000, guid: 2208066c909630343aea1ac67724ce72, type: 3}
-  - {fileID: 2800000, guid: cd3926f7fb3f12c43a0ae1d59341852a, type: 3}
+  - {fileID: 2800000, guid: 9e2b302cb2379db40b605fa75267697a, type: 3}
+  - {fileID: 2800000, guid: 0df173790ce54484996c50b7d0df6ec8, type: 3}
+  - {fileID: 2800000, guid: 82737d7051b49f74d8ca58cb35428f90, type: 3}
+  - {fileID: 2800000, guid: 66c9c289379d2b4468a0eed14eae5a61, type: 3}
+  - {fileID: 2800000, guid: 258c98e64f0c6c74a9a83c64602bfdcb, type: 3}
+  - {fileID: 2800000, guid: 4ea3e055a4d079e43846a6dd842dcd2f, type: 3}
+  - {fileID: 2800000, guid: 12a265a82023cd249880c0a55a0595b1, type: 3}
+  - {fileID: 2800000, guid: 5e6579b25874e224bac31dce195c6ddd, type: 3}
+  - {fileID: 2800000, guid: dbead5e2ab7f4b7479ee18a8d85e2542, type: 3}
+  - {fileID: 2800000, guid: e6b81569a8f8ad94b896597ca646e59c, type: 3}
+  - {fileID: 2800000, guid: 347db57891d33b346a00e674213b92f9, type: 3}
   gameOptionsScreens:
   - {fileID: 2800000, guid: 27b372bee057bd04fa3c34889312edb2, type: 3}
   - {fileID: 2800000, guid: 259a5a48c610b84479bad99240c4aaab, type: 3}

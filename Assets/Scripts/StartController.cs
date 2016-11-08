@@ -19,7 +19,7 @@ public class StartController : MonoBehaviour {
     public bool isFreeForAllMode;
 
     public readonly float GAME_TIME = 90f;
-    public readonly float NPC_DEATH_COOLDOWN = 5f;
+    public readonly float NPC_DEATH_COOLDOWN = 4f;
 
     public bool displayGameOptions;
     public bool displayGameModeSelect;
@@ -376,7 +376,7 @@ public class StartController : MonoBehaviour {
         }
         else
         {
-            // display x
+            GUI.DrawTexture(new Rect(x, y, 90, 90), numbers[10]);
         }
     }
 

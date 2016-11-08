@@ -18,7 +18,7 @@ public class Riot : MonoBehaviour {
     {
         if (other.tag.Contains("NPC"))
         {
-            other.GetComponent<NPCMovement>().BasicAttack();
+            other.GetComponent<NPCMovement>().BasicAttack(transform.parent.gameObject.GetComponent<PlayerMovement>().playerIndex);
         }
     }
 

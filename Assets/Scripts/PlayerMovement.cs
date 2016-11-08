@@ -10,7 +10,7 @@ public class PlayerMovement : MonoBehaviour {
     public GameObject ability2;
     public GameObject mark;
 
-    Sprite original;
+    public Sprite original;
 
     int ability1Uses;
     int ability2Uses;
@@ -187,7 +187,14 @@ public class PlayerMovement : MonoBehaviour {
         {
             ability1Uses--;
             GameObject tempAbility = (GameObject) Instantiate(ability1, transform.position, transform.rotation);
-            tempAbility.name += playerIndex;
+            if (GameObject.Find("StartController").GetComponent<StartController>().isFreeForAllMode)
+            {
+                tempAbility.name += playerIndex;
+            }
+            else
+            {
+                tempAbility.name += teamNumber;
+            }
 
             // If the Hunter uses Trap, don't make the ability follow the player, instantiate 
             // and stay at the position the player was at
@@ -218,7 +225,15 @@ public class PlayerMovement : MonoBehaviour {
             // on top of the player and will trigger this method, so to prevent the player from killing itself, we need to 
             // add a check to make sure we are not killing ourselves.
             bool sameTeam = other.transform.parent.tag == tag && tag.Contains("Team");
-            if (other.gameObject.tag == "Basic Attack" && !other.transform.IsChildOf(transform) && !sameTeam)
+            
+            bool enragedAttacker = false;
+            if (other.transform.parent.GetComponent<NPCMovement>() != null && other.transform.parent.GetComponent<NPCMovement>().isEnragedBy == playerIndex)
+            {
+                enragedAttacker = true;
+            }
+            
+
+            if (other.gameObject.tag == "Basic Attack" && !other.transform.IsChildOf(transform) && !sameTeam && !enragedAttacker)
             {
                 if (feignDeathActive)
                 {
@@ -226,9 +241,19 @@ public class PlayerMovement : MonoBehaviour {
                 }
                 else
                 {
-                    int otherPlayerIndex = other.gameObject.transform.parent.gameObject.GetComponent<PlayerMovement>().playerIndex;
-                    startController.playerScores[otherPlayerIndex - 1]++;
-                    Die();
+
+                    if (other.gameObject.transform.parent.gameObject.GetComponent<PlayerMovement>() != null)
+                    {
+                        int otherPlayerIndex = other.gameObject.transform.parent.gameObject.GetComponent<PlayerMovement>().playerIndex;
+                        startController.playerScores[otherPlayerIndex - 1]++;
+                        Die();
+                    }
+                    else
+                    {
+                        int otherPlayerIndex = other.gameObject.transform.parent.gameObject.GetComponent<NPCMovement>().isEnragedBy;
+                        startController.playerScores[otherPlayerIndex - 1]++;
+                        Die();
+                    }
                 }
             }
             else if (other.gameObject.tag == "Delayed Kill" && !other.transform.IsChildOf(transform) && !sameTeam)

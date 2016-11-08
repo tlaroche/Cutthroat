@@ -10,7 +10,7 @@ public class GameController : MonoBehaviour {
     public GameObject npcRanger;
     public GameObject npcRogue;
 
-    List<PlayerMovement> playerList = new List<PlayerMovement>(4);
+    public List<PlayerMovement> playerList = new List<PlayerMovement>(4);
     List<PlayerMovement> playersAlive = new List<PlayerMovement>();
     public List<int> standings = new List<int>();
     int numPlayers;
@@ -59,10 +59,10 @@ public class GameController : MonoBehaviour {
                 }
             }
 
-            //InstantiateNPCs(npcWarrior, warriorCount, 8, 12);
-            //InstantiateNPCs(npcMage, mageCount, 8, 12);
-            //InstantiateNPCs(npcRanger, rangerCount, 8, 12);
-            //InstantiateNPCs(npcRogue, rogueCount, 8, 12);
+            InstantiateNPCs(npcWarrior, warriorCount, 8, 12);
+            InstantiateNPCs(npcMage, mageCount, 8, 12);
+            InstantiateNPCs(npcRanger, rangerCount, 8, 12);
+            InstantiateNPCs(npcRogue, rogueCount, 8, 12);
             
         }
         else
@@ -100,8 +100,8 @@ public class GameController : MonoBehaviour {
                 Debug.Log(s);
             }
 
-            //InstantiateNPCs(startController.teams[0], 0, 18, 22);
-            //InstantiateNPCs(startController.teams[1], 0, 18, 22);
+            InstantiateNPCs(startController.teams[0], 0, 18, 22);
+            InstantiateNPCs(startController.teams[1], 0, 18, 22);
         }
 
 
@@ -248,7 +248,7 @@ public class GameController : MonoBehaviour {
         if (oneTeamAlive)
         {
             isRoundOver = true;
-            startController.winner = playersAlive[0].playerIndex;
+            startController.winner = playersAlive[0].teamNumber;
             Invoke("Victory", 3);
         }
     }
