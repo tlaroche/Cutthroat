@@ -69,11 +69,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   basicAttack: {fileID: 1000011089783286, guid: 5a9a0851767619947a9d746dd51f5078,
     type: 2}
-  mage: {fileID: 21300000, guid: 9043f04c460a4d74f8e9edf669adcd5f, type: 3}
   dead: {fileID: 21300000, guid: 448dd2e1bd6e8b2429e5bba64df31992, type: 3}
   speed: 0
   X_Boundary: 0
   Y_Boundary: 0
+  isEnragedBy: 0
 --- !u!212 &212000013473049492
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -103,7 +103,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 408099997
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: b3f28b29619af9740949eeb7723554d2, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 821f733c025501841a7c3b616252f36b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
