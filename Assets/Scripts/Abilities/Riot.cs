@@ -26,7 +26,14 @@ public class Riot : MonoBehaviour {
     {
         if (other.tag.Contains("NPC"))
         {
-            other.GetComponent<NPCMovement>().BasicAttack(transform.parent.gameObject.GetComponent<PlayerMovement>().playerIndex);
+            if (GameObject.Find("StartController").GetComponent<StartController>().isFreeForAllMode)
+            {
+                other.GetComponent<NPCMovement>().BasicAttack(transform.parent.gameObject.GetComponent<PlayerMovement>().playerIndex);
+            }
+            else
+            {
+                other.GetComponent<NPCMovement>().BasicAttack(transform.parent.gameObject.GetComponent<PlayerMovement>().teamNumber);
+            }
         }
     }
 

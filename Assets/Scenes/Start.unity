@@ -271,6 +271,10 @@ MonoBehaviour:
   roundOver: {fileID: 2800000, guid: 39d90d9d18edf924ea20de6bb73d4391, type: 3}
   team1win: {fileID: 2800000, guid: 5d1a98c39a7792140b85be6b7c2abb66, type: 3}
   team2win: {fileID: 2800000, guid: 9b506777b3b8b03478e1cde88b7c1743, type: 3}
+  p1win: {fileID: 2800000, guid: 38e55d3e11c480b4d8fdf901d002fd59, type: 3}
+  p2win: {fileID: 2800000, guid: e2cb6b487750abb43b0ad14c2a5eb134, type: 3}
+  p3win: {fileID: 2800000, guid: b3477124f52063a4c9227f89d5edaf88, type: 3}
+  p4win: {fileID: 2800000, guid: e1535edc30d0b4c4c8e57188a3347082, type: 3}
   numbers:
   - {fileID: 2800000, guid: 9e2b302cb2379db40b605fa75267697a, type: 3}
   - {fileID: 2800000, guid: 0df173790ce54484996c50b7d0df6ec8, type: 3}

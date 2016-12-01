@@ -234,9 +234,20 @@ public class PlayerMovement : MonoBehaviour {
             bool sameTeam = other.transform.parent != null && other.transform.parent.tag == tag && tag.Contains("Team");
             
             bool enragedAttacker = false;
-            if (other.transform.parent != null && other.transform.parent.GetComponent<NPCMovement>() != null && other.transform.parent.GetComponent<NPCMovement>().isEnragedBy == playerIndex)
+
+            if (startController.isFreeForAllMode)
             {
-                enragedAttacker = true;
+                if (other.transform.parent != null && other.transform.parent.GetComponent<NPCMovement>() != null && other.transform.parent.GetComponent<NPCMovement>().isEnragedBy == playerIndex)
+                {
+                    enragedAttacker = true;
+                }
+            }
+            else
+            {
+                if (other.transform.parent != null && other.transform.parent.GetComponent<NPCMovement>() != null && other.transform.parent.GetComponent<NPCMovement>().isEnragedBy == teamNumber)
+                {
+                    enragedAttacker = true;
+                }
             }
             
 

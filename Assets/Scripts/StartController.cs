@@ -11,6 +11,10 @@ public class StartController : MonoBehaviour {
     public Texture roundOver;
     public Texture team1win;
     public Texture team2win;
+    public Texture p1win;
+    public Texture p2win;
+    public Texture p3win;
+    public Texture p4win;
     public Texture[] numbers;
 
     public Texture[] gameOptionsScreens = new Texture[5];
@@ -302,6 +306,22 @@ public class StartController : MonoBehaviour {
         {
             if (isFreeForAllMode)
             {
+                /*switch(winner)
+                {
+                    case 1:
+                        GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), p1win, ScaleMode.ScaleToFit);
+                        break;
+                    case 2:
+                        GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), p2win, ScaleMode.ScaleToFit);
+                        break;
+                    case 3:
+                        GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), p3win, ScaleMode.ScaleToFit);
+                        break;
+                    case 4:
+                        GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), p4win, ScaleMode.ScaleToFit);
+                        break;
+                }*/
+                
                 Debug.Log(Screen.height + " " + Screen.width);
 
                 GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), roundOver, ScaleMode.ScaleToFit);
@@ -315,7 +335,7 @@ public class StartController : MonoBehaviour {
                 DrawPlayerScore(1);
                 DrawPlayerScore(2);
                 DrawPlayerScore(3);
-
+                
                 /*switch (winner)
                 {
                     case 1:
@@ -342,6 +362,10 @@ public class StartController : MonoBehaviour {
                         break;
                     case 2:
                         GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), team2win, ScaleMode.ScaleToFit);
+                        break;
+                    case 3:
+                        break;
+                    case 4:
                         break;
                 }
             }
