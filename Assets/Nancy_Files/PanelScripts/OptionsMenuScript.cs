@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 
 public class OptionsMenuScript : MonoBehaviour //Functions for FreeFOrAll Fucntionality and Animations
 {
+    public GameObject menuTextImage;
     public Image[] optionImages = new Image[5];
     Vector2[] startPos = new Vector2[5];
     Vector2[] endPos = new Vector2[5];
@@ -50,6 +51,8 @@ public class OptionsMenuScript : MonoBehaviour //Functions for FreeFOrAll Fucnti
 
     void OnDisable()
     {
+        menuTextImage.SetActive(false);
+
         if (EventSystem.current.currentSelectedGameObject != null)
             OnDeselect();
     }

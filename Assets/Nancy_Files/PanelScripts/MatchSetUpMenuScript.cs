@@ -46,6 +46,7 @@ public class MatchSetUpMenuScript : MonoBehaviour
         endPos[3] = matchSetupObjects[3].transform.position;
     }
 
+
     public void setMode(int index) //0 freeForAll, 1 teamDeathmatch
     {
         mode = index;
@@ -73,11 +74,14 @@ public class MatchSetUpMenuScript : MonoBehaviour
         
     }
 
-    void Update ()
+    void Update()
     {
         checkIfPressedStart();
         checkIfInputHorizontal();
         checkIfPartyIsReady();
+
+        if (EventSystem.current.currentSelectedGameObject == null)
+            GetComponent<UINavigationScript>().setDefaultGameObject(matchSetupObjects[2]);
 
         if (isPartyReady)
         {

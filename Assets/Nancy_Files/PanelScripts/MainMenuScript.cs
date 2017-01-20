@@ -5,42 +5,79 @@ using UnityEngine.EventSystems;
 
 public class MainMenuScript : MonoBehaviour //Functions for Main Menu Functionality and Animations
 {
-    public Button[] mainMenuButtons = new Button[5];
-    Vector2[] startPos = new Vector2[5];
-    Vector2[] endPos = new Vector2[5];
+    public GameObject menuTextImage;
+    Vector2 menuTextImageStartPos;
+    Vector2 menuTextImageEndPos;
+    public GameObject thisPanel;
+    int numChildren;
+    GameObject[] mainMenuObjects;
+    Vector2[] startPos;
+    Vector2[] endPos;
     float duration = 10.0f;
 
     public GameObject defaultSelectedObject;
 
+    void Update()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            GetComponent<UINavigationScript>().setDefaultGameObject(defaultSelectedObject);
+        }
+    }
+
     void Awake()
     {
-        startPos[0] = new Vector2(-1400, mainMenuButtons[0].transform.position.y); //hardcode for optimization
-        startPos[1] = new Vector2(1400, mainMenuButtons[1].transform.position.y);
-        startPos[2] = new Vector2(-1400, mainMenuButtons[2].transform.position.y);
-        startPos[3] = new Vector2(1400, mainMenuButtons[3].transform.position.y);
-        startPos[4] = new Vector2(1400, mainMenuButtons[4].transform.position.y);
+        numChildren = thisPanel.transform.childCount;
+        mainMenuObjects = new GameObject[numChildren];
+        startPos = new Vector2[numChildren];
+        endPos = new Vector2[numChildren];
 
-        endPos[0] = mainMenuButtons[0].transform.position;
-        endPos[1] = mainMenuButtons[1].transform.position;
-        endPos[2] = mainMenuButtons[2].transform.position;
-        endPos[3] = mainMenuButtons[3].transform.position;
-        endPos[4] = mainMenuButtons[4].transform.position;
+        menuTextImageStartPos = new Vector2(-1400, menuTextImage.transform.position.y);
+        menuTextImageEndPos = menuTextImage.transform.position;
+        for (int i = 0; i < numChildren; i++)
+        {
+            mainMenuObjects[i] = thisPanel.transform.GetChild(i).gameObject;
+        }
+
+        int inverter = -1;
+        int startPosition = 1400;
+        for (int i = 0; i < numChildren; i++)
+        {
+            startPosition *= inverter;
+            startPos[i] = new Vector2(startPosition, mainMenuObjects[i].transform.position.y);
+        }
+
+        for (int i = 0; i < numChildren; i++)
+            endPos[i] = mainMenuObjects[i].transform.position;
+
+        /*
+        startPos[0] = new Vector2(-1400, mainMenuObjects[0].transform.position.y); //hardcode for optimization
+        startPos[1] = new Vector2(1400, mainMenuObjects[1].transform.position.y);
+        startPos[2] = new Vector2(-1400, mainMenuObjects[2].transform.position.y);
+        endPos[0] = mainMenuObjects[0].transform.position;
+        endPos[1] = mainMenuObjects[1].transform.position;
+        endPos[2] = mainMenuObjects[2].transform.position;
+        */
+
     }
 
     void OnEnable()
     {
+        menuTextImage.SetActive(true);
+
         GetComponent<UINavigationScript>().setDefaultGameObject(defaultSelectedObject);
         StartCoroutine(fancyButtonEasing(duration));
     }
 
     void OnDisable()
     {
+        menuTextImage.SetActive(false);
+
         if (EventSystem.current.currentSelectedGameObject != null)
         {
             defaultSelectedObject = EventSystem.current.currentSelectedGameObject;
             GetComponent<UINavigationScript>().OnDeselect();
         }
-
     }
 
     IEnumerator fancyButtonEasing(float duration)
@@ -50,9 +87,10 @@ public class MainMenuScript : MonoBehaviour //Functions for Main Menu Functional
             float lerpAmount = time / duration;
             lerpAmount = Mathf.Sin(lerpAmount * Mathf.PI * 0.5f); //Easing in
 
-            for (int i = 0; i < 5; i++)
+            menuTextImage.transform.position = Vector2.Lerp(menuTextImageStartPos, menuTextImageEndPos, lerpAmount);
+            for (int i = 0; i < numChildren; i++)
             {
-                mainMenuButtons[i].transform.position = Vector2.Lerp(startPos[i], endPos[i], lerpAmount);
+                mainMenuObjects[i].transform.position = Vector2.Lerp(startPos[i], endPos[i], lerpAmount);
             }
             yield return null;
         }
