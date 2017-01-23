@@ -63,8 +63,16 @@ public class MainMenuScript : MonoBehaviour //Functions for Main Menu Functional
 
     void OnEnable()
     {
-        menuTextImage.SetActive(true);
+        if(!(thisPanel.name == "Panel_MainMenu" || thisPanel.name == "Panel_MatchSetupMenu"))
+        {
+            menuTextImage.SetActive(true);
 
+            if(thisPanel.name == "Panel_PvP")
+                menuTextImage.GetComponentInChildren<Text>().text = "PvP";
+            else if(thisPanel.name == "Panel_Missions")
+                menuTextImage.GetComponentInChildren<Text>().text = "MISSIONS";
+        }
+          
         GetComponent<UINavigationScript>().setDefaultGameObject(defaultSelectedObject);
         StartCoroutine(fancyButtonEasing(duration));
     }
@@ -95,4 +103,5 @@ public class MainMenuScript : MonoBehaviour //Functions for Main Menu Functional
             yield return null;
         }
     }
+
 }
