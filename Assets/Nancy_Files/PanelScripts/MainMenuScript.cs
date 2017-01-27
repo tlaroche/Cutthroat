@@ -50,15 +50,6 @@ public class MainMenuScript : MonoBehaviour //Functions for Main Menu Functional
         for (int i = 0; i < numChildren; i++)
             endPos[i] = mainMenuObjects[i].transform.position;
 
-        /*
-        startPos[0] = new Vector2(-1400, mainMenuObjects[0].transform.position.y); //hardcode for optimization
-        startPos[1] = new Vector2(1400, mainMenuObjects[1].transform.position.y);
-        startPos[2] = new Vector2(-1400, mainMenuObjects[2].transform.position.y);
-        endPos[0] = mainMenuObjects[0].transform.position;
-        endPos[1] = mainMenuObjects[1].transform.position;
-        endPos[2] = mainMenuObjects[2].transform.position;
-        */
-
     }
 
     void OnEnable()

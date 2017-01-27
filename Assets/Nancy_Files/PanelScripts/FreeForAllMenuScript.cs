@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class FreeForAllMenuScript : MonoBehaviour //Functions for FreeFOrAll Fucntionality and Animations
 {
@@ -17,13 +18,16 @@ public class FreeForAllMenuScript : MonoBehaviour //Functions for FreeFOrAll Fuc
     public GameObject readyPanel;
     bool isReadyPlaying;
 
-    public int numRounds;
+    //public int numRounds;
     public int numPlayers;
     bool[] isPlayerActive = new bool[4];
     public bool[] isPlayerReady = new bool[4];
-    int[] playerSelection = new int[4]; //0 Warrior, 1 Ranger, 2 Mage, 3 Rogue
+    public string[] playerSelection = new string[4]; //0 Warrior, 1 Ranger, 2 Mage, 3 Rogue
     public GameObject[] playerQueueImages = new GameObject[4];
     bool isPartyReady = false;
+    
+    //temporary Variables to work with startController and gameController
+    StartController startController;
 
     void Awake()
     {
@@ -40,6 +44,8 @@ public class FreeForAllMenuScript : MonoBehaviour //Functions for FreeFOrAll Fuc
         endPos[3] = freeForAllObjects[3].transform.position;
         endPos[4] = freeForAllObjects[4].transform.position;
         endPos[5] = freeForAllObjects[5].transform.position;
+
+        startController = startController = GameObject.Find("StartController").GetComponent<StartController>();
     }
     
 
@@ -63,7 +69,7 @@ public class FreeForAllMenuScript : MonoBehaviour //Functions for FreeFOrAll Fuc
 
     void loadDefaultPlayerStates()
     {
-        numRounds = prevPanel.GetComponent<MatchSetUpMenuScript>().numRounds;
+        //numRounds = prevPanel.GetComponent<MatchSetUpMenuScript>().numRounds;
         numPlayers = prevPanel.GetComponent<MatchSetUpMenuScript>().numPlayers;
         isPlayerActive = prevPanel.GetComponent<MatchSetUpMenuScript>().isPlayerActive;
         isPlayerReady[0] = false;
@@ -91,6 +97,14 @@ public class FreeForAllMenuScript : MonoBehaviour //Functions for FreeFOrAll Fuc
             readyPanel.SetActive(true);
             isReadyPlaying = true;
         }
+        else if(isPartyReady)
+        {
+            if(Input.GetButtonDown("Start1"))
+            {
+                setPlayerClassesInStartController();
+                startGame();
+            }
+        }
     }
 
     void playerIsNotReady(GameObject statePanel)
@@ -112,31 +126,34 @@ public class FreeForAllMenuScript : MonoBehaviour //Functions for FreeFOrAll Fuc
     {
         for(int i = 0; i < 4; i++)
         {
-            if (isPlayerActive[i] && Input.GetKeyDown(KeyCode.S)) //Dpad down
+            float inputDPadHorizontal = Input.GetAxisRaw("DPadHorizontal" + (i + 1));
+            float inputDPadVertical = Input.GetAxisRaw("DPadVertical" + (i + 1));
+
+            if (isPlayerActive[i] && inputDPadHorizontal == -1)
             {
-                //Debug.Log("Pressed Dpad left");
-                playerSelection[i] = 0; //warrior
+                Debug.Log("Pressed Dpad left");
+                playerSelection[i] = "Warrior"; //warrior
                 isPlayerReady[i] = true;
                 playerIsReady(playerQueueImages[i]);
             }
-            else if (isPlayerActive[i] && Input.GetKeyDown(KeyCode.D)) //Dpad right
+            else if (isPlayerActive[i] && inputDPadHorizontal == 1)
             {
-                //Debug.Log("Pressed Dpad right");
-                playerSelection[i] = 1; //Ranger
+                Debug.Log("Pressed Dpad right");
+                playerSelection[i] = "Ranger"; //Ranger
                 isPlayerReady[i] = true;
                 playerIsReady(playerQueueImages[i]);
             }
-            else if (isPlayerActive[i] && Input.GetKeyDown(KeyCode.A)) //Dpad left
+            else if (isPlayerActive[i] && inputDPadVertical == 1)
             {
-                //Debug.Log("Pressed Dpad down");
-                playerSelection[i] = 2; //Mage
+                Debug.Log("Pressed Dpad up");
+                playerSelection[i] = "Mage"; //Mage
                 isPlayerReady[i] = true;
                 playerIsReady(playerQueueImages[i]);
             }
-            else if (isPlayerActive[i] && Input.GetKeyDown(KeyCode.W)) //Dpad up
+            else if (isPlayerActive[i] && inputDPadVertical == -1)
             {
-                //Debug.Log("Pressed Dpad up");
-                playerSelection[i] = 3; //Rogue
+                Debug.Log("Pressed Dpad down");
+                playerSelection[i] = "Rogue"; //Rogue
                 isPlayerReady[i] = true;
                 playerIsReady(playerQueueImages[i]);
             }
@@ -145,7 +162,7 @@ public class FreeForAllMenuScript : MonoBehaviour //Functions for FreeFOrAll Fuc
 
     void checkIfPressedB() 
     {
-        if (Input.GetKey(KeyCode.Z)) //Check is player holds B to back 
+        if (Input.GetButton("B1")) //Check is player holds B to back, go back to the match set-up screen (Only player 1 can do this)
         {
             counter++;
             //Debug.Log(counter);
@@ -157,9 +174,9 @@ public class FreeForAllMenuScript : MonoBehaviour //Functions for FreeFOrAll Fuc
             counter = 0;
         }
 
-        for (int i = 0; i < 4; i++)
+        for(int i = 0; i < 4; i++)
         {
-            if (Input.GetKeyDown(KeyCode.Z))
+            if (Input.GetButtonDown("B" + (i + 1))) //if the player is already ready and pressing B, make that player not ready
             {
                 if (isPlayerReady[i])
                 {
@@ -208,6 +225,20 @@ public class FreeForAllMenuScript : MonoBehaviour //Functions for FreeFOrAll Fuc
                 freeForAllObjects[i].transform.position = Vector2.Lerp(startPos[i], endPos[i], lerpAmount);
             }
             yield return null;
+        }
+    }
+
+    void startGame()
+    {
+        SceneManager.LoadSceneAsync(1);
+    }
+
+    //temporary functions to work with startController and gameController
+    public void setPlayerClassesInStartController()
+    {
+        for(int i = 0; i < 4; i++)
+        {
+            startController.players.Add(playerSelection[i]);
         }
     }
 }

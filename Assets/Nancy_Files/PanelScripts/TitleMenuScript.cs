@@ -17,6 +17,9 @@ public class TitleMenuScript: MonoBehaviour //Functions for Title Fucntionality 
 
     public GameObject blinkingText;
 
+    public GameObject pvpPanel;
+
+
     void Awake() //Jank way of loading prefs
     {
         gamePanels[4].SetActive(true); //"load" settings panel
@@ -31,6 +34,7 @@ public class TitleMenuScript: MonoBehaviour //Functions for Title Fucntionality 
     
     void OnEnable()
     {
+
         StartCoroutine(fancyTitleEasing(duration, shake, shakePower));
     }
 
@@ -64,5 +68,4 @@ public class TitleMenuScript: MonoBehaviour //Functions for Title Fucntionality 
         StartCoroutine(thisPanel.GetComponent<ShakeEffectScript>().shakeEffect(shake, shakePower)); //Shake this.Panel
         this.GetComponent<BlinkingEffectScript>().startBlink(blinkingText);
     }
-
 }

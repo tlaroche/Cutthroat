@@ -30,6 +30,9 @@ public class MatchSetUpMenuScript : MonoBehaviour
     public GameObject readyButton;
     bool isPartyReady = false;
 
+    //Temporary Variables for StartController and GameController
+    public StartController startController;
+
     void Awake()
     {
         numRounds = 3;
@@ -44,6 +47,7 @@ public class MatchSetUpMenuScript : MonoBehaviour
         endPos[1] = matchSetupObjects[1].transform.position;
         endPos[2] = matchSetupObjects[2].transform.position;
         endPos[3] = matchSetupObjects[3].transform.position;
+        
     }
 
 
@@ -103,69 +107,38 @@ public class MatchSetUpMenuScript : MonoBehaviour
 
     void checkIfPressedStart()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1)) //Player1 start
+        for(int i = 0; i < 4; i++)
         {
-            isPlayerActive[0] = !isPlayerActive[0];
-            if (isPlayerActive[0])
+            if (Input.GetButtonDown("Start" + (i + 1)))
             {
-                numPlayers++;
-                playerIsActive(playerQueueImages[0]);
-            }
-            else
-            {
-                numPlayers--;
-                playerIsNotActive(playerQueueImages[0]);
+                isPlayerActive[i] = !isPlayerActive[i];
+                if (isPlayerActive[i])
+                {
+                    numPlayers++;
+                    playerIsActive(playerQueueImages[i]);
+                }
+                else
+                {
+                    numPlayers--;
+                    playerIsNotActive(playerQueueImages[i]);
+                }
             }
         }
-        else if (Input.GetKeyDown(KeyCode.Alpha2)) //Player2 start
-        {
-            isPlayerActive[1] = !isPlayerActive[1];
-            if (isPlayerActive[1])
-            {
-                numPlayers++;
-                playerIsActive(playerQueueImages[1]);
-            }
-            else
-            {
-                numPlayers--;
-                playerIsNotActive(playerQueueImages[1]);
-            }
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha3)) //Player3 start
-        {
-            isPlayerActive[2] = !isPlayerActive[2];
-            if (isPlayerActive[2])
-            {
-                numPlayers++;
-                playerIsActive(playerQueueImages[2]);
-            }
-            else
-            {
-                numPlayers--;
-                playerIsNotActive(playerQueueImages[2]);
-            }
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha4)) //Player4 start
-        {
-            isPlayerActive[3] = !isPlayerActive[3];
-            if (isPlayerActive[3])
-            {
-                numPlayers++;
-                playerIsActive(playerQueueImages[3]);
-            }
-            else
-            {
-                numPlayers--;
-                playerIsNotActive(playerQueueImages[3]);
-            }
-        }
+
     }
 
     void checkIfInputHorizontal() //only first player can change num of rounds
     {
         if(EventSystem.current.currentSelectedGameObject == matchSetupObjects[2])
         {
-            int horizontalInput = (int)Input.GetAxisRaw("Horizontal"); //returns -1, 0 or 1
+            int horizontaAnalognput = (int)Input.GetAxisRaw("Horizontal1");
+            int horizontalDPadInput = (int)Input.GetAxisRaw("DPadHorizontal1"); //returns -1, 0 or 1
+            
+            int horizontalInput;
+            if (horizontaAnalognput != 0)
+                horizontalInput = horizontaAnalognput;
+            else
+                horizontalInput = horizontalDPadInput;
 
             if (horizontalInput == 0)
                 axisInUse = false;
@@ -263,4 +236,13 @@ public class MatchSetUpMenuScript : MonoBehaviour
         if(matchSetupObjects[3].GetComponent<Button>().interactable == false)
             StartCoroutine(matchSetupObjects[3].GetComponent<ShakeEffectScript>().shakeEffect(shake, shakePower)); //Shake this.Panel
     }
+
+
+    //temporary functions to work with startController and gameController
+    public void setVariablesInStartController()
+    {
+        startController.numOfRounds = numRounds;
+    }
+
+
 }

@@ -3,15 +3,15 @@ using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 using UnityEngine.UI;
 
-public class GameController : MonoBehaviour {
-    
+public class GameController : MonoBehaviour
+{
     public GameObject npcWarrior;
     public GameObject npcMage;
     public GameObject npcRanger;
     public GameObject npcRogue;
 
     public List<PlayerMovement> playerList = new List<PlayerMovement>(4);
-    List<PlayerMovement> playersAlive = new List<PlayerMovement>();
+    public List<PlayerMovement> playersAlive = new List<PlayerMovement>();
     public List<int> standings = new List<int>();
     int numPlayers;
 
@@ -21,10 +21,11 @@ public class GameController : MonoBehaviour {
     int rangerCount;
     int mageCount;
 
-    bool isRoundOver;
+    public bool isRoundOver;
 
     // Use this for initialization
-    void Start() {
+    void Start()
+    {
         isRoundOver = false;
 
         // Count the class numbers to instantiate an even number of NPCs
@@ -264,7 +265,7 @@ public class GameController : MonoBehaviour {
     void Victory()
     {
         startController.roundsPlayed++;
-        SceneManager.LoadScene(3);
+        SceneManager.LoadScene(2);
         
         for (int i = 0; i < 4; i++)
         {
