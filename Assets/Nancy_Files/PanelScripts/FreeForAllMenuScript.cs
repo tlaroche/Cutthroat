@@ -57,7 +57,7 @@ public class FreeForAllMenuScript : MonoBehaviour //Functions for FreeFOrAll Fuc
 
         isReadyPlaying = false;
 
-        loadDefaultPlayerStates();
+        //loadDefaultPlayerStatesInMainMenu();
     }
 
     void OnDisable()
@@ -67,7 +67,7 @@ public class FreeForAllMenuScript : MonoBehaviour //Functions for FreeFOrAll Fuc
         readyPanel.SetActive(false);
     }
 
-    void loadDefaultPlayerStates()
+    public void loadDefaultPlayerStatesInMainMenu()
     {
         //numRounds = prevPanel.GetComponent<MatchSetUpMenuScript>().numRounds;
         numPlayers = prevPanel.GetComponent<MatchSetUpMenuScript>().numPlayers;
@@ -86,6 +86,38 @@ public class FreeForAllMenuScript : MonoBehaviour //Functions for FreeFOrAll Fuc
         }
     }
 
+    public void loadDefaultPlayerStatesBetweenRounds()
+    {
+        startController = startController = GameObject.Find("StartController").GetComponent<StartController>();
+        numPlayers = 0;
+
+        for(int i = 0; i < 4; i++)
+        {
+            if (startController.GetComponent<StartController>().players[i] == "")
+                isPlayerActive[i] = false;
+            else
+            {
+                isPlayerActive[i] = true;
+                numPlayers++;
+            }
+        }
+
+        isPlayerReady[0] = false;
+        isPlayerReady[1] = false;
+        isPlayerReady[2] = false;
+        isPlayerReady[3] = false;
+
+        for (int i = 0; i < 4; i++)
+        {
+            if (isPlayerActive[i])
+                playerIsNotReady(playerQueueImages[i]);
+            else
+                playerNotActive(playerQueueImages[i]);
+        }
+
+        startController.players.Clear();
+    }
+
     void Update()
     {
         checkIfPressedB();
@@ -99,10 +131,13 @@ public class FreeForAllMenuScript : MonoBehaviour //Functions for FreeFOrAll Fuc
         }
         else if(isPartyReady)
         {
-            if(Input.GetButtonDown("Start1"))
+            for(int i = 0; i < 4; i++)
             {
-                setPlayerClassesInStartController();
-                startGame();
+                if (Input.GetButtonDown("Start" + (i + 1)))
+                {
+                    setPlayerClassesInStartController();
+                    startGame();
+                }
             }
         }
     }
@@ -160,12 +195,12 @@ public class FreeForAllMenuScript : MonoBehaviour //Functions for FreeFOrAll Fuc
         }
     }
 
-    void checkIfPressedB() 
+    void checkIfPressedB()
     {
-        if (Input.GetButton("B1")) //Check is player holds B to back, go back to the match set-up screen (Only player 1 can do this)
+        if (Input.GetButton("B1") || Input.GetButton("B2") || Input.GetButton("B3") || Input.GetButton("B4")) //Check is player holds B to back, go back to the match set-up screen (Only player 1 can do this)
         {
             counter++;
-            //Debug.Log(counter);
+            Debug.Log(counter);
             if (counter > 60)
                 goBackToPrevPanel();
         }
@@ -174,7 +209,7 @@ public class FreeForAllMenuScript : MonoBehaviour //Functions for FreeFOrAll Fuc
             counter = 0;
         }
 
-        for(int i = 0; i < 4; i++)
+        for (int i = 0; i < 4; i++)
         {
             if (Input.GetButtonDown("B" + (i + 1))) //if the player is already ready and pressing B, make that player not ready
             {

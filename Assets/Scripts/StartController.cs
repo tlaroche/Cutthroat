@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class StartController : MonoBehaviour
 {
-
     public List<GameObject> npcList;
     /*
     public Texture startScreen;
@@ -19,7 +18,6 @@ public class StartController : MonoBehaviour
     public Texture p4win;
     public Texture[] numbers;
     */
-
     /*
     public Texture[] gameOptionsScreens = new Texture[5];
     public Texture gameModeSelection;
@@ -54,7 +52,7 @@ public class StartController : MonoBehaviour
     */
 
     public int[] playerScores = new int[4];
-
+    public int[] teamScores = new int[2];
     public List<string> players;
     public List<string> teams;
     public List<int> team1;
@@ -110,7 +108,11 @@ public class StartController : MonoBehaviour
         {
             playerScores[i] = 0;
         }
-        
+
+        // Initialize scores of teams to zero
+        teamScores[0] = 0;
+        teamScores[1] = 0;
+
         // List of all the unique npc gameobject names used for killing them off in sudden death
         //npcList = new ArrayList();
         npcList = new List<GameObject>();
@@ -257,7 +259,7 @@ public class StartController : MonoBehaviour
                 //if (numOfRounds > 1)
                 if (roundsPlayed < numOfRounds)
                 {
-                    roundsPlayed++;
+                    //roundsPlayed++;
                     //SceneManager.LoadScene(1);
                 }
 
@@ -461,6 +463,6 @@ public class StartController : MonoBehaviour
 
     public void setIsFreeForAllModeFalse()
     {
-        isFreeForAllMode = true;
+        isFreeForAllMode = false;
     }
 }

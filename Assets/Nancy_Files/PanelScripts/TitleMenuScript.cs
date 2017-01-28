@@ -16,6 +16,7 @@ public class TitleMenuScript: MonoBehaviour //Functions for Title Fucntionality 
     float shake = 0.1f;
 
     public GameObject blinkingText;
+    public GameObject pressBToQuitText;
 
     public GameObject pvpPanel;
 
@@ -41,15 +42,25 @@ public class TitleMenuScript: MonoBehaviour //Functions for Title Fucntionality 
     void OnDisable()
     {
         blinkingText.SetActive(false);
+        pressBToQuitText.SetActive(false);
     }
 
     void Update()
     {
-        if (Input.anyKeyDown)//Press any button to go to menu
+        for(int i = 0; i < 4; i++)
         {
-            this.GetComponent<BlinkingEffectScript>().stopBlink();
-            gamePanels[0].SetActive(false);
-            gamePanels[1].SetActive(true);
+            if (Input.GetButtonDown("B" + (i + 1)))//Press any button to go to menu
+            {
+                Debug.Log("Quitting application");
+                Application.Quit();
+            }
+
+            if (Input.GetButtonDown("Start" + (i + 1)))//Press any button to go to menu
+            {
+                this.GetComponent<BlinkingEffectScript>().stopBlink();
+                gamePanels[0].SetActive(false);
+                gamePanels[1].SetActive(true);
+            }
         }
     }
 
@@ -66,6 +77,8 @@ public class TitleMenuScript: MonoBehaviour //Functions for Title Fucntionality 
         }
 
         StartCoroutine(thisPanel.GetComponent<ShakeEffectScript>().shakeEffect(shake, shakePower)); //Shake this.Panel
+        yield return new WaitForSeconds(0.5f);
         this.GetComponent<BlinkingEffectScript>().startBlink(blinkingText);
+        pressBToQuitText.SetActive(true);
     }
 }

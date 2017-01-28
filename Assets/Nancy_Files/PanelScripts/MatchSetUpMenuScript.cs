@@ -30,6 +30,13 @@ public class MatchSetUpMenuScript : MonoBehaviour
     public GameObject readyButton;
     bool isPartyReady = false;
 
+    public GameObject analogStickImage;
+    Vector2 analogStartPos;
+    Vector2 analogEndPos;
+    int analogStickImageDirection;
+    public float durationAnalogAnimation = 20f;
+    IEnumerator co; //stop co-routine
+
     //Temporary Variables for StartController and GameController
     public StartController startController;
 
@@ -47,6 +54,11 @@ public class MatchSetUpMenuScript : MonoBehaviour
         endPos[1] = matchSetupObjects[1].transform.position;
         endPos[2] = matchSetupObjects[2].transform.position;
         endPos[3] = matchSetupObjects[3].transform.position;
+
+        analogStartPos = new Vector2(290, analogStickImage.transform.localPosition.y);
+        analogEndPos = new Vector2(300, analogStickImage.transform.localPosition.y); ;
+        analogStickImageDirection = 1;
+        co = fancyAnalogAnimation(durationAnalogAnimation); 
         
     }
 
@@ -67,6 +79,8 @@ public class MatchSetUpMenuScript : MonoBehaviour
         loadDefaultMatchSetup();
   
         isPartyReady = false;
+
+        StartCoroutine(co);
     }
 
     void OnDisable()
@@ -75,14 +89,19 @@ public class MatchSetUpMenuScript : MonoBehaviour
         {
             GetComponent<UINavigationScript>().OnDeselect();
         }
-        
+
+        StopCoroutine(co);
     }
 
     void Update()
     {
         checkIfPressedStart();
         checkIfInputHorizontal();
-        checkIfPartyIsReady();
+
+        if (mode == 0)  //free for all
+            checkIfPartyIsReadyFreeForAll();
+        else if (mode == 1)
+            checkIfPartyIsReadyTeamDeathMatch();
 
         if (EventSystem.current.currentSelectedGameObject == null)
             GetComponent<UINavigationScript>().setDefaultGameObject(matchSetupObjects[2]);
@@ -167,11 +186,26 @@ public class MatchSetUpMenuScript : MonoBehaviour
         }
     }
 
-    void checkIfPartyIsReady()
+    void checkIfPartyIsReadyFreeForAll()
     {
         isPartyReady = false; //you need more than one player and player one is active
 
         if (numPlayers > 1)
+        {
+            isPartyReady = true;
+        }
+        else
+        {
+            matchSetupObjects[3].GetComponent<Button>().interactable = false;
+            readyText.GetComponent<Text>().color = new Color(1, 1, 1, 0.25f);
+        }
+    }
+
+    void checkIfPartyIsReadyTeamDeathMatch()
+    {
+        isPartyReady = false; //you need more than one player and player one is active
+
+        if (numPlayers > 3)
         {
             isPartyReady = true;
         }
@@ -209,9 +243,11 @@ public class MatchSetUpMenuScript : MonoBehaviour
         {
             case 0:
                 modePanelText.GetComponent<Text>().text = "FREE FOR ALL";
+                modePanel[mode].GetComponent<FreeForAllMenuScript>().loadDefaultPlayerStatesInMainMenu();
                 break;
             case 1:
                 modePanelText.GetComponent<Text>().text = "TEAM DEATHMATCH";
+                modePanel[mode].GetComponent<TeamDeathmatchScript>().loadDefaultTeamStatesInMainMenu();
                 break;
         }
     }
@@ -231,7 +267,47 @@ public class MatchSetUpMenuScript : MonoBehaviour
         }
     }
 
-    public void shakeButtonInNotInteractable()
+    IEnumerator fancyAnalogAnimation(float duration)
+    {
+        while(true)
+        {
+            analogStickImageDirection *= -1;
+
+            if (analogStickImageDirection == 1)
+            {
+                for (float time = 0; time <= duration; time++)
+                {
+                    float lerpAmount = time / duration;
+                    lerpAmount = Mathf.Sin(lerpAmount * Mathf.PI * 0.5f); //Easing in
+
+                    for (int i = 0; i < 4; i++)
+                    {
+                        analogStickImage.transform.localPosition = Vector2.Lerp(analogStartPos, analogEndPos, lerpAmount);
+                    }
+                    yield return null;
+                }
+            }
+            else
+            {
+                for (float time = 0; time <= duration; time++)
+                {
+                    float lerpAmount = time / duration;
+                    lerpAmount = Mathf.Sin(lerpAmount * Mathf.PI * 0.5f); //Easing in
+
+                    for (int i = 0; i < 4; i++)
+                    {
+                        analogStickImage.transform.localPosition = Vector2.Lerp(analogEndPos, analogStartPos, lerpAmount);
+                    }
+                    yield return null;
+                }
+            }
+
+            yield return new WaitForSeconds(0.5f);
+        }
+        
+    }
+
+    public void shakeButtonIfNotInteractable()
     {
         if(matchSetupObjects[3].GetComponent<Button>().interactable == false)
             StartCoroutine(matchSetupObjects[3].GetComponent<ShakeEffectScript>().shakeEffect(shake, shakePower)); //Shake this.Panel
