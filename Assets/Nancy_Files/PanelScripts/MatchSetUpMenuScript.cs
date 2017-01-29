@@ -102,6 +102,10 @@ public class MatchSetUpMenuScript : MonoBehaviour
             checkIfPartyIsReadyFreeForAll();
         else if (mode == 1)
             checkIfPartyIsReadyTeamDeathMatch();
+        else if (mode == 2)
+        {/*couch v couch/*/ }
+        else if (mode == 3)
+            checkIfPartyIsReadyMission();//missions
 
         if (EventSystem.current.currentSelectedGameObject == null)
             GetComponent<UINavigationScript>().setDefaultGameObject(matchSetupObjects[2]);
@@ -216,6 +220,21 @@ public class MatchSetUpMenuScript : MonoBehaviour
         }
     }
 
+    void checkIfPartyIsReadyMission()
+    {
+        isPartyReady = false; //you need more than one player and player one is active
+
+        if (numPlayers > 0)
+        {
+            isPartyReady = true;
+        }
+        else
+        {
+            matchSetupObjects[3].GetComponent<Button>().interactable = false;
+            readyText.GetComponent<Text>().color = new Color(1, 1, 1, 0.25f);
+        }
+    }
+
     void loadDefaultMatchSetup()
     {
         numPlayers = 0;
@@ -236,7 +255,10 @@ public class MatchSetUpMenuScript : MonoBehaviour
 
     public void switchToModePanels()
     {
-        modePanel[mode].SetActive(true);
+        if (mode == 3)
+            modePanel[0].SetActive(true);//janky substitute because screw panels
+        else
+            modePanel[mode].SetActive(true);
         characterPanel.SetActive(true);
 
         switch(mode)
@@ -248,6 +270,12 @@ public class MatchSetUpMenuScript : MonoBehaviour
             case 1:
                 modePanelText.GetComponent<Text>().text = "TEAM DEATHMATCH";
                 modePanel[mode].GetComponent<TeamDeathmatchScript>().loadDefaultTeamStatesInMainMenu();
+                break;
+            case 2:
+                break;
+            case 3:
+                modePanelText.GetComponent<Text>().text = "MISSION 1";
+                modePanel[0].GetComponent<FreeForAllMenuScript>().loadDefaultPlayerStatesInMainMenu();
                 break;
         }
     }

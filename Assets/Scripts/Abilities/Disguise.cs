@@ -9,12 +9,12 @@ public class Disguise : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         startController = GameObject.Find("StartController").GetComponent<StartController>();
-        if (startController.isFreeForAllMode)
+        if (startController.gameMode == "FFA")
         {
             transform.parent.gameObject.GetComponent<SpriteRenderer>().sprite = sprites[Random.Range(0, 3)];
             Destroy(gameObject);
         }
-        else
+        else if (startController.gameMode == "TDM")
         {
             List<PlayerMovement> playerList = GameObject.Find("GameController").GetComponent<GameController>().playerList;
 

@@ -339,7 +339,13 @@ MonoBehaviour:
   npcMage: {fileID: 1000010850319230, guid: df2caa45130a98943aaae2f23126557f, type: 2}
   npcRanger: {fileID: 1000011203054356, guid: a8f96e2ab98f66943b76d16208a40188, type: 2}
   npcRogue: {fileID: 1000010531106464, guid: f97c324a8ac7cd9489b272f7e312b343, type: 2}
+  MI1Warrior: {fileID: 1000011175750588, guid: cf081ff7b66f5844fb2ec057320e5b31, type: 2}
+  MI1Mage: {fileID: 1000012726984630, guid: ce52dc047d7e5324487374449f567e2b, type: 2}
+  playerList: []
+  playersAlive: []
   standings: 
+  isRoundOver: 0
+  waitingForContinue: 0
 --- !u!224 &1665138106
 RectTransform:
   m_ObjectHideFlags: 0

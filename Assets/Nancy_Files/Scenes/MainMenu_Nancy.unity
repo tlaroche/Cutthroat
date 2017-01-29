@@ -893,12 +893,56 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 1575890344}
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 202635969}
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 0}
         m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1575890348}
+        m_MethodName: setMode
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 3
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 145496624}
+        m_MethodName: setGameModeMI1
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -1432,7 +1476,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   npcList: []
-  isFreeForAllMode: 0
+  gameMode: 
   displayGameOptions: 0
   displayGameModeSelect: 0
   numOfRounds: 0
@@ -1442,6 +1486,8 @@ MonoBehaviour:
   mage: {fileID: 1000011101570660, guid: c81904f3e28f1e047a040744bfdf3a51, type: 2}
   ranger: {fileID: 1000011047428984, guid: fdea72d679f4dd947aaa54d83b052c56, type: 2}
   rogue: {fileID: 1000011767339544, guid: a7233e310abfffc498684cae9708c27d, type: 2}
+  tutorialRogue: {fileID: 1000011018547976, guid: 4c3fec65fadb9f544971a8db6a758463,
+    type: 2}
   playerScores: 00000000000000000000000000000000
   teamScores: 0000000000000000
   players: []
@@ -8368,7 +8414,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 145496624}
-        m_MethodName: setIsFreeForAllModeFalse
+        m_MethodName: setGameModeTDM
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -11218,7 +11264,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 145496624}
-        m_MethodName: setIsFreeForAllModeTrue
+        m_MethodName: setGameModeFFA
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

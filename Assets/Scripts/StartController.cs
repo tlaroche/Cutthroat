@@ -23,7 +23,9 @@ public class StartController : MonoBehaviour
     public Texture gameModeSelection;
     */
 
-    public bool isFreeForAllMode;
+    //public bool isFreeForAllMode; ->deprecated
+
+    public string gameMode;
 
     public readonly float GAME_TIME = 90f;
     public readonly float NPC_DEATH_COOLDOWN = 4f;
@@ -43,6 +45,7 @@ public class StartController : MonoBehaviour
     public GameObject mage;
     public GameObject ranger;
     public GameObject rogue;
+    public GameObject tutorialRogue;
     
     /*
     public int p1score;
@@ -254,7 +257,7 @@ public class StartController : MonoBehaviour
         //if victory scene, check if num rounds is finished, check if a player presses start, go to main menu
         if (SceneManager.GetActiveScene().buildIndex == 2 /*&& (Input.GetButtonDown("Start1") || Input.GetButtonDown("Start2") || Input.GetButtonDown("Start3") || Input.GetButtonDown("Start4"))*/)
         {
-            if (isFreeForAllMode)
+            if (gameMode == "FFA")
             {
                 //if (numOfRounds > 1)
                 if (roundsPlayed < numOfRounds)
@@ -269,7 +272,7 @@ public class StartController : MonoBehaviour
                     //SceneManager.LoadScene(0);
                 }
             }
-            else
+            else if (gameMode == "TDM")
             {
                 done = true;
                 //SceneManager.LoadScene(0);
@@ -456,13 +459,28 @@ public class StartController : MonoBehaviour
     }
 
     //temporary functions to work with startController and gameController
-    public void setIsFreeForAllModeTrue()
+    public void setGameModeFFA()
     {
-        isFreeForAllMode = true;
+        gameMode = "FFA";
     }
 
-    public void setIsFreeForAllModeFalse()
+    public void setGameModeTDM()
     {
-        isFreeForAllMode = false;
+        gameMode = "TDM";
+    }
+
+    public void setGameModeCVC()
+    {
+        gameMode = "CVC";
+    }
+
+    public void setGameModeMI1()
+    {
+        gameMode = "MI1";
+    }
+
+    public void setGameModeMI2()
+    {
+        gameMode = "MI2";
     }
 }

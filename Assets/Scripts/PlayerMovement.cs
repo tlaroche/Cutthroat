@@ -194,11 +194,11 @@ public class PlayerMovement : MonoBehaviour {
         {
             ability1Uses--;
             GameObject tempAbility = (GameObject) Instantiate(ability1, transform.position, transform.rotation);
-            if (GameObject.Find("StartController").GetComponent<StartController>().isFreeForAllMode)
+            if (GameObject.Find("StartController").GetComponent<StartController>().gameMode == "FFA")
             {
                 tempAbility.name += playerIndex;
             }
-            else
+            else if (GameObject.Find("StartController").GetComponent<StartController>().gameMode == "TDM")
             {
                 tempAbility.name += teamNumber;
             }
@@ -235,14 +235,14 @@ public class PlayerMovement : MonoBehaviour {
             
             bool enragedAttacker = false;
 
-            if (startController.isFreeForAllMode)
+            if (startController.gameMode == "FFA")
             {
                 if (other.transform.parent != null && other.transform.parent.GetComponent<NPCMovement>() != null && other.transform.parent.GetComponent<NPCMovement>().isEnragedBy == playerIndex)
                 {
                     enragedAttacker = true;
                 }
             }
-            else
+            else if (GameObject.Find("StartController").GetComponent<StartController>().gameMode == "TDM")
             {
                 if (other.transform.parent != null && other.transform.parent.GetComponent<NPCMovement>() != null && other.transform.parent.GetComponent<NPCMovement>().isEnragedBy == teamNumber)
                 {

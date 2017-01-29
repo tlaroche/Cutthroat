@@ -26,11 +26,11 @@ public class Riot : MonoBehaviour {
     {
         if (other.tag.Contains("NPC"))
         {
-            if (GameObject.Find("StartController").GetComponent<StartController>().isFreeForAllMode)
+            if (GameObject.Find("StartController").GetComponent<StartController>().gameMode == "FFA")
             {
                 other.GetComponent<NPCMovement>().BasicAttack(transform.parent.gameObject.GetComponent<PlayerMovement>().playerIndex);
             }
-            else
+            else if (GameObject.Find("StartController").GetComponent<StartController>().gameMode == "TDM")
             {
                 other.GetComponent<NPCMovement>().BasicAttack(transform.parent.gameObject.GetComponent<PlayerMovement>().teamNumber);
             }

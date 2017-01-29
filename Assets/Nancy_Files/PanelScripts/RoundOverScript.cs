@@ -121,13 +121,13 @@ public class RoundOverScript : MonoBehaviour
 
     public void continueToModePanels()
     {
-        if(startController.isFreeForAllMode)
+        if(startController.gameMode == "FFA")
         {
             modePanels[0].SetActive(true); //free for all panel
             menuTextImage.GetComponentInChildren<Text>().text = "FREE FOR ALL";
             modePanels[0].GetComponent<FreeForAllMenuScript>().loadDefaultPlayerStatesBetweenRounds();
         }
-        else
+        else if (startController.gameMode == "TDM")
         {
             modePanels[1].SetActive(true); //team deathmatch panel
             menuTextImage.GetComponentInChildren<Text>().text = "TEAM DEATHMATCH";
@@ -141,9 +141,9 @@ public class RoundOverScript : MonoBehaviour
     {
         numOfRoundsText.text = "Round " + startController.roundsPlayed + " of " + startController.numOfRounds;
 
-        if (startController.isFreeForAllMode)
+        if (startController.gameMode == "FFA")
             winnerText.text = "Player " + startController.winner + " is the last one standing";
-        else
+        else if (startController.gameMode == "TDM")
         {
             winnerText.text = "Team " + startController.winner + " is victorious";
             startController.teamScores[startController.winner - 1]++; //change this
@@ -176,7 +176,7 @@ public class RoundOverScript : MonoBehaviour
         }
 
         int teamWinner = 0;
-        if (!startController.isFreeForAllMode)
+        if (startController.gameMode == "FFA")
         {
             if (startController.teamScores[0] > startController.teamScores[1])
                 teamWinner = 1;
@@ -184,9 +184,9 @@ public class RoundOverScript : MonoBehaviour
                 teamWinner = 2;
         }
 
-        if (startController.isFreeForAllMode)
+        if (startController.gameMode == "FFA")
             winnerText.text = "Player " + currentWinner + " is VICTORIOUS!";
-        else
+        else if (startController.gameMode == "TDM")
         {
             winnerText.text = "Team " + teamWinner + " is VICTORIOUS!";
             endPos[2] = new Vector2(winnerText.transform.localPosition.x, 175);
