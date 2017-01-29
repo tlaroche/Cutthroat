@@ -11,10 +11,13 @@ public class UINavigationScript : MonoBehaviour //UI Manager to turn panels on a
 
     void Update()
     {
-        if (Input.GetButtonDown("B1")) //backbutton, go to previous panel
+        for(int i = 1; i < 5; i++)
         {
-            prevPanels.SetActive(true);
-            currentPanels.SetActive(false);
+            if (Input.GetButtonDown("B" + i)) //backbutton, go to previous panel
+            {
+                prevPanels.SetActive(true);
+                currentPanels.SetActive(false);
+            }
         }
     }
 

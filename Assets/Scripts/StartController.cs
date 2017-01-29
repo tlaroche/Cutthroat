@@ -76,6 +76,7 @@ public class StartController : MonoBehaviour
 	// Use this for initialization
 	void Start ()
     {
+        Cursor.visible = false;
         // Check to see if the set of rounds is over, destroy current game if over.
         GameObject temp = GameObject.Find("StartController");
         if (temp.GetComponent<StartController>().done)

@@ -58,10 +58,13 @@ public class TeamDeathmatchScript : MonoBehaviour
         }
         else if (isPartyReady)
         {
-            if (Input.GetButtonDown("Start1"))
+            for(int i = 1; i < 5; i++)
             {
-                setTeamClassesInStartController();
-                startGame();
+                if (Input.GetButtonDown("Start" + i))
+                {
+                    setTeamClassesInStartController();
+                    startGame();
+                }
             }
         }
     }
@@ -186,7 +189,7 @@ public class TeamDeathmatchScript : MonoBehaviour
                 {
                     isTeamReady[teamNum] = false;
                     teamClassText[teamNum].SetActive(false);
-                    playerIsNotReady(playerQueueImages[i]);
+                    playerIsNotReady(playerQueueImages[teamNum]);
                 }
             }
         }

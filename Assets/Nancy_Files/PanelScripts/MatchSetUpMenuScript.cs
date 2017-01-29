@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 public class MatchSetUpMenuScript : MonoBehaviour
 {
@@ -22,19 +23,20 @@ public class MatchSetUpMenuScript : MonoBehaviour
     public GameObject[] arrowText = new GameObject[2];
     public bool axisInUse = false;
 
-    public int mode; //0 freeForAll, 1 teamDeathmatch
+    public int mode; //0 freeForAll, 1 teamDeathmatch, 2 mission1
     public GameObject[] modePanel = new GameObject[2];
     public GameObject characterPanel;
     public Text modePanelText;
 
-    public GameObject readyButton;
+    public GameObject couchPanel;
+    
     bool isPartyReady = false;
 
     public GameObject analogStickImage;
     Vector2 analogStartPos;
     Vector2 analogEndPos;
     int analogStickImageDirection;
-    public float durationAnalogAnimation = 20f;
+    float durationAnalogAnimation = 20f;
     IEnumerator co; //stop co-routine
 
     //Temporary Variables for StartController and GameController
@@ -70,7 +72,11 @@ public class MatchSetUpMenuScript : MonoBehaviour
     
     void OnEnable()
     {
-        GetComponent<UINavigationScript>().setDefaultGameObject(matchSetupObjects[2]);
+        if(mode == 0 || mode == 1)
+            GetComponent<UINavigationScript>().setDefaultGameObject(matchSetupObjects[2]);
+        else if(mode == 2)
+            GetComponent<UINavigationScript>().setDefaultGameObject(matchSetupObjects[3]);
+
         readyText.GetComponent<Text>().color = new Color(1, 1, 1, 0.25f);
 
         matchSetupObjects[3].GetComponent<Button>().interactable = false;
@@ -96,19 +102,32 @@ public class MatchSetUpMenuScript : MonoBehaviour
     void Update()
     {
         checkIfPressedStart();
-        checkIfInputHorizontal();
 
         if (mode == 0)  //free for all
+        {
             checkIfPartyIsReadyFreeForAll();
-        else if (mode == 1)
-            checkIfPartyIsReadyTeamDeathMatch();
-        else if (mode == 2)
-        {/*couch v couch/*/ }
-        else if (mode == 3)
-            checkIfPartyIsReadyMission();//missions
+            checkIfInputHorizontal();
 
-        if (EventSystem.current.currentSelectedGameObject == null)
-            GetComponent<UINavigationScript>().setDefaultGameObject(matchSetupObjects[2]);
+            if (EventSystem.current.currentSelectedGameObject == null)
+                GetComponent<UINavigationScript>().setDefaultGameObject(matchSetupObjects[2]);
+        }
+        else if (mode == 1)
+        {
+            checkIfPartyIsReadyTeamDeathMatch();
+            checkIfInputHorizontal();
+
+            if (EventSystem.current.currentSelectedGameObject == null)
+                GetComponent<UINavigationScript>().setDefaultGameObject(matchSetupObjects[2]);
+        }
+        else if (mode == 2)
+        {
+            checkIfPartyIsReadyCouch();
+
+            if (EventSystem.current.currentSelectedGameObject == null)
+                GetComponent<UINavigationScript>().setDefaultGameObject(matchSetupObjects[3]);
+        }
+
+        
 
         if (isPartyReady)
         {
@@ -154,9 +173,20 @@ public class MatchSetUpMenuScript : MonoBehaviour
     {
         if(EventSystem.current.currentSelectedGameObject == matchSetupObjects[2])
         {
-            int horizontaAnalognput = (int)Input.GetAxisRaw("Horizontal1");
-            int horizontalDPadInput = (int)Input.GetAxisRaw("DPadHorizontal1"); //returns -1, 0 or 1
-            
+            int horizontaAnalognput = 0;
+            int horizontalDPadInput = 0;
+
+            for(int i = 0; i < 4; i++)
+            {
+                int newHorizontaAnalognput = (int)Input.GetAxisRaw("Horizontal" + (i + 1));
+                int newHorizontalDPadInput = (int)Input.GetAxisRaw("DPadHorizontal" + (i + 1)); //returns -1, 0 or 1
+
+                if (newHorizontaAnalognput != 0)
+                    horizontaAnalognput = newHorizontaAnalognput;
+                else if (newHorizontalDPadInput != 0)
+                    horizontalDPadInput = newHorizontalDPadInput;
+            }
+
             int horizontalInput;
             if (horizontaAnalognput != 0)
                 horizontalInput = horizontaAnalognput;
@@ -220,7 +250,7 @@ public class MatchSetUpMenuScript : MonoBehaviour
         }
     }
 
-    void checkIfPartyIsReadyMission()
+    void checkIfPartyIsReadyCouch()
     {
         isPartyReady = false; //you need more than one player and player one is active
 
@@ -255,28 +285,24 @@ public class MatchSetUpMenuScript : MonoBehaviour
 
     public void switchToModePanels()
     {
-        if (mode == 3)
-            modePanel[0].SetActive(true);//janky substitute because screw panels
-        else
-            modePanel[mode].SetActive(true);
-        characterPanel.SetActive(true);
-
-        switch(mode)
+        switch (mode)
         {
             case 0:
                 modePanelText.GetComponent<Text>().text = "FREE FOR ALL";
-                modePanel[mode].GetComponent<FreeForAllMenuScript>().loadDefaultPlayerStatesInMainMenu();
+                modePanel[0].GetComponent<FreeForAllMenuScript>().loadDefaultPlayerStatesInMainMenu();
+                modePanel[0].SetActive(true);
+                characterPanel.SetActive(true);
                 break;
             case 1:
                 modePanelText.GetComponent<Text>().text = "TEAM DEATHMATCH";
-                modePanel[mode].GetComponent<TeamDeathmatchScript>().loadDefaultTeamStatesInMainMenu();
+                modePanel[1].GetComponent<TeamDeathmatchScript>().loadDefaultTeamStatesInMainMenu();
+                modePanel[1].SetActive(true);
+                characterPanel.SetActive(true);
                 break;
             case 2:
+                couchPanel.SetActive(true);
                 break;
-            case 3:
-                modePanelText.GetComponent<Text>().text = "MISSION 1";
-                modePanel[0].GetComponent<FreeForAllMenuScript>().loadDefaultPlayerStatesInMainMenu();
-                break;
+
         }
     }
 
@@ -348,5 +374,18 @@ public class MatchSetUpMenuScript : MonoBehaviour
         startController.numOfRounds = numRounds;
     }
 
+    public void setUpForPvp()
+    {
+        GetComponent<UINavigationScript>().setDefaultGameObject(matchSetupObjects[2]);
+        matchSetupObjects[2].SetActive(true);
+    }
+
+    public void setUpforCouch()
+    {
+        GetComponent<UINavigationScript>().setDefaultGameObject(matchSetupObjects[3]);
+        matchSetupObjects[2].SetActive(false);
+    }
+
+    
 
 }

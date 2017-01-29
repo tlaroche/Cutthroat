@@ -204,4 +204,9 @@ public class RoundOverScript : MonoBehaviour
         setDefaultGameObject(roundOverObjects[5]);
     }
     
+
+    public void setMatchisDoneInStartController()
+    {
+        startController.done = true;
+    }
 }
