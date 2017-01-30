@@ -28,7 +28,7 @@ public class StartController : MonoBehaviour
     public string gameMode;
 
     public readonly float GAME_TIME = 90f;
-    public readonly float NPC_DEATH_COOLDOWN = 4f;
+    public readonly float NPC_DEATH_COOLDOWN = 3f;
 
     public bool displayGameOptions;
     public bool displayGameModeSelect;
@@ -140,7 +140,7 @@ public class StartController : MonoBehaviour
         npcList.Clear();
         isGameStarted = false;
         suddenDeathStarted = false;
-        gameTimer = 90f;
+        gameTimer = GAME_TIME;
     }
 
     void Awake()
@@ -238,7 +238,7 @@ public class StartController : MonoBehaviour
                 if (suddenDeathStarted)
                 {
                     //gameTimer += Time.deltaTime;
-
+                    List<GameObject> LivingList = npcList;
                     npcDeathTimer -= Time.deltaTime;
                     if (npcDeathTimer <= 0f)
                     {
@@ -247,8 +247,11 @@ public class StartController : MonoBehaviour
 
                         if (npcList.Count > 0)
                         {
-                            GameObject npcToKill = npcList[Random.Range(0, npcList.Count)];
+                            GameObject npcToKill;
+                            int index = Random.Range(0, LivingList.Count);
+                            npcToKill = LivingList[index];
                             npcToKill.GetComponent<NPCMovement>().KillNPC();
+                            LivingList.RemoveAt(index);
                         }
                     }
                 }
@@ -458,6 +461,8 @@ public class StartController : MonoBehaviour
             players.Add("");
         }
     }
+
+
 
     //temporary functions to work with startController and gameController
     public void setGameModeFFA()
