@@ -3,15 +3,17 @@ using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 using UnityEngine.UI;
 
-public class GameController : MonoBehaviour {
-    
+public class GameController : MonoBehaviour
+{
     public GameObject npcWarrior;
     public GameObject npcMage;
     public GameObject npcRanger;
     public GameObject npcRogue;
+    public GameObject MI1Warrior;
+    public GameObject MI1Mage;
 
     public List<PlayerMovement> playerList = new List<PlayerMovement>(4);
-    List<PlayerMovement> playersAlive = new List<PlayerMovement>();
+    public List<PlayerMovement> playersAlive = new List<PlayerMovement>();
     public List<int> standings = new List<int>();
     int numPlayers;
 
@@ -21,11 +23,13 @@ public class GameController : MonoBehaviour {
     int rangerCount;
     int mageCount;
 
-    bool isRoundOver;
+    public bool isRoundOver, waitingForContinue;
 
     // Use this for initialization
-    void Start() {
+    void Start()
+    {
         isRoundOver = false;
+        waitingForContinue = false;
 
         // Count the class numbers to instantiate an even number of NPCs
         warriorCount = 0;
@@ -37,7 +41,7 @@ public class GameController : MonoBehaviour {
         startController.ResetBeforeRound();
         
         numPlayers = playersAlive.Count;
-        if (startController.isFreeForAllMode)
+        if (startController.gameMode == "FFA")
         {
             for (int i = 0; i < playerList.Capacity; i++)
             {
@@ -63,9 +67,9 @@ public class GameController : MonoBehaviour {
             InstantiateNPCs(npcMage, mageCount, 8, 12);
             InstantiateNPCs(npcRanger, rangerCount, 8, 12);
             InstantiateNPCs(npcRogue, rogueCount, 8, 12);
-            
+
         }
-        else
+        else if (startController.gameMode == "TDM")
         {
             foreach (int playerIndex in startController.team1)
             {
@@ -104,18 +108,67 @@ public class GameController : MonoBehaviour {
             InstantiateNPCs(startController.teams[1], 0, 18, 22);
         }
 
+        else if (startController.gameMode == "CVC")
+        { }
 
+        else if (startController.gameMode == "MI1")
+        {
+            for(int i = 0; i < playerList.Capacity; i++)
+            {
+                // Instantiate the player to the character they have chosen, and set their player index to i+1
+                GameObject playerObject = null;
+                if (startController.players[i] == "Warrior" || startController.players[i] == "Ranger" || startController.players[i] == "Mage" || startController.players[i] == "Rogue")
+                    playerObject = InstantiatePlayer("TutorialRogue", i + 1);//always start as rogue
+                //playerList.Add(playerObject.GetComponent<PlayerMovement>());
+                if (playerObject == null)
+                {
+                    playerList.Add(null);
+                }
+                else
+                {
+                    playerList.Add(playerObject.GetComponent<PlayerMovement>());
+                }
+
+                if (playerList[i] != null)
+                {
+                    playersAlive.Add(playerList[i]);
+                }
+            }
+            Invoke("DisplayTutorialPart2", 5);
+        }
+
+        else if (startController.gameMode == "MI2")
+        { }
     }
 
     // Update is called once per frame
     void Update() {
-        if (!isRoundOver && startController.isFreeForAllMode)
+        if (!isRoundOver && startController.gameMode == "FFA")
         {
             CheckForFFAWinner();
         }
-        else if (!isRoundOver)
+        else if (!isRoundOver && startController.gameMode == "TDM")
         {
             CheckForTeamDeathmatchWinner();
+        }
+        else if (!isRoundOver && startController.gameMode == "CVC")
+        {
+            CheckForCVCWinner();
+        }
+        else if (!isRoundOver && startController.gameMode == "MI1")
+        {
+            CheckForMI1Winner();
+            if (waitingForContinue)
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    if (Input.GetButtonDown("Start" + (i + 1)))
+                    {
+                        BeginMI1();
+                        waitingForContinue = false;
+                    }
+                }
+            }
         }
     }
 
@@ -126,7 +179,7 @@ public class GameController : MonoBehaviour {
 
         if (player == "Warrior")
         {
-            playerObject = (GameObject) GameObject.Instantiate(startController.warrior.gameObject, 
+            playerObject = (GameObject)GameObject.Instantiate(startController.warrior.gameObject,
                 new Vector2(Random.Range(-29f, 29f), Random.Range(-29f, 29f)), Quaternion.identity);
 
             warriorCount++;
@@ -135,7 +188,7 @@ public class GameController : MonoBehaviour {
         }
         else if (player == "Mage")
         {
-            playerObject = (GameObject) GameObject.Instantiate(startController.mage.gameObject,
+            playerObject = (GameObject)GameObject.Instantiate(startController.mage.gameObject,
                 new Vector2(Random.Range(-29f, 29f), Random.Range(-29f, 29f)), Quaternion.identity);
 
             mageCount++;
@@ -145,7 +198,7 @@ public class GameController : MonoBehaviour {
         }
         else if (player == "Rogue")
         {
-            playerObject = (GameObject) GameObject.Instantiate(startController.rogue.gameObject, 
+            playerObject = (GameObject)GameObject.Instantiate(startController.rogue.gameObject,
                 new Vector2(Random.Range(-29f, 29f), Random.Range(-29f, 29f)), Quaternion.identity);
 
             rogueCount++;
@@ -155,7 +208,7 @@ public class GameController : MonoBehaviour {
         }
         else if (player == "Ranger")
         {
-            playerObject = (GameObject) GameObject.Instantiate(startController.ranger.gameObject, 
+            playerObject = (GameObject)GameObject.Instantiate(startController.ranger.gameObject,
                 new Vector2(Random.Range(-29f, 29f), Random.Range(-29f, 29f)), Quaternion.identity);
 
             rangerCount++;
@@ -164,6 +217,16 @@ public class GameController : MonoBehaviour {
             //return playerObject;
         }
 
+        else if (player == "TutorialRogue")
+        {
+            playerObject = (GameObject)GameObject.Instantiate(startController.tutorialRogue.gameObject,
+                new Vector2(Random.Range(-29f, 29f), Random.Range(-29f, 29f)), Quaternion.identity);
+
+            rogueCount++;
+
+            playerObject.GetComponent<PlayerMovement>().SetPlayer(player, playerIndex);
+            //return playerObject;
+        }
         return playerObject;
     }
 
@@ -253,6 +316,26 @@ public class GameController : MonoBehaviour {
         }
     }
 
+    void CheckForCVCWinner()
+    { }
+
+    void CheckForMI1Winner()
+    {
+        for (int i = 0; i < playersAlive.Count; i++)
+        {
+            if (playersAlive[i].isDead)
+            {
+                playersAlive.Remove(playersAlive[i]);
+            }
+        }
+        if (playersAlive.Count == 0)
+        {
+            isRoundOver = true;
+            //startController.winner = playersAlive[0].playerIndex;
+            Invoke("Victory", 3);//lol
+        }
+    }
+
     void PrintPlayersAlive()
     {
         for (int i = 0; i < playersAlive.Count; i++)
@@ -264,11 +347,45 @@ public class GameController : MonoBehaviour {
     void Victory()
     {
         startController.roundsPlayed++;
-        SceneManager.LoadScene(3);
+        SceneManager.LoadScene(2);
         
         for (int i = 0; i < 4; i++)
         {
             //Debug.Log("player" + (i + 1) + "score " + startController.playerScores[i]);
         }
+    }
+
+    void DisplayTutorialPart2() //goes to next step in MI1
+    {
+        Invoke("DisplayMI1Objectives", 5);
+    }
+
+    void DisplayMI1Objectives()
+    {
+        waitingForContinue = true;
+    }
+
+    void BeginMI1()
+    {
+        InstantiateNPCs(npcRogue, rogueCount, 20, 20);
+        InstantiateMI1NPCs();
+    }
+
+    void InstantiateMI1NPCs()
+    {
+        GameObject npcObject = (GameObject)Instantiate(MI1Mage, new Vector3(0, 20, 0), Quaternion.identity);
+        startController.npcList.Add(npcObject);
+        npcObject = (GameObject)Instantiate(MI1Warrior, new Vector3(-2, 24, 0), Quaternion.identity);
+        startController.npcList.Add(npcObject);
+        npcObject = (GameObject)Instantiate(MI1Warrior, new Vector3(2, 24, 0), Quaternion.identity);
+        startController.npcList.Add(npcObject);
+        npcObject = (GameObject)Instantiate(MI1Warrior, new Vector3(4, 20, 0), Quaternion.identity);
+        startController.npcList.Add(npcObject);
+        npcObject = (GameObject)Instantiate(MI1Warrior, new Vector3(2, 16, 0), Quaternion.identity);
+        startController.npcList.Add(npcObject);
+        npcObject = (GameObject)Instantiate(MI1Warrior, new Vector3(-2, 16, 0), Quaternion.identity);
+        startController.npcList.Add(npcObject);
+        npcObject = (GameObject)Instantiate(MI1Warrior, new Vector3(-4, 20, 0), Quaternion.identity);
+        startController.npcList.Add(npcObject);
     }
 }

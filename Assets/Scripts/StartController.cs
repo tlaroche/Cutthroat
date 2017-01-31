@@ -3,9 +3,10 @@ using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 using UnityEngine.UI;
 
-public class StartController : MonoBehaviour {
-
+public class StartController : MonoBehaviour
+{
     public List<GameObject> npcList;
+    /*
     public Texture startScreen;
     //public Texture gameOptionsScreen;
     public Texture roundOver;
@@ -16,14 +17,18 @@ public class StartController : MonoBehaviour {
     public Texture p3win;
     public Texture p4win;
     public Texture[] numbers;
-
+    */
+    /*
     public Texture[] gameOptionsScreens = new Texture[5];
     public Texture gameModeSelection;
+    */
 
-    public bool isFreeForAllMode;
+    //public bool isFreeForAllMode; ->deprecated
+
+    public string gameMode;
 
     public readonly float GAME_TIME = 90f;
-    public readonly float NPC_DEATH_COOLDOWN = 4f;
+    public readonly float NPC_DEATH_COOLDOWN = 3f;
 
     public bool displayGameOptions;
     public bool displayGameModeSelect;
@@ -40,14 +45,17 @@ public class StartController : MonoBehaviour {
     public GameObject mage;
     public GameObject ranger;
     public GameObject rogue;
+    public GameObject tutorialRogue;
     
+    /*
     public int p1score;
     public int p2score;
     public int p3score;
     public int p4score;
+    */
 
     public int[] playerScores = new int[4];
-
+    public int[] teamScores = new int[2];
     public List<string> players;
     public List<string> teams;
     public List<int> team1;
@@ -64,10 +72,11 @@ public class StartController : MonoBehaviour {
 
 
     bool inputReset;
-    
 
 	// Use this for initialization
-	void Start () {
+	void Start ()
+    {
+        Cursor.visible = false;
         // Check to see if the set of rounds is over, destroy current game if over.
         GameObject temp = GameObject.Find("StartController");
         if (temp.GetComponent<StartController>().done)
@@ -75,7 +84,7 @@ public class StartController : MonoBehaviour {
             Destroy(temp);
         }
         done = true;
-        if (SceneManager.GetActiveScene().buildIndex != 3)
+        if (SceneManager.GetActiveScene().buildIndex != 2) //if not victory scene 
         {
             done = false;
         }
@@ -103,7 +112,11 @@ public class StartController : MonoBehaviour {
         {
             playerScores[i] = 0;
         }
-        
+
+        // Initialize scores of teams to zero
+        teamScores[0] = 0;
+        teamScores[1] = 0;
+
         // List of all the unique npc gameobject names used for killing them off in sudden death
         //npcList = new ArrayList();
         npcList = new List<GameObject>();
@@ -127,19 +140,21 @@ public class StartController : MonoBehaviour {
         npcList.Clear();
         isGameStarted = false;
         suddenDeathStarted = false;
-        gameTimer = 90f;
+        gameTimer = GAME_TIME;
     }
 
     void Awake()
     {
         DontDestroyOnLoad(gameObject);
-
     }
 	
+    
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+    {
 
-        // Start screen
+        /*
+        // Main Menu
         if (SceneManager.GetActiveScene().buildIndex == 0)
         {
             if (displayGameOptions)
@@ -198,8 +213,8 @@ public class StartController : MonoBehaviour {
                 }
             }
         }
-        // Game arena screen
-        else if (SceneManager.GetActiveScene().buildIndex == 2)
+        // Game scene
+        else */ if (SceneManager.GetActiveScene().buildIndex == 1)
         {
             // Start the game
             if (!isGameStarted)
@@ -223,7 +238,7 @@ public class StartController : MonoBehaviour {
                 if (suddenDeathStarted)
                 {
                     //gameTimer += Time.deltaTime;
-
+                    List<GameObject> LivingList = npcList;
                     npcDeathTimer -= Time.deltaTime;
                     if (npcDeathTimer <= 0f)
                     {
@@ -232,47 +247,52 @@ public class StartController : MonoBehaviour {
 
                         if (npcList.Count > 0)
                         {
-                            GameObject npcToKill = npcList[Random.Range(0, npcList.Count)];
+                            GameObject npcToKill;
+                            int index = Random.Range(0, LivingList.Count);
+                            npcToKill = LivingList[index];
                             npcToKill.GetComponent<NPCMovement>().KillNPC();
+                            LivingList.RemoveAt(index);
                         }
                     }
                 }
             }
         }
-
-        if (SceneManager.GetActiveScene().buildIndex == 3 && (Input.GetButtonDown("Start1") || Input.GetButtonDown("Start2") || Input.GetButtonDown("Start3") || Input.GetButtonDown("Start4")))
+        
+        //if victory scene, check if num rounds is finished, check if a player presses start, go to main menu
+        if (SceneManager.GetActiveScene().buildIndex == 2 /*&& (Input.GetButtonDown("Start1") || Input.GetButtonDown("Start2") || Input.GetButtonDown("Start3") || Input.GetButtonDown("Start4"))*/)
         {
-            if (isFreeForAllMode)
+            if (gameMode == "FFA")
             {
                 //if (numOfRounds > 1)
                 if (roundsPlayed < numOfRounds)
                 {
                     //roundsPlayed++;
-                    SceneManager.LoadScene(1);
+                    //SceneManager.LoadScene(1);
                 }
+
                 else
                 {
                     done = true;
-                    SceneManager.LoadScene(0);
+                    //SceneManager.LoadScene(0);
                 }
             }
-            else
+            else if (gameMode == "TDM")
             {
                 done = true;
-                SceneManager.LoadScene(0);
+                //SceneManager.LoadScene(0);
             }
             
         }
+        
 
 	}
 
-    
     void OnGUI()
     {
         GUIStyle timerStyle = new GUIStyle();
         timerStyle.fontSize = 50;
-
-        if (!isGameStarted && SceneManager.GetActiveScene().buildIndex == 0)
+        /*
+        if (!isGameStarted && SceneManager.GetActiveScene().buildIndex == 0) //screen textures
         {
             if (displayGameOptions)
             {
@@ -287,7 +307,7 @@ public class StartController : MonoBehaviour {
                 GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), startScreen, ScaleMode.ScaleToFit);
             }
         }
-        else if (isGameStarted && SceneManager.GetActiveScene().buildIndex == 2)
+        else */ if (isGameStarted && SceneManager.GetActiveScene().buildIndex == 1)
         {
             // Display the game timer
             if (gameTimer <= 15f)
@@ -301,12 +321,12 @@ public class StartController : MonoBehaviour {
 
             GUI.Label(new Rect(10, 10, 250, 100), GetTimerString(), timerStyle);
         }
-
-        if (SceneManager.GetActiveScene().buildIndex == 3)
+        /*
+        if (SceneManager.GetActiveScene().buildIndex == 3) //player winner screen free for all
         {
             if (isFreeForAllMode)
             {
-                /*switch(winner)
+                //switch(winner)
                 {
                     case 1:
                         GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), p1win, ScaleMode.ScaleToFit);
@@ -320,7 +340,7 @@ public class StartController : MonoBehaviour {
                     case 4:
                         GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), p4win, ScaleMode.ScaleToFit);
                         break;
-                }*/
+                }
                 
                 Debug.Log(Screen.height + " " + Screen.width);
 
@@ -336,7 +356,8 @@ public class StartController : MonoBehaviour {
                 DrawPlayerScore(2);
                 DrawPlayerScore(3);
                 
-                /*switch (winner)
+                //COMMENT STARTED HERE
+                switch (winner)
                 {
                     case 1:
                         GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), roundOver, ScaleMode.ScaleToFit);
@@ -351,9 +372,10 @@ public class StartController : MonoBehaviour {
                         GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), p1win, ScaleMode.ScaleToFit);
                         break;
                 }
-                GUI.DrawTexture(new Rect(Screen.width / 2 - 25, Screen.height / 2, 50, 100), numbers[winner]);*/
+                //COMMENT ENDED HERE
+                GUI.DrawTexture(new Rect(Screen.width / 2 - 25, Screen.height / 2, 50, 100), numbers[winner]);
             }
-            else
+            else //player winner team deathmatch
             {
                 switch (winner)
                 {
@@ -370,9 +392,12 @@ public class StartController : MonoBehaviour {
                 }
             }
         }
+        */
     }
+    
 
-    void DrawPlayerScore(int playerIndex)
+        /*
+    void DrawPlayerScore(int playerIndex) //x, y coordinates to draw on screen
     {
         int x;
         int y = 675;
@@ -403,6 +428,7 @@ public class StartController : MonoBehaviour {
             GUI.DrawTexture(new Rect(x, y, 90, 90), numbers[10]);
         }
     }
+    */
 
     string GetTimerString()
     {
@@ -434,5 +460,33 @@ public class StartController : MonoBehaviour {
         {
             players.Add("");
         }
+    }
+
+
+
+    //temporary functions to work with startController and gameController
+    public void setGameModeFFA()
+    {
+        gameMode = "FFA";
+    }
+
+    public void setGameModeTDM()
+    {
+        gameMode = "TDM";
+    }
+
+    public void setGameModeCVC()
+    {
+        gameMode = "CVC";
+    }
+
+    public void setGameModeMI1()
+    {
+        gameMode = "MI1";
+    }
+
+    public void setGameModeMI2()
+    {
+        gameMode = "MI2";
     }
 }

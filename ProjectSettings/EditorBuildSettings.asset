@@ -6,12 +6,10 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Start.unity
-  - enabled: 1
-    path: Assets/Scenes/CharacterSelection.unity
+    path: Assets/Nancy_Files/Scenes/MainMenu_Nancy.unity
   - enabled: 1
     path: Assets/Scenes/Main.unity
   - enabled: 1
-    path: Assets/Scenes/Victory.unity
+    path: Assets/Nancy_Files/Scenes/BetweenRoundsManager_Nancy.unity
   - enabled: 1
-    path: Assets/Scenes/TeamSelect.unity
+    path: Assets/Nancy_Files/Scenes/VictoryAndFailedForMissions.unity

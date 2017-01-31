@@ -131,7 +131,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   charSelectScreen:
-  - {fileID: 2800000, guid: a8c56d1827243aa4eac0c652ed490f70, type: 3}
+  - {fileID: 2800000, guid: 52e43eb21fef5594aa55f6e4166a7246, type: 3}
   - {fileID: 2800000, guid: 90c55db5c03572441bb8256de042087a, type: 3}
   - {fileID: 2800000, guid: 3b759a0fb5387a64e8c929bb6370a77d, type: 3}
   - {fileID: 2800000, guid: 18f47f72647cddc47babb9e45a9f723e, type: 3}

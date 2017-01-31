@@ -3,11 +3,12 @@ using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 using System;
 
-public class CharacterSelectionController : MonoBehaviour {
+public class CharacterSelectionController : MonoBehaviour
+{
 
     StartController startController;
     //public Texture[] checkmarks = new Texture[3];
-    public Texture[] charSelectScreen = new Texture[16];
+    //public Texture[] charSelectScreen = new Texture[16]; //THIS WAS NEEDED TO RUN
     
     bool[] playerReadyCheck = new bool[4];
 
@@ -132,6 +133,7 @@ public class CharacterSelectionController : MonoBehaviour {
         }
     }
 
+    /*
     void OnGUI()
     {
         string playersReadyBinary = "";
@@ -148,12 +150,15 @@ public class CharacterSelectionController : MonoBehaviour {
         int screen = Convert.ToInt32(playersReadyBinary, 2);
         if (SceneManager.GetActiveScene().buildIndex == 1)
         {
-            DrawCharSelectScreen(charSelectScreen[screen]);
+            //DrawCharSelectScreen(charSelectScreen[screen]);
         }
     }
+    */
 
+    /*
     void DrawCharSelectScreen(Texture screen)
     {
         GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), screen, ScaleMode.ScaleToFit);
     }
+    */
 }
