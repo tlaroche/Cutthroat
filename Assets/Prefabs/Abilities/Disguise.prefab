@@ -16,10 +16,10 @@ GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
+  serializedVersion: 5
   m_Component:
-  - 4: {fileID: 4000013349537288}
-  - 114: {fileID: 114000012343783352}
+  - component: {fileID: 4000013349537288}
+  - component: {fileID: 114000012343783352}
   m_Layer: 0
   m_Name: Disguise
   m_TagString: Untagged
@@ -36,10 +36,10 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &114000012343783352
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -52,6 +52,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sprites:
-  - {fileID: 21300000, guid: 9043f04c460a4d74f8e9edf669adcd5f, type: 3}
-  - {fileID: 21300000, guid: dcc730ee890e0604c8ca50938d2e7253, type: 3}
-  - {fileID: 21300000, guid: 75e0095b564dbb34daa74334f5b668a8, type: 3}
+  - {fileID: 21300000, guid: e954284c463531d408a1bd06d9950c60, type: 3}
+  - {fileID: 21300000, guid: b02430cc9569f674bbe9a6165d3c57ab, type: 3}
+  - {fileID: 21300000, guid: 7aa7d068acafa4e4a8298cea810aa2a0, type: 3}

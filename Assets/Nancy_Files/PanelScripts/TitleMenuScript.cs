@@ -20,6 +20,8 @@ public class TitleMenuScript: MonoBehaviour //Functions for Title Fucntionality 
 
     public GameObject pvpPanel;
 
+    bool readyToStart = false;
+
 
     void Awake() //Jank way of loading prefs
     {
@@ -35,7 +37,7 @@ public class TitleMenuScript: MonoBehaviour //Functions for Title Fucntionality 
     
     void OnEnable()
     {
-
+        readyToStart = false;
         StartCoroutine(fancyTitleEasing(duration, shake, shakePower));
     }
 
@@ -55,7 +57,7 @@ public class TitleMenuScript: MonoBehaviour //Functions for Title Fucntionality 
                 Application.Quit();
             }
 
-            if (Input.GetButtonDown("Start" + (i + 1)))//Press any button to go to menu
+            if (Input.GetButtonDown("Start" + (i + 1)) && readyToStart)//Press any button to go to menu
             {
                 this.GetComponent<BlinkingEffectScript>().stopBlink();
                 gamePanels[0].SetActive(false);
@@ -80,5 +82,6 @@ public class TitleMenuScript: MonoBehaviour //Functions for Title Fucntionality 
         yield return new WaitForSeconds(0.5f);
         this.GetComponent<BlinkingEffectScript>().startBlink(blinkingText);
         pressBToQuitText.SetActive(true);
+        readyToStart = true;
     }
 }

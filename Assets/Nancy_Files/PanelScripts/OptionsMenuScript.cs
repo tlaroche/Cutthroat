@@ -99,7 +99,7 @@ public class OptionsMenuScript : MonoBehaviour //Functions for FreeFOrAll Fucnti
         Vector2 scaleOffset = new Vector2(1, 1);
         currentObject.transform.localScale = scaleOffset;
 
-        currentObject.GetComponent<Image>().color = new Color32(184, 184, 184, 255);
+        currentObject.GetComponent<Image>().color = new Color(20, 39, 77, 255);
     }
 
     IEnumerator fancyImageEasing(float duration)

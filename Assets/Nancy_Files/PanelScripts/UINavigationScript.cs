@@ -38,7 +38,6 @@ public class UINavigationScript : MonoBehaviour //UI Manager to turn panels on a
         GameObject currentObject = EventSystem.current.currentSelectedGameObject;
         Vector2 scaleOffset = new Vector2(1.05f, 1.05f);
         currentObject.transform.localScale = scaleOffset;
-
         currentObject.GetComponent<Image>().color = new Color32(240, 255, 160, 255);
     }
 
@@ -48,6 +47,6 @@ public class UINavigationScript : MonoBehaviour //UI Manager to turn panels on a
         Vector2 scaleOffset = new Vector2(1, 1);
         currentObject.transform.localScale = scaleOffset;
 
-        currentObject.GetComponent<Image>().color = new Color32(184, 184, 184, 255);
+        currentObject.GetComponent<Image>().color = new Color32(20, 39, 77, 255);
     }
 }

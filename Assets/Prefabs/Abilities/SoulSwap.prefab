@@ -16,10 +16,10 @@ GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
+  serializedVersion: 5
   m_Component:
-  - 4: {fileID: 4000010723554174}
-  - 114: {fileID: 114000012279304276}
+  - component: {fileID: 4000010723554174}
+  - component: {fileID: 114000012279304276}
   m_Layer: 0
   m_Name: SoulSwap
   m_TagString: Untagged
@@ -36,10 +36,10 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &114000012279304276
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -51,4 +51,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dadf2b4b9aae51f42ac5ac319c5b1495, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mage: {fileID: 21300000, guid: 9043f04c460a4d74f8e9edf669adcd5f, type: 3}
+  mage: {fileID: 21300000, guid: e954284c463531d408a1bd06d9950c60, type: 3}
